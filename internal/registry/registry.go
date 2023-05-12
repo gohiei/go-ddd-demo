@@ -1,5 +1,7 @@
 package registry
 
+import dddcore "cypt/internal/dddcore/adapter"
+
 type registry struct {
 }
 
@@ -12,7 +14,9 @@ func NewRegistry() Registry {
 }
 
 func (r *registry) NewAppController() AppController {
+	eventBus := dddcore.NewTestEventBus()
+
 	return AppController{
-		User: r.NewUserController(),
+		User: r.NewUserController(&eventBus),
 	}
 }

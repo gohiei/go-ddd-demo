@@ -28,16 +28,18 @@ func NewRenameUseCaseInput(id string, username string) RenameUseCaseInput {
 
 type RenameUseCase struct {
 	userRepo repo.UserRepository
+	eventBus dddcore.EventBus
 }
 
-func NewRenameUseCase(repo repo.UserRepository) RenameUseCase {
+func NewRenameUseCase(repo repo.UserRepository, eb dddcore.EventBus) RenameUseCase {
 	return RenameUseCase{
 		userRepo: repo,
+		eventBus: eb,
 	}
 }
 
-func (useCase RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput, error) {
-	user, err := useCase.userRepo.Get(input.Id)
+func (uc RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput, error) {
+	user, err := uc.userRepo.Get(input.Id)
 
 	if err != nil {
 		return RenameUseCaseOutput{}, err
@@ -45,11 +47,13 @@ func (useCase RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOu
 
 	user.Rename(input.Username)
 
-	err = useCase.userRepo.Rename(user)
+	err = uc.userRepo.Rename(user)
 
 	if err != nil {
 		return RenameUseCaseOutput{}, err
 	}
+
+	uc.eventBus.PostAll(user)
 
 	return RenameUseCaseOutput{
 		Result: "ok",

@@ -1,6 +1,7 @@
 package user
 
 import (
+	"cypt/internal/dddcore"
 	repo "cypt/internal/user/repository"
 	usecase "cypt/internal/user/usecase"
 	"fmt"
@@ -16,10 +17,10 @@ type UserController interface {
 	Rename(id string, username string) (usecase.RenameUseCaseOutput, error)
 }
 
-func NewController(r repo.UserRepository) UserController {
+func NewController(r repo.UserRepository, eventBus dddcore.EventBus) UserController {
 	return &userController{
-		registryUserUseCase: usecase.NewRegistryUserUseCase(r),
-		renameUseCase:       usecase.NewRenameUseCase(r),
+		registryUserUseCase: usecase.NewRegistryUserUseCase(r, eventBus),
+		renameUseCase:       usecase.NewRenameUseCase(r, eventBus),
 	}
 }
 

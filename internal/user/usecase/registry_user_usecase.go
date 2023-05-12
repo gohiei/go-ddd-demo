@@ -23,29 +23,33 @@ func (out *RegistryUserUseCaseOutput) GetResult() string {
 
 type RegistryUserUseCase struct {
 	userRepo repo.UserRepository
+	eventBus dddcore.EventBus
 }
 
 var _ dddcore.Input = (*RegistryUserUseCaseInput)(nil)
 var _ dddcore.Output = (*RegistryUserUseCaseOutput)(nil)
 
-func NewRegistryUserUseCase(repo repo.UserRepository) RegistryUserUseCase {
+func NewRegistryUserUseCase(repo repo.UserRepository, eb dddcore.EventBus) RegistryUserUseCase {
 	return RegistryUserUseCase{
 		userRepo: repo,
+		eventBus: eb,
 	}
 }
 
-func (useCase *RegistryUserUseCase) Execute(input *RegistryUserUseCaseInput) (RegistryUserUseCaseOutput, error) {
+func (uc *RegistryUserUseCase) Execute(input *RegistryUserUseCaseInput) (RegistryUserUseCaseOutput, error) {
 	user, err := entity.NewUser(input.Username, input.Password)
 
 	if err != nil {
 		return RegistryUserUseCaseOutput{}, err
 	}
 
-	err = useCase.userRepo.Add(user)
+	err = uc.userRepo.Add(user)
 
 	if err != nil {
 		return RegistryUserUseCaseOutput{}, err
 	}
+
+	uc.eventBus.PostAll(user)
 
 	return RegistryUserUseCaseOutput{
 		Result: "ok",

@@ -3,7 +3,7 @@ package dddcore
 // @todo
 type EventBus interface {
 	Post(Event)
-	PostAll([]Event)
+	PostAll(AggregateRoot)
 	Register()
 	Unregister()
 }

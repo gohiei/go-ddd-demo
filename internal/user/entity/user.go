@@ -12,7 +12,7 @@ var (
 )
 
 type User struct {
-	dddcore.AggregateRoot
+	*dddcore.BaseAggregateRoot
 	id       dddcore.UUID
 	username string
 	password string
@@ -24,9 +24,10 @@ func NewUser(username string, password string) (User, error) {
 	}
 
 	user := User{
-		id:       dddcore.NewUUID(),
-		username: username,
-		password: password,
+		BaseAggregateRoot: dddcore.NewAggregateRoot(),
+		id:                dddcore.NewUUID(),
+		username:          username,
+		password:          password,
 	}
 
 	user.AddDomainEvent(event.NewUserCreatedEvent(
@@ -42,9 +43,10 @@ func BuildUser(id string, username string, password string) User {
 	uid, _ := dddcore.BuildUUID(id)
 
 	return User{
-		id:       uid,
-		username: username,
-		password: password,
+		BaseAggregateRoot: dddcore.NewAggregateRoot(),
+		id:                uid,
+		username:          username,
+		password:          password,
 	}
 }
 

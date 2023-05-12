@@ -2,34 +2,34 @@ package dddcore
 
 import "time"
 
-type IEvent interface {
-	GetId() string
-	GetOccurredOn() time.Time
-	GetName() string
-}
-
-type Event struct {
+type BaseEvent struct {
 	Id         string    `json:"id"`
 	OccurredOn time.Time `json:"occurred_on"`
 	Name       string    `json:"name"`
 }
 
-func NewEvent(name string) *Event {
-	return &Event{
-		Id:         NewUUID().String(),
-		OccurredOn: time.Now(),
-		Name:       name,
-	}
-}
-
-func (e *Event) GetId() string {
+func (e *BaseEvent) GetId() string {
 	return e.Id
 }
 
-func (e *Event) GetOccurredOn() time.Time {
+func (e *BaseEvent) GetName() string {
+	return e.Name
+}
+
+func (e *BaseEvent) GetOccurredOn() time.Time {
 	return e.OccurredOn
 }
 
-func (e *Event) GetName() string {
-	return e.Name
+func NewEvent(name string) *BaseEvent {
+	return &BaseEvent{
+		Id:         NewUUID().String(),
+		Name:       name,
+		OccurredOn: time.Now(),
+	}
+}
+
+type Event interface {
+	GetId() string
+	GetName() string
+	GetOccurredOn() time.Time
 }
