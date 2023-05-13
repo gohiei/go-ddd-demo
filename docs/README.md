@@ -5,8 +5,9 @@
 * go run cmd/main.go
 
 ## Todo
-* EventBus
+* ~EventBus~
 * Restful API (gin?)
 * Database Read/Write Split (gorm?)
 * IoC/DI package (?)
 * Tests
+* Logger
