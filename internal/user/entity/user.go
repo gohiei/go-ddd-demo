@@ -68,6 +68,11 @@ func (u *User) GetPassword() string {
 
 func (u *User) Rename(username string) {
 	old := u.username
+
+	// if old == username {
+	// 	return
+	// }
+
 	u.username = username
 
 	u.AddDomainEvent(event.NewUserRenameEvent(

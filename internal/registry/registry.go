@@ -1,6 +1,8 @@
 package registry
 
-import dddcore "cypt/internal/dddcore/adapter"
+import (
+	dddcore "cypt/internal/dddcore/adapter"
+)
 
 type registry struct {
 }

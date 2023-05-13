@@ -4,6 +4,7 @@ import (
 	"cypt/internal/registry"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -14,7 +15,7 @@ func main() {
 	reg := registry.NewRegistry()
 	app := reg.NewAppController()
 
-	output, err := app.User.Rename("f7e41e07-c9cf-47bd-972f-64fec0882f20", "chuck3")
+	output, err := app.User.Rename("f7e41e07-c9cf-47bd-972f-64fec0882f20", "chuck10")
 
 	if err != nil {
 		fmt.Println(err)
@@ -22,4 +23,5 @@ func main() {
 	}
 
 	fmt.Println(output.GetResult(), output.Ret.Username)
+	time.Sleep(time.Second)
 }

@@ -4,6 +4,10 @@ import (
 	"cypt/internal/dddcore"
 )
 
+const (
+	UserRenamedEventName = "user.renamed"
+)
+
 type UserRenamedEvent struct {
 	*dddcore.BaseEvent
 	UserId      string `json:"user_id"`
@@ -13,7 +17,7 @@ type UserRenamedEvent struct {
 
 func NewUserRenameEvent(id, oldUsername, newUsername string) *UserRenamedEvent {
 	return &UserRenamedEvent{
-		BaseEvent:   dddcore.NewEvent("user.renamed"),
+		BaseEvent:   dddcore.NewEvent(UserRenamedEventName),
 		UserId:      id,
 		OldUsername: oldUsername,
 		NewUsername: newUsername,

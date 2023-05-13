@@ -8,8 +8,9 @@ import (
 )
 
 type userController struct {
-	registryUserUseCase usecase.RegistryUserUseCase
-	renameUseCase       usecase.RenameUseCase
+	registryUserUseCase  usecase.RegistryUserUseCase
+	renameUseCase        usecase.RenameUseCase
+	notifyManagerHandler usecase.NotifyManagerHandler
 }
 
 type UserController interface {
@@ -19,8 +20,9 @@ type UserController interface {
 
 func NewController(r repo.UserRepository, eventBus dddcore.EventBus) UserController {
 	return &userController{
-		registryUserUseCase: usecase.NewRegistryUserUseCase(r, eventBus),
-		renameUseCase:       usecase.NewRenameUseCase(r, eventBus),
+		registryUserUseCase:  usecase.NewRegistryUserUseCase(r, eventBus),
+		renameUseCase:        usecase.NewRenameUseCase(r, eventBus),
+		notifyManagerHandler: usecase.NewNotifyManagerHandler(eventBus),
 	}
 }
 
