@@ -16,10 +16,6 @@ type RenameUseCaseOutput struct {
 	Ret    dto.UserDto
 }
 
-func (o *RenameUseCaseOutput) GetResult() string {
-	return o.Result
-}
-
 func NewRenameUseCaseInput(id string, username string) RenameUseCaseInput {
 	uuid, _ := dddcore.BuildUUID(id)
 

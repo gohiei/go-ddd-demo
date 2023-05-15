@@ -17,10 +17,6 @@ type RegisterUserUseCaseOutput struct {
 	Ret    dto.UserDto
 }
 
-func (out *RegisterUserUseCaseOutput) GetResult() string {
-	return out.Result
-}
-
 type RegisterUserUseCase struct {
 	userRepo repo.UserRepository
 	eventBus dddcore.EventBus
@@ -29,6 +25,8 @@ type RegisterUserUseCase struct {
 var _ dddcore.Input = (*RegisterUserUseCaseInput)(nil)
 var _ dddcore.Output = (*RegisterUserUseCaseOutput)(nil)
 
+// var _ dddcore.UseCase[RegisterUserUseCaseInput, RegisterUserUseCaseOutput] = (*RegisterUserUseCase)(nil)
+
 func NewRegisterUserUseCase(repo repo.UserRepository, eb dddcore.EventBus) RegisterUserUseCase {
 	return RegisterUserUseCase{
 		userRepo: repo,
@@ -36,7 +34,7 @@ func NewRegisterUserUseCase(repo repo.UserRepository, eb dddcore.EventBus) Regis
 	}
 }
 
-func (uc *RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (RegisterUserUseCaseOutput, error) {
+func (uc RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (RegisterUserUseCaseOutput, error) {
 	user, err := entity.NewUser(input.Username, input.Password)
 
 	if err != nil {

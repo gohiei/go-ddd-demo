@@ -6,7 +6,6 @@ type Input interface {
 type Output interface {
 }
 
-type UseCase interface {
-	Execute(input *Input) (Output, error)
-	GetEventBus() EventBus
+type UseCase[I Input, O Output] interface {
+	Execute(*I) (O, error)
 }

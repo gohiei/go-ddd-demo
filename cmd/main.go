@@ -22,6 +22,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(output.GetResult(), output.Ret.Username)
+	fmt.Println(output.Result, output.Ret.Username)
 	time.Sleep(time.Second)
 }
