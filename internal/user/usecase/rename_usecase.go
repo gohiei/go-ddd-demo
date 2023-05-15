@@ -2,8 +2,8 @@ package user
 
 import (
 	dddcore "cypt/internal/dddcore"
-	dto "cypt/internal/user/dto"
 	repo "cypt/internal/user/repository"
+	dto "cypt/internal/user/usecase/dto"
 )
 
 type RenameUseCaseInput struct {

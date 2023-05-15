@@ -2,9 +2,9 @@ package user
 
 import (
 	dddcore "cypt/internal/dddcore"
-	dto "cypt/internal/user/dto"
 	entity "cypt/internal/user/entity"
 	repo "cypt/internal/user/repository"
+	dto "cypt/internal/user/usecase/dto"
 )
 
 type RegisterUserUseCaseInput struct {
