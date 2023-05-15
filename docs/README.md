@@ -12,7 +12,7 @@
 ## Todo
 * ~EventBus~
 * Restful API (gin?)
-* Database Read/Write Split (gorm?)
+* ~Database Read/Write Split (gorm?)~
 * IoC/DI package (?)
 * Tests
 * Logger
