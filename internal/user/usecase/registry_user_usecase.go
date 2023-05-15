@@ -7,51 +7,51 @@ import (
 	repo "cypt/internal/user/repository"
 )
 
-type RegistryUserUseCaseInput struct {
+type RegisterUserUseCaseInput struct {
 	Username string
 	Password string
 }
 
-type RegistryUserUseCaseOutput struct {
+type RegisterUserUseCaseOutput struct {
 	Result string
 	Ret    dto.UserDto
 }
 
-func (out *RegistryUserUseCaseOutput) GetResult() string {
+func (out *RegisterUserUseCaseOutput) GetResult() string {
 	return out.Result
 }
 
-type RegistryUserUseCase struct {
+type RegisterUserUseCase struct {
 	userRepo repo.UserRepository
 	eventBus dddcore.EventBus
 }
 
-var _ dddcore.Input = (*RegistryUserUseCaseInput)(nil)
-var _ dddcore.Output = (*RegistryUserUseCaseOutput)(nil)
+var _ dddcore.Input = (*RegisterUserUseCaseInput)(nil)
+var _ dddcore.Output = (*RegisterUserUseCaseOutput)(nil)
 
-func NewRegistryUserUseCase(repo repo.UserRepository, eb dddcore.EventBus) RegistryUserUseCase {
-	return RegistryUserUseCase{
+func NewRegisterUserUseCase(repo repo.UserRepository, eb dddcore.EventBus) RegisterUserUseCase {
+	return RegisterUserUseCase{
 		userRepo: repo,
 		eventBus: eb,
 	}
 }
 
-func (uc *RegistryUserUseCase) Execute(input *RegistryUserUseCaseInput) (RegistryUserUseCaseOutput, error) {
+func (uc *RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (RegisterUserUseCaseOutput, error) {
 	user, err := entity.NewUser(input.Username, input.Password)
 
 	if err != nil {
-		return RegistryUserUseCaseOutput{}, err
+		return RegisterUserUseCaseOutput{}, err
 	}
 
 	err = uc.userRepo.Add(user)
 
 	if err != nil {
-		return RegistryUserUseCaseOutput{}, err
+		return RegisterUserUseCaseOutput{}, err
 	}
 
 	uc.eventBus.PostAll(user)
 
-	return RegistryUserUseCaseOutput{
+	return RegisterUserUseCaseOutput{
 		Result: "ok",
 		Ret:    dto.NewUserDto(user.GetId(), user.GetUsername()),
 	}, nil

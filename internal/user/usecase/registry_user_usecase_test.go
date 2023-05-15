@@ -13,15 +13,15 @@ import (
 	userMock "cypt/test/mocks/user"
 )
 
-func TestRegistryUserUseCase(t *testing.T) {
+func TestRegisterUserUseCase(t *testing.T) {
 	r := userMock.NewUserRepository(t)
 	b := dddcoreMock.NewEventBus(t)
 
 	addFunc := r.On("Add", mock.Anything, mock.Anything).Return(nil)
 	postFunc := b.On("PostAll", mock.Anything).Return(nil)
 
-	in := usecase.RegistryUserUseCaseInput{Username: "test1", Password: "password1"}
-	uc := usecase.NewRegistryUserUseCase(r, b)
+	in := usecase.RegisterUserUseCaseInput{Username: "test1", Password: "password1"}
+	uc := usecase.NewRegisterUserUseCase(r, b)
 	out, err := uc.Execute(&in)
 
 	assert.Nil(t, err)
@@ -36,14 +36,14 @@ func TestRegistryUserUseCase(t *testing.T) {
 	postFunc.Unset()
 }
 
-func TestRegistryUserUseCaseWithErrFailedToAddUser(t *testing.T) {
+func TestRegisterUserUseCaseWithErrFailedToAddUser(t *testing.T) {
 	r := userMock.NewUserRepository(t)
 	b := dddcoreMock.NewEventBus(t)
 
 	addFunc := r.On("Add", mock.Anything, mock.Anything).Return(repository.ErrFailedToAddUser)
 
-	in := usecase.RegistryUserUseCaseInput{Username: "test1", Password: "password1"}
-	uc := usecase.NewRegistryUserUseCase(r, b)
+	in := usecase.RegisterUserUseCaseInput{Username: "test1", Password: "password1"}
+	uc := usecase.NewRegisterUserUseCase(r, b)
 	_, err := uc.Execute(&in)
 
 	assert.NotNil(t, err)

@@ -13,19 +13,19 @@ type UserController struct {
 	mock.Mock
 }
 
-// RegistryUser provides a mock function with given fields: username, password
-func (_m *UserController) RegistryUser(username string, password string) (user.RegistryUserUseCaseOutput, error) {
+// RegisterUser provides a mock function with given fields: username, password
+func (_m *UserController) RegisterUser(username string, password string) (user.RegisterUserUseCaseOutput, error) {
 	ret := _m.Called(username, password)
 
-	var r0 user.RegistryUserUseCaseOutput
+	var r0 user.RegisterUserUseCaseOutput
 	var r1 error
-	if rf, ok := ret.Get(0).(func(string, string) (user.RegistryUserUseCaseOutput, error)); ok {
+	if rf, ok := ret.Get(0).(func(string, string) (user.RegisterUserUseCaseOutput, error)); ok {
 		return rf(username, password)
 	}
-	if rf, ok := ret.Get(0).(func(string, string) user.RegistryUserUseCaseOutput); ok {
+	if rf, ok := ret.Get(0).(func(string, string) user.RegisterUserUseCaseOutput); ok {
 		r0 = rf(username, password)
 	} else {
-		r0 = ret.Get(0).(user.RegistryUserUseCaseOutput)
+		r0 = ret.Get(0).(user.RegisterUserUseCaseOutput)
 	}
 
 	if rf, ok := ret.Get(1).(func(string, string) error); ok {

@@ -8,34 +8,34 @@ import (
 )
 
 type userController struct {
-	registryUserUseCase  usecase.RegistryUserUseCase
+	registerUserUseCase  usecase.RegisterUserUseCase
 	renameUseCase        usecase.RenameUseCase
 	notifyManagerHandler usecase.NotifyManagerHandler
 }
 
 type UserController interface {
-	RegistryUser(username string, password string) (usecase.RegistryUserUseCaseOutput, error)
+	RegisterUser(username string, password string) (usecase.RegisterUserUseCaseOutput, error)
 	Rename(id string, username string) (usecase.RenameUseCaseOutput, error)
 }
 
 func NewController(r repo.UserRepository, eventBus dddcore.EventBus) UserController {
 	return &userController{
-		registryUserUseCase:  usecase.NewRegistryUserUseCase(r, eventBus),
+		registerUserUseCase:  usecase.NewRegisterUserUseCase(r, eventBus),
 		renameUseCase:        usecase.NewRenameUseCase(r, eventBus),
 		notifyManagerHandler: usecase.NewNotifyManagerHandler(eventBus),
 	}
 }
 
-func (c *userController) RegistryUser(username string, password string) (usecase.RegistryUserUseCaseOutput, error) {
-	input := usecase.RegistryUserUseCaseInput{
+func (c *userController) RegisterUser(username string, password string) (usecase.RegisterUserUseCaseOutput, error) {
+	input := usecase.RegisterUserUseCaseInput{
 		Username: username,
 		Password: password,
 	}
 
-	out, err := c.registryUserUseCase.Execute(&input)
+	out, err := c.registerUserUseCase.Execute(&input)
 
 	if err != nil {
-		return usecase.RegistryUserUseCaseOutput{}, err
+		return usecase.RegisterUserUseCaseOutput{}, err
 	}
 
 	fmt.Println(out.GetResult(), out.Ret, out.Ret.Username)
