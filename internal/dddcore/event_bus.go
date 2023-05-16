@@ -4,12 +4,12 @@ package dddcore
 type EventBus interface {
 	Post(ev Event)
 	PostAll(ar AggregateRoot)
-	Register(h Handler)
-	Unregister(h Handler)
+	Register(h EventHandler)
+	Unregister(h EventHandler)
 }
 
-type Handler interface {
+type EventHandler interface {
 	Name() string
 	EventName() string
-	Handle(name string, message []byte)
+	When(name string, message []byte)
 }

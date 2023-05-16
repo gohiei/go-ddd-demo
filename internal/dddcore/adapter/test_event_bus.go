@@ -6,7 +6,7 @@ import (
 )
 
 type TestEventBus struct {
-	handlers map[string][]dddcore.Handler
+	handlers map[string][]dddcore.EventHandler
 }
 
 func (b *TestEventBus) Post(e dddcore.Event) {
@@ -25,7 +25,7 @@ func (b *TestEventBus) Post(e dddcore.Event) {
 	}
 
 	for _, handler := range handlers {
-		handler.Handle(e.GetName(), jsonData)
+		handler.When(e.GetName(), jsonData)
 	}
 }
 
@@ -35,18 +35,18 @@ func (b *TestEventBus) PostAll(ar dddcore.AggregateRoot) {
 	}
 }
 
-func (b *TestEventBus) Register(h dddcore.Handler) {
+func (b *TestEventBus) Register(h dddcore.EventHandler) {
 	name := h.EventName()
 	_, ok := b.handlers[name]
 
 	if !ok {
-		b.handlers[name] = make([]dddcore.Handler, 0, 10)
+		b.handlers[name] = make([]dddcore.EventHandler, 0, 10)
 	}
 
 	b.handlers[name] = append(b.handlers[name], h)
 }
 
-func (b *TestEventBus) Unregister(h dddcore.Handler) {
+func (b *TestEventBus) Unregister(h dddcore.EventHandler) {
 	name := h.EventName()
 	handlers, ok := b.handlers[name]
 
@@ -69,6 +69,6 @@ var _ dddcore.EventBus = (*TestEventBus)(nil)
 
 func NewTestEventBus() TestEventBus {
 	return TestEventBus{
-		handlers: make(map[string][]dddcore.Handler),
+		handlers: make(map[string][]dddcore.EventHandler),
 	}
 }

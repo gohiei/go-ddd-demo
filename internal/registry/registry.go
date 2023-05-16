@@ -16,7 +16,7 @@ func NewRegistry() Registry {
 }
 
 func (r *registry) NewAppController() AppController {
-	eventBus := dddcore.NewTestEventBus()
+	eventBus := dddcore.NewWatermillEventBus()
 
 	return AppController{
 		User: r.NewUserController(&eventBus),

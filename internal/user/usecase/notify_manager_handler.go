@@ -9,7 +9,6 @@ import (
 
 // @todo
 type NotifyManagerHandler struct {
-	eventBus dddcore.EventBus
 }
 
 func (h *NotifyManagerHandler) Name() string {
@@ -20,7 +19,7 @@ func (h *NotifyManagerHandler) EventName() string {
 	return user.UserRenamedEventName
 }
 
-func (h *NotifyManagerHandler) Handle(eventName string, msg []byte) {
+func (h *NotifyManagerHandler) When(eventName string, msg []byte) {
 	event := user.UserRenamedEvent{}
 	json.Unmarshal(msg, &event)
 

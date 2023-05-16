@@ -24,12 +24,12 @@ func (_m *EventBus) PostAll(ar dddcore.AggregateRoot) {
 }
 
 // Register provides a mock function with given fields: h
-func (_m *EventBus) Register(h dddcore.Handler) {
+func (_m *EventBus) Register(h dddcore.EventHandler) {
 	_m.Called(h)
 }
 
 // Unregister provides a mock function with given fields: h
-func (_m *EventBus) Unregister(h dddcore.Handler) {
+func (_m *EventBus) Unregister(h dddcore.EventHandler) {
 	_m.Called(h)
 }
 

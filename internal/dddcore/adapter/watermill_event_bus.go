@@ -46,13 +46,13 @@ func (eb *WatermillEventBus) PostAll(ar dddcore.AggregateRoot) {
 	}
 }
 
-func (eb *WatermillEventBus) Register(h dddcore.Handler) {
+func (eb *WatermillEventBus) Register(h dddcore.EventHandler) {
 	eb.router.AddNoPublisherHandler(
 		h.Name(),
 		h.EventName(),
 		eb.pubsub,
 		func(msg *message.Message) error {
-			h.Handle(h.EventName(), msg.Payload)
+			h.When(h.EventName(), msg.Payload)
 			return nil
 		},
 	)
@@ -60,7 +60,7 @@ func (eb *WatermillEventBus) Register(h dddcore.Handler) {
 	eb.router.RunHandlers(ctx)
 }
 
-func (eb *WatermillEventBus) Unregister(h dddcore.Handler) {
+func (eb *WatermillEventBus) Unregister(h dddcore.EventHandler) {
 
 }
 
