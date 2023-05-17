@@ -13,8 +13,8 @@ type Event struct {
 	mock.Mock
 }
 
-// GetId provides a mock function with given fields:
-func (_m *Event) GetId() string {
+// GetID provides a mock function with given fields:
+func (_m *Event) GetID() string {
 	ret := _m.Called()
 
 	var r0 string

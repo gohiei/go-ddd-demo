@@ -14,7 +14,7 @@ func TestNewUser(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "test1", u.GetUsername())
 	assert.Equal(t, "password1", u.GetPassword())
-	assert.NotNil(t, u.GetId())
+	assert.NotNil(t, u.GetID())
 }
 
 func TestBuildNewUser(t *testing.T) {
@@ -23,8 +23,8 @@ func TestBuildNewUser(t *testing.T) {
 
 	assert.Equal(t, "test2", u.GetUsername())
 	assert.Equal(t, "password2", u.GetPassword())
-	assert.NotNil(t, u.GetId())
-	assert.Equal(t, uuid, u.GetId().String())
+	assert.NotNil(t, u.GetID())
+	assert.Equal(t, uuid, u.GetID().String())
 }
 
 func TestRename(t *testing.T) {

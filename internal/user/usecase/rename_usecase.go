@@ -7,7 +7,7 @@ import (
 )
 
 type RenameUseCaseInput struct {
-	Id       dddcore.UUID
+	ID       dddcore.UUID
 	Username string
 }
 
@@ -19,7 +19,7 @@ type RenameUseCaseOutput struct {
 func NewRenameUseCaseInput(id string, username string) RenameUseCaseInput {
 	uuid, _ := dddcore.BuildUUID(id)
 
-	return RenameUseCaseInput{Id: uuid, Username: username}
+	return RenameUseCaseInput{ID: uuid, Username: username}
 }
 
 type RenameUseCase struct {
@@ -35,7 +35,7 @@ func NewRenameUseCase(repo repo.UserRepository, eb dddcore.EventBus) RenameUseCa
 }
 
 func (uc RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput, error) {
-	user, err := uc.userRepo.Get(input.Id)
+	user, err := uc.userRepo.Get(input.ID)
 
 	if err != nil {
 		return RenameUseCaseOutput{}, err
@@ -53,6 +53,6 @@ func (uc RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput,
 
 	return RenameUseCaseOutput{
 		Result: "ok",
-		Ret:    dto.NewUserDto(user.GetId(), user.GetUsername()),
+		Ret:    dto.NewUserDto(user.GetID(), user.GetUsername()),
 	}, nil
 }

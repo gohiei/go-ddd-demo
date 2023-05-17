@@ -29,7 +29,7 @@ func (eb *WatermillEventBus) Post(e dddcore.Event) {
 	if err != nil {
 	}
 
-	msg := message.NewMessage(e.GetId(), jsonData)
+	msg := message.NewMessage(e.GetID(), jsonData)
 
 	fmt.Println("post: ", string(jsonData))
 

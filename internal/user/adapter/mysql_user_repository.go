@@ -21,7 +21,7 @@ func NewMySqlUserRepository(db *gorm.DB) *MySqlUserRepository {
 
 func (repo *MySqlUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 	user := model.UserModel{}
-	result := repo.db.Take(&user, &model.UserModel{Id: id.String()})
+	result := repo.db.Take(&user, &model.UserModel{ID: id.String()})
 
 	if err := result.Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -31,12 +31,12 @@ func (repo *MySqlUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 		return entity.User{}, err
 	}
 
-	return entity.BuildUser(user.Id, user.Username, user.Password), nil
+	return entity.BuildUser(user.ID, user.Username, user.Password), nil
 }
 
 func (repo *MySqlUserRepository) Add(u entity.User) error {
 	user := model.UserModel{
-		Id:       u.GetId().String(),
+		ID:       u.GetID().String(),
 		Username: u.GetUsername(),
 		Password: u.GetPassword(),
 	}
@@ -51,7 +51,7 @@ func (repo *MySqlUserRepository) Add(u entity.User) error {
 }
 
 func (repo *MySqlUserRepository) Rename(u entity.User) error {
-	user := model.UserModel{Id: u.GetId().String()}
+	user := model.UserModel{ID: u.GetID().String()}
 
 	result := repo.db.Take(&user)
 

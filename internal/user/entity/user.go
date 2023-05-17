@@ -50,11 +50,11 @@ func BuildUser(id string, username string, password string) User {
 	}
 }
 
-func (u *User) GetId() dddcore.UUID {
+func (u *User) GetID() dddcore.UUID {
 	return u.id
 }
 
-func (u *User) SetId(id dddcore.UUID) {
+func (u *User) SetID(id dddcore.UUID) {
 	u.id = id
 }
 

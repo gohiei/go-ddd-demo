@@ -10,7 +10,7 @@ const (
 
 type UserCreatedEvent struct {
 	*dddcore.BaseEvent
-	UserId   string `json:"user_id"`
+	UserID   string `json:"user_id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
@@ -20,7 +20,7 @@ var _ dddcore.Event = (*UserCreatedEvent)(nil)
 func NewUserCreatedEvent(id, username, password string) *UserCreatedEvent {
 	return &UserCreatedEvent{
 		BaseEvent: dddcore.NewEvent(UserCreatedEventName),
-		UserId:    id,
+		UserID:    id,
 		Username:  username,
 		Password:  password,
 	}

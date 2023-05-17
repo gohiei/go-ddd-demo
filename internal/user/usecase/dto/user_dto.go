@@ -3,13 +3,13 @@ package user
 import "cypt/internal/dddcore"
 
 type UserDto struct {
-	Id       string
+	ID       string
 	Username string
 }
 
 func NewUserDto(id dddcore.UUID, username string) UserDto {
 	return UserDto{
-		Id:       id.String(),
+		ID:       id.String(),
 		Username: username,
 	}
 }

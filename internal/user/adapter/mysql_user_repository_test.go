@@ -36,7 +36,7 @@ func TestAdapterGet(t *testing.T) {
 	u, err := r.Get(uuid)
 
 	assert.Nil(t, err)
-	assert.Equal(t, uuid, u.GetId())
+	assert.Equal(t, uuid, u.GetID())
 	assert.Equal(t, "test1", u.GetUsername())
 	assert.Equal(t, "password1", u.GetPassword())
 }
@@ -76,7 +76,7 @@ func TestAdapterAdd(t *testing.T) {
 
 	mock.ExpectBegin()
 	mock.ExpectExec("INSERT").
-		WithArgs(u.GetId().String(), u.GetUsername(), u.GetPassword(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
+		WithArgs(u.GetID().String(), u.GetUsername(), u.GetPassword(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
 		WillReturnResult(sqlmock.NewResult(2, 1))
 	mock.ExpectCommit()
 
@@ -103,7 +103,7 @@ func TestAdapterAddWithDatabaseError(t *testing.T) {
 func TestAdapterRename(t *testing.T) {
 	db, mock := InitializeDatabase()
 	u, _ := entity.NewUser("test3", "password3")
-	uid := u.GetId().String()
+	uid := u.GetID().String()
 
 	rows := sqlmock.NewRows([]string{"id", "username", "password"})
 	rows = rows.AddRow(uid, u.GetUsername(), u.GetPassword())
@@ -125,7 +125,7 @@ func TestAdapterRename(t *testing.T) {
 func TestAdapterRenameWithErrUserNotFound(t *testing.T) {
 	db, mock := InitializeDatabase()
 	u, _ := entity.NewUser("test3", "password3")
-	uid := u.GetId().String()
+	uid := u.GetID().String()
 
 	rows := sqlmock.NewRows([]string{"id", "username", "password"})
 	mock.ExpectQuery("SELECT").WithArgs(uid).WillReturnRows(rows)
@@ -140,7 +140,7 @@ func TestAdapterRenameWithErrUserNotFound(t *testing.T) {
 func TestAdapterRenameWithDatabaseErrror(t *testing.T) {
 	db, mock := InitializeDatabase()
 	u, _ := entity.NewUser("test3", "password3")
-	uid := u.GetId().String()
+	uid := u.GetID().String()
 
 	rows := sqlmock.NewRows([]string{"id", "username", "password"})
 	rows = rows.AddRow(uid, u.GetUsername(), u.GetPassword())

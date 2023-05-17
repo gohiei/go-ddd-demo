@@ -51,6 +51,6 @@ func (uc RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (Register
 
 	return RegisterUserUseCaseOutput{
 		Result: "ok",
-		Ret:    dto.NewUserDto(user.GetId(), user.GetUsername()),
+		Ret:    dto.NewUserDto(user.GetID(), user.GetUsername()),
 	}, nil
 }

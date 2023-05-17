@@ -3,7 +3,7 @@ package user
 import "time"
 
 type UserModel struct {
-	Id        string `gorm:"primaryKey"`
+	ID        string `gorm:"primaryKey"`
 	Username  string
 	Password  string
 	CreatedAt time.Time

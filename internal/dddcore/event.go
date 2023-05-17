@@ -3,13 +3,13 @@ package dddcore
 import "time"
 
 type BaseEvent struct {
-	Id         string    `json:"id"`
+	ID         string    `json:"id"`
 	OccurredOn time.Time `json:"occurred_on"`
 	Name       string    `json:"name"`
 }
 
-func (e *BaseEvent) GetId() string {
-	return e.Id
+func (e *BaseEvent) GetID() string {
+	return e.ID
 }
 
 func (e *BaseEvent) GetName() string {
@@ -22,14 +22,14 @@ func (e *BaseEvent) GetOccurredOn() time.Time {
 
 func NewEvent(name string) *BaseEvent {
 	return &BaseEvent{
-		Id:         NewUUID().String(),
+		ID:         NewUUID().String(),
 		Name:       name,
 		OccurredOn: time.Now(),
 	}
 }
 
 type Event interface {
-	GetId() string
+	GetID() string
 	GetName() string
 	GetOccurredOn() time.Time
 }

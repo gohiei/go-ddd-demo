@@ -10,7 +10,7 @@ const (
 
 type UserRenamedEvent struct {
 	*dddcore.BaseEvent
-	UserId      string `json:"user_id"`
+	UserID      string `json:"user_id"`
 	OldUsername string `json:"old_username"`
 	NewUsername string `json:"new_username"`
 }
@@ -18,7 +18,7 @@ type UserRenamedEvent struct {
 func NewUserRenameEvent(id, oldUsername, newUsername string) *UserRenamedEvent {
 	return &UserRenamedEvent{
 		BaseEvent:   dddcore.NewEvent(UserRenamedEventName),
-		UserId:      id,
+		UserID:      id,
 		OldUsername: oldUsername,
 		NewUsername: newUsername,
 	}

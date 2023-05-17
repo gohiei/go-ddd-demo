@@ -35,24 +35,24 @@ func (repo *InMemoryUserRepository) Add(u entity.User) error {
 		repo.mutex.Unlock()
 	}
 
-	if _, ok := repo.users[u.GetId()]; ok {
+	if _, ok := repo.users[u.GetID()]; ok {
 		return fmt.Errorf("user already exists: %w", repository.ErrFailedToAddUser)
 	}
 
 	repo.mutex.Lock()
-	repo.users[u.GetId()] = u
+	repo.users[u.GetID()] = u
 	repo.mutex.Unlock()
 
 	return nil
 }
 
 func (repo *InMemoryUserRepository) Rename(u entity.User) error {
-	if _, ok := repo.users[u.GetId()]; !ok {
+	if _, ok := repo.users[u.GetID()]; !ok {
 		return fmt.Errorf("user does not exist: %w", repository.ErrFailedToRenameUser)
 	}
 
 	repo.mutex.Lock()
-	repo.users[u.GetId()] = u
+	repo.users[u.GetID()] = u
 	repo.mutex.Unlock()
 
 	return nil
