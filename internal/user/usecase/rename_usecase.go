@@ -3,17 +3,16 @@ package user
 import (
 	dddcore "cypt/internal/dddcore"
 	repo "cypt/internal/user/repository"
-	dto "cypt/internal/user/usecase/dto"
 )
 
 type RenameUseCaseInput struct {
-	ID       dddcore.UUID
-	Username string
+	ID       dddcore.UUID `uri:"id" binding:"required"`
+	Username string       `form:"username" binding:"required"`
 }
 
 type RenameUseCaseOutput struct {
-	Result string
-	Ret    dto.UserDto
+	ID       string `json:"id"`
+	Username string `json:"username"`
 }
 
 func NewRenameUseCaseInput(id string, username string) RenameUseCaseInput {
@@ -52,7 +51,7 @@ func (uc RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput,
 	uc.eventBus.PostAll(user)
 
 	return RenameUseCaseOutput{
-		Result: "ok",
-		Ret:    dto.NewUserDto(user.GetID(), user.GetUsername()),
+		ID:       user.GetID().String(),
+		Username: user.GetUsername(),
 	}, nil
 }

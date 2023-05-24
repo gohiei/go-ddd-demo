@@ -1,27 +1,24 @@
 package main
 
 import (
-	"cypt/internal/registry"
-	"fmt"
-	"os"
-	"time"
+	dddcore "cypt/internal/dddcore/adapter"
+	"cypt/internal/user"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
 	godotenv.Load("configs/.env")
 
-	reg := registry.NewRegistry()
-	app := reg.NewAppController()
+	r := gin.Default()
+	NewAppController(r)
 
-	output, err := app.User.Rename("f7e41e07-c9cf-47bd-972f-64fec0882f20", "chuck10")
+	r.Run(":8080")
+}
 
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+func NewAppController(router *gin.Engine) {
+	eventBus := dddcore.NewWatermillEventBus()
 
-	fmt.Println(output.Result, output.Ret.Username)
-	time.Sleep(time.Second)
+	user.NewUserController(router, &eventBus)
 }

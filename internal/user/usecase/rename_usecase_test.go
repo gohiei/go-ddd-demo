@@ -31,9 +31,8 @@ func TestRenameUseCase(t *testing.T) {
 	out, err := uc.Execute(&in)
 
 	assert.Nil(t, err)
-	assert.Equal(t, "ok", out.Result)
-	assert.Equal(t, uuid.String(), out.Ret.ID)
-	assert.Equal(t, "test2", out.Ret.Username)
+	assert.Equal(t, uuid.String(), out.ID)
+	assert.Equal(t, "test2", out.Username)
 
 	r.AssertExpectations(t)
 	b.AssertExpectations(t)

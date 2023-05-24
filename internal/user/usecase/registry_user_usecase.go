@@ -4,17 +4,16 @@ import (
 	dddcore "cypt/internal/dddcore"
 	entity "cypt/internal/user/entity"
 	repo "cypt/internal/user/repository"
-	dto "cypt/internal/user/usecase/dto"
 )
 
 type RegisterUserUseCaseInput struct {
-	Username string
-	Password string
+	Username string `form:"username" binding:"required"`
+	Password string `form:"password" binding:"required"`
 }
 
 type RegisterUserUseCaseOutput struct {
-	Result string
-	Ret    dto.UserDto
+	ID       string `json:"id"`
+	Username string `json:"username"`
 }
 
 type RegisterUserUseCase struct {
@@ -50,7 +49,7 @@ func (uc RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (Register
 	uc.eventBus.PostAll(user)
 
 	return RegisterUserUseCaseOutput{
-		Result: "ok",
-		Ret:    dto.NewUserDto(user.GetID(), user.GetUsername()),
+		ID:       user.GetID().String(),
+		Username: user.GetUsername(),
 	}, nil
 }

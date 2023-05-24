@@ -25,9 +25,8 @@ func TestRegisterUserUseCase(t *testing.T) {
 	out, err := uc.Execute(&in)
 
 	assert.Nil(t, err)
-	assert.Equal(t, "ok", out.Result)
-	assert.Equal(t, "test1", out.Ret.Username)
-	assert.True(t, len(out.Ret.ID) > 0)
+	assert.Equal(t, "test1", out.Username)
+	assert.True(t, len(out.ID) > 0)
 
 	r.AssertExpectations(t)
 	b.AssertExpectations(t)
