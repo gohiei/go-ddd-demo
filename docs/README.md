@@ -1,8 +1,8 @@
 # Domain-Driven Design + Clean Architecture for golang
 
 ## Steup & Run
-* 請設定 configs/.env，可參考 configs/.env.example
-* go run cmd/main.go
+* Create configs/.env (refer to: configs/.env.example)
+* `go run cmd/main.go`
 
 ## Test
 * Use mockery to generate mock files: `mockery --all --dir internal/user/ --output test/mocks/user`
