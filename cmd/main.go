@@ -2,7 +2,7 @@ package main
 
 import (
 	dddcore "cypt/internal/dddcore/adapter"
-	"cypt/internal/user"
+	user "cypt/internal/user/adapter/restful"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -20,5 +20,5 @@ func main() {
 func NewAppController(router *gin.Engine) {
 	eventBus := dddcore.NewWatermillEventBus()
 
-	user.NewUserController(router, &eventBus)
+	user.NewUserRestful(router, &eventBus)
 }

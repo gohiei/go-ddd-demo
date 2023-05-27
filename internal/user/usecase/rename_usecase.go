@@ -26,8 +26,8 @@ type RenameUseCase struct {
 	eventBus dddcore.EventBus
 }
 
-func NewRenameUseCase(repo repo.UserRepository, eb dddcore.EventBus) RenameUseCase {
-	return RenameUseCase{
+func NewRenameUseCase(repo repo.UserRepository, eb dddcore.EventBus) *RenameUseCase {
+	return &RenameUseCase{
 		userRepo: repo,
 		eventBus: eb,
 	}
