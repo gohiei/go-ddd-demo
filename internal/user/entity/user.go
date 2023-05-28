@@ -1,14 +1,12 @@
 package user
 
 import (
-	"errors"
-
 	"cypt/internal/dddcore"
 	event "cypt/internal/user/entity/events"
 )
 
 var (
-	ErrUserMissingValues = errors.New("missing values: username")
+	ErrMissingValueUsername = dddcore.NewError("10004", "missing value `username`")
 )
 
 type User struct {
@@ -20,7 +18,7 @@ type User struct {
 
 func NewUser(username string, password string) (User, error) {
 	if username == "" {
-		return User{}, ErrUserMissingValues
+		return User{}, ErrMissingValueUsername
 	}
 
 	user := User{

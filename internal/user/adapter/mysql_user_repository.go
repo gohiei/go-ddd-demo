@@ -4,7 +4,7 @@ import (
 	"cypt/internal/dddcore"
 	model "cypt/internal/user/adapter/model"
 	entity "cypt/internal/user/entity"
-	repository "cypt/internal/user/repository"
+	exception "cypt/internal/user/exception"
 	"errors"
 	"time"
 
@@ -25,10 +25,10 @@ func (repo *MySqlUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 
 	if err := result.Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return entity.User{}, repository.ErrUserNotFound
+			return entity.User{}, exception.NewErrUserNotFound()
 		}
 
-		return entity.User{}, err
+		return entity.User{}, exception.NewErrUserNotFound().With(err)
 	}
 
 	return entity.BuildUser(user.ID, user.Username, user.Password), nil
@@ -44,7 +44,7 @@ func (repo *MySqlUserRepository) Add(u entity.User) error {
 	result := repo.db.Create(&user)
 
 	if err := result.Error; err != nil {
-		return err
+		return exception.NewErrFailedToAddUser().With(result.Error)
 	}
 
 	return nil
@@ -53,19 +53,19 @@ func (repo *MySqlUserRepository) Add(u entity.User) error {
 func (repo *MySqlUserRepository) Rename(u entity.User) error {
 	user := model.UserModel{ID: u.GetID().String()}
 
-	result := repo.db.Take(&user)
+	_, err := repo.Get(u.GetID())
 
-	if result.Error != nil {
-		return repository.ErrUserNotFound
+	if err != nil {
+		return err
 	}
 
-	result = repo.db.Model(&user).Updates(model.UserModel{
+	result := repo.db.Model(&user).Updates(model.UserModel{
 		Username:  u.GetUsername(),
 		UpdatedAt: time.Now(),
 	})
 
 	if err := result.Error; err != nil {
-		return err
+		return exception.NewErrFailedToRename().With(result.Error)
 	}
 
 	return nil

@@ -3,7 +3,7 @@ package user_test
 import (
 	"cypt/internal/dddcore"
 	user "cypt/internal/user/entity"
-	repository "cypt/internal/user/repository"
+	exception "cypt/internal/user/exception"
 	usecase "cypt/internal/user/usecase"
 
 	"testing"
@@ -50,13 +50,14 @@ func TestRenameUseCaseWithErrFailedToRenameUser(t *testing.T) {
 	u := user.BuildUser(uuid.String(), "test2", "password2")
 
 	getFunc := r.On("Get", mock.Anything).Return(u, nil)
-	renameFunc := r.On("Rename", mock.Anything).Return(repository.ErrFailedToRenameUser)
+	renameFunc := r.On("Rename", mock.Anything).Return(exception.NewErrFailedToRename())
 
 	in := usecase.RenameUseCaseInput{ID: u.GetID(), Username: u.GetUsername()}
 	uc := usecase.NewRenameUseCase(r, b)
 	_, err := uc.Execute(&in)
 
 	assert.NotNil(t, err)
+	assert.Error(t, exception.NewErrFailedToRename(), err)
 
 	r.AssertExpectations(t)
 	getFunc.Unset()

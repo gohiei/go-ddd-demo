@@ -3,7 +3,7 @@ package user_test
 import (
 	usecase "cypt/internal/user/usecase"
 
-	repository "cypt/internal/user/repository"
+	exception "cypt/internal/user/exception"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -39,13 +39,14 @@ func TestRegisterUserUseCaseWithErrFailedToAddUser(t *testing.T) {
 	r := userMock.NewUserRepository(t)
 	b := dddcoreMock.NewEventBus(t)
 
-	addFunc := r.On("Add", mock.Anything, mock.Anything).Return(repository.ErrFailedToAddUser)
+	addFunc := r.On("Add", mock.Anything, mock.Anything).Return(exception.NewErrFailedToAddUser())
 
 	in := usecase.RegisterUserUseCaseInput{Username: "test1", Password: "password1"}
 	uc := usecase.NewRegisterUserUseCase(r, b)
 	_, err := uc.Execute(&in)
 
 	assert.NotNil(t, err)
+	assert.Error(t, exception.NewErrFailedToAddUser(), err)
 
 	r.AssertExpectations(t)
 	addFunc.Unset()

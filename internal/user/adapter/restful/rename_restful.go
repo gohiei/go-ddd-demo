@@ -2,10 +2,9 @@ package user
 
 import (
 	"cypt/internal/dddcore"
-	repository "cypt/internal/user/repository"
+	exception "cypt/internal/user/exception"
 	usecase "cypt/internal/user/usecase"
 
-	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -42,7 +41,7 @@ func (c *RenameRestful) Execute(ctx *gin.Context) {
 	if err != nil {
 		code := http.StatusInternalServerError
 
-		if errors.Is(err, repository.ErrUserNotFound) {
+		if _, same := err.(exception.ErrUserNotFound); same {
 			code = http.StatusBadRequest
 		}
 

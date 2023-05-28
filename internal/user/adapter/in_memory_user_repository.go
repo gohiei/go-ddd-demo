@@ -1,12 +1,12 @@
 package user
 
 import (
-	"fmt"
+	"errors"
 	"sync"
 
 	"cypt/internal/dddcore"
 	entity "cypt/internal/user/entity"
-	repository "cypt/internal/user/repository"
+	exception "cypt/internal/user/exception"
 )
 
 type InMemoryUserRepository struct {
@@ -25,7 +25,7 @@ func (repo *InMemoryUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 		return user, nil
 	}
 
-	return entity.User{}, repository.ErrUserNotFound
+	return entity.User{}, exception.NewErrUserNotFound()
 }
 
 func (repo *InMemoryUserRepository) Add(u entity.User) error {
@@ -36,7 +36,7 @@ func (repo *InMemoryUserRepository) Add(u entity.User) error {
 	}
 
 	if _, ok := repo.users[u.GetID()]; ok {
-		return fmt.Errorf("user already exists: %w", repository.ErrFailedToAddUser)
+		return exception.NewErrFailedToAddUser().With(errors.New("user already exists"))
 	}
 
 	repo.mutex.Lock()
@@ -48,7 +48,7 @@ func (repo *InMemoryUserRepository) Add(u entity.User) error {
 
 func (repo *InMemoryUserRepository) Rename(u entity.User) error {
 	if _, ok := repo.users[u.GetID()]; !ok {
-		return fmt.Errorf("user does not exist: %w", repository.ErrFailedToRenameUser)
+		return exception.NewErrFailedToRename().With(errors.New("user does not exist"))
 	}
 
 	repo.mutex.Lock()

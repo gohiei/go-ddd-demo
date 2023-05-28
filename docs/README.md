@@ -16,4 +16,4 @@
 * IoC/DI package (?)
 * Tests
 * Logger
-* Customized Error
+* ~Customized Error~

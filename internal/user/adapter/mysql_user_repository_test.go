@@ -4,6 +4,7 @@ import (
 	"cypt/internal/dddcore"
 	adapter "cypt/internal/user/adapter"
 	entity "cypt/internal/user/entity"
+
 	"errors"
 	"testing"
 
@@ -51,7 +52,7 @@ func TestAdapterGetWithDatabaseError(t *testing.T) {
 	u, err := r.Get(uuid)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "fake error", err.Error())
+	assert.Equal(t, "user not found (10001): fake error", err.Error())
 	assert.Empty(t, u.GetUsername())
 }
 
@@ -66,7 +67,7 @@ func TestAdapterGetWithErrUserNotFound(t *testing.T) {
 	u, err := r.Get(uuid)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "the user was not found in the repository", err.Error())
+	assert.Equal(t, "user not found (10001)", err.Error())
 	assert.Empty(t, u.GetUsername())
 }
 
@@ -98,6 +99,7 @@ func TestAdapterAddWithDatabaseError(t *testing.T) {
 	err := r.Add(u)
 
 	assert.NotNil(t, err)
+	assert.Equal(t, "failed to add user (10002): invalid db", err.Error())
 }
 
 func TestAdapterRename(t *testing.T) {
@@ -134,7 +136,7 @@ func TestAdapterRenameWithErrUserNotFound(t *testing.T) {
 	err := r.Rename(u)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "the user was not found in the repository", err.Error())
+	assert.Equal(t, "user not found (10001)", err.Error())
 }
 
 func TestAdapterRenameWithDatabaseErrror(t *testing.T) {
@@ -154,4 +156,5 @@ func TestAdapterRenameWithDatabaseErrror(t *testing.T) {
 	err := r.Rename(u)
 
 	assert.NotNil(t, err)
+	assert.Equal(t, "failed to rename (10003): invalid value, should be pointer to struct or slice", err.Error())
 }
