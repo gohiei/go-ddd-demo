@@ -8,9 +8,7 @@ import (
 )
 
 var (
-	ErrUserNotFound       = errors.New("the user was not found in the repository")
-	ErrFailedToAddUser    = errors.New("failed to add the user to the repository")
-	ErrFailedToRenameUser = errors.New("failed to rename the user in the repository")
+	ErrUserNotFound = errors.New("user not found")
 )
 
 type UserRepository interface {
