@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	ErrUserMissingValues = errors.New("missing values: username")
+	ErrUserMissingValueUsername = errors.New("missing value `username`")
 )
 
 type User struct {
@@ -20,7 +20,7 @@ type User struct {
 
 func NewUser(username string, password string) (User, error) {
 	if username == "" {
-		return User{}, ErrUserMissingValues
+		return User{}, ErrUserMissingValueUsername
 	}
 
 	user := User{

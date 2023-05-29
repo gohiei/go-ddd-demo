@@ -6,6 +6,7 @@ import (
 	entity "cypt/internal/user/entity"
 	repository "cypt/internal/user/repository"
 	"errors"
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -28,7 +29,7 @@ func (repo *MySqlUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 			return entity.User{}, repository.ErrUserNotFound
 		}
 
-		return entity.User{}, err
+		return entity.User{}, fmt.Errorf("failed to get by id `%s`: %w", id, err)
 	}
 
 	return entity.BuildUser(user.ID, user.Username, user.Password), nil
@@ -41,10 +42,8 @@ func (repo *MySqlUserRepository) Add(u entity.User) error {
 		Password: u.GetPassword(),
 	}
 
-	result := repo.db.Create(&user)
-
-	if err := result.Error; err != nil {
-		return err
+	if result := repo.db.Create(&user); result.Error != nil {
+		return fmt.Errorf("failed to add: %w", result.Error)
 	}
 
 	return nil
@@ -65,7 +64,7 @@ func (repo *MySqlUserRepository) Rename(u entity.User) error {
 	})
 
 	if err := result.Error; err != nil {
-		return err
+		return fmt.Errorf("failed to rename `%s`: %w", user.ID, err)
 	}
 
 	return nil

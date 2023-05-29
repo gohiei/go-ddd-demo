@@ -1,7 +1,7 @@
 package user
 
 import (
-	"fmt"
+	"errors"
 	"sync"
 
 	"cypt/internal/dddcore"
@@ -36,7 +36,7 @@ func (repo *InMemoryUserRepository) Add(u entity.User) error {
 	}
 
 	if _, ok := repo.users[u.GetID()]; ok {
-		return fmt.Errorf("user already exists: %w", repository.ErrFailedToAddUser)
+		return errors.New("user already exists")
 	}
 
 	repo.mutex.Lock()
@@ -48,7 +48,7 @@ func (repo *InMemoryUserRepository) Add(u entity.User) error {
 
 func (repo *InMemoryUserRepository) Rename(u entity.User) error {
 	if _, ok := repo.users[u.GetID()]; !ok {
-		return fmt.Errorf("user does not exist: %w", repository.ErrFailedToRenameUser)
+		return errors.New("user does not exist")
 	}
 
 	repo.mutex.Lock()

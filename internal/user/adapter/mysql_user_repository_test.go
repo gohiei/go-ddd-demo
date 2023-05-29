@@ -5,6 +5,7 @@ import (
 	adapter "cypt/internal/user/adapter"
 	entity "cypt/internal/user/entity"
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -43,7 +44,7 @@ func TestAdapterGet(t *testing.T) {
 
 func TestAdapterGetWithDatabaseError(t *testing.T) {
 	db, mock := InitializeDatabase()
-	uuid := dddcore.NewUUID()
+	uuid, _ := dddcore.BuildUUID("7f8394c4-4267-41c7-a01b-66b45c656bff")
 
 	mock.ExpectQuery("SELECT").WithArgs(uuid.String()).WillReturnError(errors.New("fake error"))
 
@@ -51,7 +52,7 @@ func TestAdapterGetWithDatabaseError(t *testing.T) {
 	u, err := r.Get(uuid)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "fake error", err.Error())
+	assert.Equal(t, "failed to get by id `7f8394c4-4267-41c7-a01b-66b45c656bff`: fake error", err.Error())
 	assert.Empty(t, u.GetUsername())
 }
 
@@ -66,7 +67,7 @@ func TestAdapterGetWithErrUserNotFound(t *testing.T) {
 	u, err := r.Get(uuid)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "the user was not found in the repository", err.Error())
+	assert.Equal(t, "user not found", err.Error())
 	assert.Empty(t, u.GetUsername())
 }
 
@@ -98,6 +99,7 @@ func TestAdapterAddWithDatabaseError(t *testing.T) {
 	err := r.Add(u)
 
 	assert.NotNil(t, err)
+	assert.Equal(t, "failed to add: invalid db", err.Error())
 }
 
 func TestAdapterRename(t *testing.T) {
@@ -134,7 +136,7 @@ func TestAdapterRenameWithErrUserNotFound(t *testing.T) {
 	err := r.Rename(u)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "the user was not found in the repository", err.Error())
+	assert.Equal(t, "user not found", err.Error())
 }
 
 func TestAdapterRenameWithDatabaseErrror(t *testing.T) {
@@ -154,4 +156,8 @@ func TestAdapterRenameWithDatabaseErrror(t *testing.T) {
 	err := r.Rename(u)
 
 	assert.NotNil(t, err)
+	assert.Equal(t,
+		fmt.Sprintf("failed to rename `%s`: invalid value, should be pointer to struct or slice", uid),
+		err.Error(),
+	)
 }

@@ -50,7 +50,7 @@ func TestRenameUseCaseWithErrFailedToRenameUser(t *testing.T) {
 	u := user.BuildUser(uuid.String(), "test2", "password2")
 
 	getFunc := r.On("Get", mock.Anything).Return(u, nil)
-	renameFunc := r.On("Rename", mock.Anything).Return(repository.ErrFailedToRenameUser)
+	renameFunc := r.On("Rename", mock.Anything).Return(repository.ErrUserNotFound)
 
 	in := usecase.RenameUseCaseInput{ID: u.GetID(), Username: u.GetUsername()}
 	uc := usecase.NewRenameUseCase(r, b)

@@ -2,6 +2,7 @@ package user
 
 import (
 	dddcore "cypt/internal/dddcore"
+	entity "cypt/internal/user/entity"
 	repo "cypt/internal/user/repository"
 )
 
@@ -34,17 +35,16 @@ func NewRenameUseCase(repo repo.UserRepository, eb dddcore.EventBus) *RenameUseC
 }
 
 func (uc RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput, error) {
-	user, err := uc.userRepo.Get(input.ID)
+	var user entity.User
+	var err error
 
-	if err != nil {
+	if user, err = uc.userRepo.Get(input.ID); err != nil {
 		return RenameUseCaseOutput{}, err
 	}
 
 	user.Rename(input.Username)
 
-	err = uc.userRepo.Rename(user)
-
-	if err != nil {
+	if err = uc.userRepo.Rename(user); err != nil {
 		return RenameUseCaseOutput{}, err
 	}
 

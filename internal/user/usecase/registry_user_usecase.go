@@ -33,15 +33,14 @@ func NewRegisterUserUseCase(repo repo.UserRepository, eb dddcore.EventBus) Regis
 }
 
 func (uc RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (RegisterUserUseCaseOutput, error) {
-	user, err := entity.NewUser(input.Username, input.Password)
+	var user entity.User
+	var err error
 
-	if err != nil {
+	if user, err = entity.NewUser(input.Username, input.Password); err != nil {
 		return RegisterUserUseCaseOutput{}, err
 	}
 
-	err = uc.userRepo.Add(user)
-
-	if err != nil {
+	if err = uc.userRepo.Add(user); err != nil {
 		return RegisterUserUseCaseOutput{}, err
 	}
 
