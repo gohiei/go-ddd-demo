@@ -16,4 +16,8 @@
 * IoC/DI package (?)
 * Tests
 * Logger
-* Customized Error
+* ~Customized Error~ (Deprecated) ([ref](https://github.com/gohiei/go-ddd-demo/commit/11416ce5673785122497fe300e720a70e6831912))
+
+## Recommendation
+* [uber-go/goleak](https://github.com/uber-go/goleak)
+* [uber-go/automaxprocs](https://github.com/uber-go/automaxprocs)
