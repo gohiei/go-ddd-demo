@@ -4,22 +4,17 @@ import (
 	dddcore "cypt/internal/dddcore"
 	entity "cypt/internal/user/entity"
 	repo "cypt/internal/user/repository"
+	"errors"
 )
 
 type RenameUseCaseInput struct {
-	ID       dddcore.UUID `uri:"id" binding:"required"`
-	Username string       `form:"username" binding:"required"`
+	ID       string `uri:"id" binding:"required"`
+	Username string `form:"username" binding:"required"`
 }
 
 type RenameUseCaseOutput struct {
 	ID       string `json:"id"`
 	Username string `json:"username"`
-}
-
-func NewRenameUseCaseInput(id string, username string) RenameUseCaseInput {
-	uuid, _ := dddcore.BuildUUID(id)
-
-	return RenameUseCaseInput{ID: uuid, Username: username}
 }
 
 type RenameUseCase struct {
@@ -35,10 +30,15 @@ func NewRenameUseCase(repo repo.UserRepository, eb dddcore.EventBus) *RenameUseC
 }
 
 func (uc RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput, error) {
+	var userID dddcore.UUID
 	var user entity.User
 	var err error
 
-	if user, err = uc.userRepo.Get(input.ID); err != nil {
+	if userID, err = dddcore.BuildUUID(input.ID); err != nil || userID.IsNil() {
+		return RenameUseCaseOutput{}, errors.New("id is not UUID format")
+	}
+
+	if user, err = uc.userRepo.Get(userID); err != nil {
 		return RenameUseCaseOutput{}, err
 	}
 
