@@ -2,6 +2,7 @@ package main
 
 import (
 	dddcore "cypt/internal/dddcore/adapter"
+	logger "cypt/internal/logger/adapter/restful"
 	user "cypt/internal/user/adapter/restful"
 
 	"github.com/gin-gonic/gin"
@@ -20,5 +21,6 @@ func main() {
 func NewAppController(router *gin.Engine) {
 	eventBus := dddcore.NewWatermillEventBus()
 
+	logger.NewLoggerRestful(router, &eventBus)
 	user.NewUserRestful(router, &eventBus)
 }
