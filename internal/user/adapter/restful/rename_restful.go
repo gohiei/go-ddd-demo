@@ -34,8 +34,10 @@ type RenameRestful struct {
 }
 
 func (c *RenameRestful) Execute(ctx *gin.Context) {
-	var input usecase.RenameUseCaseInput
-	ctx.Bind(&input)
+	input := usecase.RenameUseCaseInput{
+		ID:       ctx.Param("id"),
+		Username: ctx.PostForm("username"),
+	}
 
 	output, err := c.Usecase.Execute(&input)
 
