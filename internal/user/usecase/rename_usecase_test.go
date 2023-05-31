@@ -26,7 +26,7 @@ func TestRenameUseCase(t *testing.T) {
 	renameFunc := r.On("Rename", mock.Anything).Return(nil)
 	postFunc := b.On("PostAll", mock.Anything).Return(nil)
 
-	in := usecase.RenameUseCaseInput{ID: u.GetID(), Username: u.GetUsername()}
+	in := usecase.RenameUseCaseInput{ID: u.GetID().String(), Username: u.GetUsername()}
 	uc := usecase.NewRenameUseCase(r, b)
 	out, err := uc.Execute(&in)
 
@@ -52,7 +52,7 @@ func TestRenameUseCaseWithErrFailedToRenameUser(t *testing.T) {
 	getFunc := r.On("Get", mock.Anything).Return(u, nil)
 	renameFunc := r.On("Rename", mock.Anything).Return(repository.ErrUserNotFound)
 
-	in := usecase.RenameUseCaseInput{ID: u.GetID(), Username: u.GetUsername()}
+	in := usecase.RenameUseCaseInput{ID: u.GetID().String(), Username: u.GetUsername()}
 	uc := usecase.NewRenameUseCase(r, b)
 	_, err := uc.Execute(&in)
 
