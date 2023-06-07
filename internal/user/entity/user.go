@@ -1,14 +1,9 @@
 package user
 
 import (
-	"errors"
-
 	"cypt/internal/dddcore"
 	event "cypt/internal/user/entity/events"
-)
-
-var (
-	ErrUserMissingValueUsername = errors.New("missing value `username`")
+	"net/http"
 )
 
 type User struct {
@@ -20,7 +15,7 @@ type User struct {
 
 func NewUser(username string, password string) (User, error) {
 	if username == "" {
-		return User{}, ErrUserMissingValueUsername
+		return User{}, dddcore.NewErrorS("10001", "missing value `username`", http.StatusBadRequest)
 	}
 
 	user := User{

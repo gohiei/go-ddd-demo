@@ -2,11 +2,11 @@ package user
 
 import (
 	"errors"
+	"net/http"
 	"sync"
 
 	"cypt/internal/dddcore"
 	entity "cypt/internal/user/entity"
-	repository "cypt/internal/user/repository"
 )
 
 type InMemoryUserRepository struct {
@@ -25,7 +25,7 @@ func (repo *InMemoryUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 		return user, nil
 	}
 
-	return entity.User{}, repository.ErrUserNotFound
+	return entity.User{}, dddcore.NewErrorS("10006", "user not found", http.StatusBadRequest)
 }
 
 func (repo *InMemoryUserRepository) Add(u entity.User) error {
@@ -36,7 +36,7 @@ func (repo *InMemoryUserRepository) Add(u entity.User) error {
 	}
 
 	if _, ok := repo.users[u.GetID()]; ok {
-		return errors.New("user already exists")
+		return dddcore.NewErrorS("10008", "user already exists", http.StatusBadRequest)
 	}
 
 	repo.mutex.Lock()

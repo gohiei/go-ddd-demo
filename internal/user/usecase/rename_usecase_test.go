@@ -3,9 +3,8 @@ package user_test
 import (
 	"cypt/internal/dddcore"
 	user "cypt/internal/user/entity"
-	repository "cypt/internal/user/repository"
 	usecase "cypt/internal/user/usecase"
-
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -50,7 +49,7 @@ func TestRenameUseCaseWithErrFailedToRenameUser(t *testing.T) {
 	u := user.BuildUser(uuid.String(), "test2", "password2")
 
 	getFunc := r.On("Get", mock.Anything).Return(u, nil)
-	renameFunc := r.On("Rename", mock.Anything).Return(repository.ErrUserNotFound)
+	renameFunc := r.On("Rename", mock.Anything).Return(errors.New("user not found"))
 
 	in := usecase.RenameUseCaseInput{ID: u.GetID().String(), Username: u.GetUsername()}
 	uc := usecase.NewRenameUseCase(r, b)

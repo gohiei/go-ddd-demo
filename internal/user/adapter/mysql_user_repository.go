@@ -4,9 +4,8 @@ import (
 	"cypt/internal/dddcore"
 	model "cypt/internal/user/adapter/model"
 	entity "cypt/internal/user/entity"
-	repository "cypt/internal/user/repository"
 	"errors"
-	"fmt"
+	"net/http"
 	"time"
 
 	"gorm.io/gorm"
@@ -26,10 +25,15 @@ func (repo *MySqlUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 
 	if err := result.Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return entity.User{}, repository.ErrUserNotFound
+			return entity.User{}, dddcore.NewErrorS("10002", "user not found", http.StatusBadRequest)
 		}
 
-		return entity.User{}, fmt.Errorf("failed to get by id `%s`: %w", id, err)
+		return entity.User{}, dddcore.NewError(
+			"10003", "failed to get",
+			dddcore.WithStatusCode(http.StatusInternalServerError),
+			dddcore.WithDetail(err.Error()),
+			dddcore.WithPrevious(err),
+		)
 	}
 
 	return entity.BuildUser(user.ID, user.Username, user.Password), nil
@@ -43,7 +47,12 @@ func (repo *MySqlUserRepository) Add(u entity.User) error {
 	}
 
 	if result := repo.db.Create(&user); result.Error != nil {
-		return fmt.Errorf("failed to add: %w", result.Error)
+		return dddcore.NewError(
+			"10004", "failed to add",
+			dddcore.WithStatusCode(http.StatusInternalServerError),
+			dddcore.WithDetail(result.Error.Error()),
+			dddcore.WithPrevious(result.Error),
+		)
 	}
 
 	return nil
@@ -55,7 +64,7 @@ func (repo *MySqlUserRepository) Rename(u entity.User) error {
 	result := repo.db.Take(&user)
 
 	if result.Error != nil {
-		return repository.ErrUserNotFound
+		return dddcore.NewErrorS("10005", "user not found", http.StatusBadRequest)
 	}
 
 	result = repo.db.Model(&user).Updates(model.UserModel{
@@ -64,7 +73,12 @@ func (repo *MySqlUserRepository) Rename(u entity.User) error {
 	})
 
 	if err := result.Error; err != nil {
-		return fmt.Errorf("failed to rename `%s`: %w", user.ID, err)
+		return dddcore.NewError(
+			"10004", "failed to rename",
+			dddcore.WithStatusCode(http.StatusInternalServerError),
+			dddcore.WithDetail(result.Error.Error()),
+			dddcore.WithPrevious(result.Error),
+		)
 	}
 
 	return nil

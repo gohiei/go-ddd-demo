@@ -4,7 +4,7 @@ import (
 	dddcore "cypt/internal/dddcore"
 	entity "cypt/internal/user/entity"
 	repo "cypt/internal/user/repository"
-	"errors"
+	"net/http"
 )
 
 type RenameUseCaseInput struct {
@@ -35,7 +35,7 @@ func (uc RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput,
 	var err error
 
 	if userID, err = dddcore.BuildUUID(input.ID); err != nil || userID.IsNil() {
-		return RenameUseCaseOutput{}, errors.New("id is not UUID format")
+		return RenameUseCaseOutput{}, dddcore.NewErrorS("10007", "is is not UUID format", http.StatusBadRequest)
 	}
 
 	if user, err = uc.userRepo.Get(userID); err != nil {
