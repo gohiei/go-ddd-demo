@@ -5,7 +5,6 @@ import (
 	adapter "cypt/internal/user/adapter"
 	entity "cypt/internal/user/entity"
 	"errors"
-	"fmt"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -52,7 +51,7 @@ func TestAdapterGetWithDatabaseError(t *testing.T) {
 	u, err := r.Get(uuid)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "failed to get by id `7f8394c4-4267-41c7-a01b-66b45c656bff`: fake error", err.Error())
+	assert.Equal(t, "failed to get (10003)", err.Error())
 	assert.Empty(t, u.GetUsername())
 }
 
@@ -67,7 +66,7 @@ func TestAdapterGetWithErrUserNotFound(t *testing.T) {
 	u, err := r.Get(uuid)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "user not found", err.Error())
+	assert.Equal(t, "user not found (10002)", err.Error())
 	assert.Empty(t, u.GetUsername())
 }
 
@@ -99,7 +98,7 @@ func TestAdapterAddWithDatabaseError(t *testing.T) {
 	err := r.Add(u)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "failed to add: invalid db", err.Error())
+	assert.Equal(t, "failed to add (10004)", err.Error())
 }
 
 func TestAdapterRename(t *testing.T) {
@@ -136,7 +135,7 @@ func TestAdapterRenameWithErrUserNotFound(t *testing.T) {
 	err := r.Rename(u)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "user not found", err.Error())
+	assert.Equal(t, "user not found (10005)", err.Error())
 }
 
 func TestAdapterRenameWithDatabaseErrror(t *testing.T) {
@@ -156,8 +155,5 @@ func TestAdapterRenameWithDatabaseErrror(t *testing.T) {
 	err := r.Rename(u)
 
 	assert.NotNil(t, err)
-	assert.Equal(t,
-		fmt.Sprintf("failed to rename `%s`: invalid value, should be pointer to struct or slice", uid),
-		err.Error(),
-	)
+	assert.Equal(t, "failed to rename (10004)", err.Error())
 }

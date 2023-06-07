@@ -3,7 +3,6 @@ package user_test
 import (
 	"cypt/internal/dddcore"
 	restful "cypt/internal/user/adapter/restful"
-	repository "cypt/internal/user/repository"
 	usecase "cypt/internal/user/usecase"
 	dddcoreMock "cypt/test/mocks/dddcore"
 
@@ -46,7 +45,7 @@ func TestRename(t *testing.T) {
 		},
 		{
 			output: usecase.RenameUseCaseOutput{},
-			err:    repository.ErrUserNotFound,
+			err:    dddcore.NewErrorS("10xxx", "user not found", http.StatusBadRequest),
 			code:   http.StatusBadRequest,
 			result: "error",
 		},

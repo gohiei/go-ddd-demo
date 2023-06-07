@@ -2,10 +2,8 @@ package user
 
 import (
 	"cypt/internal/dddcore"
-	repository "cypt/internal/user/repository"
 	usecase "cypt/internal/user/usecase"
 
-	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,8 +16,10 @@ type RenameRestfulOutput struct {
 }
 
 type RenameRestfulOutputError struct {
-	Result  string `json:"result"`
-	Message string `json:"message"`
+	Result     string `json:"result"`
+	Code       string `json:"code"`
+	Message    string `json:"message"`
+	StatusCode int    `json:"status_code"`
 }
 
 func NewRenameRestful(router *gin.Engine, uc RenameUseCaseType) *RenameRestful {
@@ -42,15 +42,13 @@ func (c *RenameRestful) Execute(ctx *gin.Context) {
 	output, err := c.Usecase.Execute(&input)
 
 	if err != nil {
-		code := http.StatusInternalServerError
+		code, msg, statusCode := dddcore.FormatBy(err)
 
-		if errors.Is(err, repository.ErrUserNotFound) {
-			code = http.StatusBadRequest
-		}
-
-		ctx.JSON(code, &RenameRestfulOutputError{
-			Result:  "error",
-			Message: err.Error(),
+		ctx.JSON(statusCode, &RenameRestfulOutputError{
+			Result:     "error",
+			Message:    msg,
+			Code:       code,
+			StatusCode: statusCode,
 		})
 
 		return

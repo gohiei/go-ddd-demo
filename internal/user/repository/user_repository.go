@@ -1,14 +1,8 @@
 package user
 
 import (
-	"errors"
-
 	"cypt/internal/dddcore"
 	entity "cypt/internal/user/entity"
-)
-
-var (
-	ErrUserNotFound = errors.New("user not found")
 )
 
 type UserRepository interface {
