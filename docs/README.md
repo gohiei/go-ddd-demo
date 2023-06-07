@@ -13,10 +13,13 @@
 * ~EventBus~
 * ~Restful API (gin)~
 * ~Database Read/Write Split (gorm)~
-* IoC/DI package (?)
+* ~IoC/DI package~ (Deprecated)
 * Tests
 * Logger
-* ~Customized Error~ (Deprecated) ([ref](https://github.com/gohiei/go-ddd-demo/commit/11416ce5673785122497fe300e720a70e6831912))
+* ~Customized Error~ ([ref](https://github.com/gohiei/go-ddd-demo/commit/11416ce5673785122497fe300e720a70e6831912))
+* Configuration (viper ?)
+* Commandline tool (cobra ?)
+* Makefile
 
 ## Recommendation
 * [uber-go/goleak](https://github.com/uber-go/goleak)
