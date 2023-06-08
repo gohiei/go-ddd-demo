@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"cypt/internal/dddcore"
 	events "cypt/internal/logger/entity/events"
+	"errors"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,7 @@ func (cw *copyWriter) Write(b []byte) (int, error) {
 	return cw.ResponseWriter.Write(b)
 }
 
-func Logger(eventBus dddcore.EventBus) gin.HandlerFunc {
+func NormalLogger(eventBus dddcore.EventBus) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
 		start := time.Now()
@@ -50,5 +51,28 @@ func Logger(eventBus dddcore.EventBus) gin.HandlerFunc {
 		)
 
 		eventBus.Post(event)
+	}
+}
+
+func ErrorLogger(eb dddcore.EventBus) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		start := time.Now()
+
+		ctx.Next()
+
+		if len(ctx.Errors) > 0 {
+			for _, curError := range ctx.Errors {
+				var err dddcore.Error
+				errors.As(curError.Err, &err)
+
+				event := events.NewErrorRaisedEvent(
+					start,
+					ctx.ClientIP(),
+					ctx.Request,
+					err,
+				)
+				eb.Post(event)
+			}
+		}
 	}
 }

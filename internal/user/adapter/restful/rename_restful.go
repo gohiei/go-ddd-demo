@@ -42,13 +42,14 @@ func (c *RenameRestful) Execute(ctx *gin.Context) {
 	output, err := c.Usecase.Execute(&input)
 
 	if err != nil {
-		code, msg, statusCode := dddcore.FormatBy(err)
+		myerr := dddcore.NewErrorBy(err)
 
-		ctx.JSON(statusCode, &RenameRestfulOutputError{
+		ctx.Error(myerr)
+		ctx.JSON(myerr.StatusCode, &RenameRestfulOutputError{
 			Result:     "error",
-			Message:    msg,
-			Code:       code,
-			StatusCode: statusCode,
+			Message:    myerr.Message,
+			Code:       myerr.Code,
+			StatusCode: myerr.StatusCode,
 		})
 
 		return
