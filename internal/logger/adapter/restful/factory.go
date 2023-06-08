@@ -9,9 +9,11 @@ import (
 )
 
 func NewLoggerRestful(router *gin.Engine, eventBus dddcore.EventBus) {
-	router.Use(Logger(eventBus))
+	router.Use(ErrorLogger(eventBus))
+	router.Use(NormalLogger(eventBus))
 	repo := adapter.NewZerologLogRepository("/Users/chuck/Documents/Dev/pineapple/pineapple-go-micro/logs")
 
 	usecase.NewLogAccessUseCase(repo, eventBus)
 	usecase.NewLogPostUseCase(repo, eventBus)
+	usecase.NewLogErrorUseCase(repo, eventBus)
 }

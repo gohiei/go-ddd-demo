@@ -7,4 +7,5 @@ import (
 type LogRepository interface {
 	WriteAccessLog(entity.AccessLog)
 	WritePostLog(entity.PostLog)
+	WriteErrorLog(entity.ErrorLog)
 }

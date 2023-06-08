@@ -12,8 +12,8 @@ type Error struct {
 	Code       string `json:"code"`
 	Message    string `json:"message"`
 	StatusCode int    `json:"status_code"`
-	Detail     string `json:"string"`
-	Previous   error  `json:"error"`
+	Detail     string `json:"detail"`
+	Previous   error  `json:"previous"`
 }
 
 func (e Error) Error() string {
@@ -56,12 +56,12 @@ func NewErrorI(code string, message string) Error {
 	return NewError(code, message, WithStatusCode(http.StatusInternalServerError))
 }
 
-func FormatBy(err error) (string, string, int) {
+func NewErrorBy(err error) Error {
 	var myerror Error
 
 	if errors.As(err, &myerror) {
-		return myerror.Code, myerror.Message, myerror.StatusCode
+		return myerror
 	}
 
-	return "-", err.Error(), http.StatusInternalServerError
+	return NewErrorS("-", err.Error(), http.StatusInternalServerError)
 }
