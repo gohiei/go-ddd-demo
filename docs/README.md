@@ -15,7 +15,7 @@
 * ~Database Read/Write Split (gorm)~
 * ~IoC/DI package~ (Deprecated)
 * Tests
-* Logger
+* ~Logger~
 * ~Customized Error~ ([ref](https://github.com/gohiei/go-ddd-demo/commit/11416ce5673785122497fe300e720a70e6831912))
 * Configuration (viper ?)
 * Commandline tool (cobra ?)
