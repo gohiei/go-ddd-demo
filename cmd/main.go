@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	dddcore "cypt/internal/dddcore"
 	adapter "cypt/internal/dddcore/adapter"
 	logger "cypt/internal/logger/adapter/restful"
 	user "cypt/internal/user/adapter/restful"
@@ -22,10 +21,8 @@ func main() {
 
 	godotenv.Load("configs/.env")
 
-	eventBus := adapter.NewWatermillEventBus()
-
 	router := gin.Default()
-	NewAppController(router, &eventBus)
+	NewAppController(router)
 
 	srv := &http.Server{
 		Addr:    "127.0.0.1:8080",
@@ -55,7 +52,13 @@ func main() {
 	log.Println("Server existing")
 }
 
-func NewAppController(router *gin.Engine, eventBus dddcore.EventBus) {
-	logger.NewLoggerRestful(router, eventBus)
-	user.NewUserRestful(router, eventBus)
+func NewAppController(router *gin.Engine) {
+	eventBus := adapter.NewWatermillEventBus()
+
+	router.Use(func(c *gin.Context) {
+		c.Set("event-bus", &eventBus)
+	})
+
+	logger.NewLoggerRestful(router, &eventBus)
+	user.NewUserRestful(router, &eventBus)
 }

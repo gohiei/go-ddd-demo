@@ -23,7 +23,7 @@ func (cw *copyWriter) Write(b []byte) (int, error) {
 	return cw.ResponseWriter.Write(b)
 }
 
-func NormalLogger(eventBus dddcore.EventBus) gin.HandlerFunc {
+func NormalLogger() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
 		start := time.Now()
@@ -50,17 +50,23 @@ func NormalLogger(eventBus dddcore.EventBus) gin.HandlerFunc {
 			},
 		)
 
-		eventBus.Post(event)
+		if eb, _ := ctx.Get("event-bus"); eb != nil {
+			eb.(dddcore.EventBus).Post(event)
+		}
 	}
 }
 
-func ErrorLogger(eb dddcore.EventBus) gin.HandlerFunc {
+func ErrorLogger() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		start := time.Now()
 
 		ctx.Next()
 
-		if len(ctx.Errors) > 0 {
+		if len(ctx.Errors) == 0 {
+			return
+		}
+
+		if eb, _ := ctx.Get("event-bus"); eb != nil {
 			for _, curError := range ctx.Errors {
 				var err dddcore.Error
 				errors.As(curError.Err, &err)
@@ -71,7 +77,7 @@ func ErrorLogger(eb dddcore.EventBus) gin.HandlerFunc {
 					ctx.Request,
 					err,
 				)
-				eb.Post(event)
+				eb.(dddcore.EventBus).Post(event)
 			}
 		}
 	}
