@@ -22,9 +22,11 @@ jobs:
         go-version: 1.19
 
     - name: Build
-      run: cp configs/.env.example configs/.env
-      run: go build -v ./...
+      run: |
+        cp configs/.env.example configs/.env
+        go build -v ./...
 
     - name: Test
-      run: cp configs/.env.example configs/.env
-      run: go test -v ./...
+      run: |
+        cp configs/.env.example configs/.env
+        go test -v ./...
