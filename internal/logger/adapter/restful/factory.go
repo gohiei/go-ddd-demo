@@ -6,12 +6,14 @@ import (
 	usecase "cypt/internal/logger/usecase"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
-func NewLoggerRestful(router *gin.Engine, eventBus dddcore.EventBus) {
+func NewLoggerRestful(router *gin.Engine, eventBus dddcore.EventBus, config *viper.Viper) {
 	router.Use(ErrorLogger())
 	router.Use(NormalLogger())
-	repo := adapter.NewZerologLogRepository("/Users/chuck/Documents/Dev/pineapple/pineapple-go-micro/logs")
+
+	repo := adapter.NewZerologLogRepository(config.GetString("log_dir"))
 
 	usecase.NewLogAccessUseCase(repo, eventBus)
 	usecase.NewLogPostUseCase(repo, eventBus)

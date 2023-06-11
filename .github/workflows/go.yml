@@ -23,10 +23,8 @@ jobs:
 
     - name: Build
       run: |
-        cp configs/.env.example configs/.env
         go build -v ./...
 
     - name: Test
       run: |
-        cp configs/.env.example configs/.env
         go test -v ./...

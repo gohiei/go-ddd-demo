@@ -1,8 +1,10 @@
 # Domain-Driven Design + Clean Architecture for golang
 
 ## Steup & Run
-* Create configs/.env (refer to: configs/.env.example)
-* `go run cmd/main.go`
+* Create your own config file (refer to: configs/config.example.yaml)
+* `go run main.go server -c <your config filename>`
+  * More detail: `go run main.go --help`
+  * More detail: `go run main.go server --help`
 
 ## Test
 * Use mockery to generate mock files: `mockery --all --dir internal/user/ --output test/mocks/user`
@@ -17,8 +19,8 @@
 * Tests
 * ~Logger~
 * ~Customized Error~ ([ref](https://github.com/gohiei/go-ddd-demo/commit/11416ce5673785122497fe300e720a70e6831912))
-* Configuration (viper ?)
-* Commandline tool (cobra ?)
+* ~Configuration (viper)~
+* ~Commandline tool (cobra)~
 * Makefile
 
 ## Recommendation
