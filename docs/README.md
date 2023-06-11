@@ -10,6 +10,7 @@
 * Use mockery to generate mock files: `mockery --all --dir internal/user/ --output test/mocks/user`
 * Run all tests: `go test ./...`
 * Run some tests: `go test cypt/internal/user/usecase`
+* See [installation](https://vektra.github.io/mockery/installation/)
 
 ## Todo
 * ~EventBus~
@@ -21,7 +22,7 @@
 * ~Customized Error~ ([ref](https://github.com/gohiei/go-ddd-demo/commit/11416ce5673785122497fe300e720a70e6831912))
 * ~Configuration (viper)~
 * ~Commandline tool (cobra)~
-* Makefile
+* ~Makefile~
 
 ## Recommendation
 * [uber-go/goleak](https://github.com/uber-go/goleak)
