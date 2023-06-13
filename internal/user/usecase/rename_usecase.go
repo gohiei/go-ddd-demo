@@ -1,10 +1,11 @@
 package user
 
 import (
+	"net/http"
+
 	dddcore "cypt/internal/dddcore"
 	entity "cypt/internal/user/entity"
 	repo "cypt/internal/user/repository"
-	"net/http"
 )
 
 type RenameUseCaseInput struct {

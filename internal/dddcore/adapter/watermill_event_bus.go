@@ -2,7 +2,6 @@ package dddcore
 
 import (
 	"context"
-	"cypt/internal/dddcore"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -12,6 +11,8 @@ import (
 	"github.com/ThreeDotsLabs/watermill/message/router/middleware"
 	"github.com/ThreeDotsLabs/watermill/message/router/plugin"
 	"github.com/ThreeDotsLabs/watermill/pubsub/gochannel"
+
+	"cypt/internal/dddcore"
 )
 
 var (

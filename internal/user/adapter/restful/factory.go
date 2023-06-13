@@ -1,13 +1,13 @@
 package user
 
 import (
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
+
 	"cypt/internal/dddcore"
 	"cypt/internal/infra"
 	adapter "cypt/internal/user/adapter"
 	usecase "cypt/internal/user/usecase"
-
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 )
 
 func NewUserRestful(router *gin.Engine, eventBus dddcore.EventBus, config *viper.Viper) {

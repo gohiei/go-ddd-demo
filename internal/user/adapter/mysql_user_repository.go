@@ -1,14 +1,15 @@
 package user
 
 import (
-	"cypt/internal/dddcore"
-	model "cypt/internal/user/adapter/model"
-	entity "cypt/internal/user/entity"
 	"errors"
 	"net/http"
 	"time"
 
 	"gorm.io/gorm"
+
+	"cypt/internal/dddcore"
+	model "cypt/internal/user/adapter/model"
+	entity "cypt/internal/user/entity"
 )
 
 type MySqlUserRepository struct {

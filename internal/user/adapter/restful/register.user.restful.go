@@ -1,12 +1,12 @@
 package user
 
 import (
-	"cypt/internal/dddcore"
-	usecase "cypt/internal/user/usecase"
-
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+
+	"cypt/internal/dddcore"
+	usecase "cypt/internal/user/usecase"
 )
 
 func NewRegisterUserRestful(router *gin.Engine, uc usecase.RegisterUserUseCase) *RegisterUserRestful {

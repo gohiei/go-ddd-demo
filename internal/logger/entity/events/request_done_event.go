@@ -1,9 +1,10 @@
 package logger
 
 import (
-	"cypt/internal/dddcore"
 	"net/http"
 	"time"
+
+	"cypt/internal/dddcore"
 )
 
 const (

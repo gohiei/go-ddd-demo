@@ -1,10 +1,11 @@
 package user
 
 import (
-	"cypt/internal/dddcore"
-	user "cypt/internal/user/entity/events"
 	"encoding/json"
 	"fmt"
+
+	"cypt/internal/dddcore"
+	user "cypt/internal/user/entity/events"
 )
 
 // @todo

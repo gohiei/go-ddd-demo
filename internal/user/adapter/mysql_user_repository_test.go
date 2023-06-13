@@ -1,9 +1,6 @@
 package user_test
 
 import (
-	"cypt/internal/dddcore"
-	adapter "cypt/internal/user/adapter"
-	entity "cypt/internal/user/entity"
 	"errors"
 	"testing"
 
@@ -11,6 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+
+	"cypt/internal/dddcore"
+	adapter "cypt/internal/user/adapter"
+	entity "cypt/internal/user/entity"
 )
 
 func InitializeDatabase() (*gorm.DB, sqlmock.Sqlmock) {

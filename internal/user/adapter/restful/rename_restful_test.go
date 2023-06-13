@@ -1,11 +1,6 @@
 package user_test
 
 import (
-	"cypt/internal/dddcore"
-	restful "cypt/internal/user/adapter/restful"
-	usecase "cypt/internal/user/usecase"
-	dddcoreMock "cypt/test/mocks/dddcore"
-
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -17,6 +12,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
+	"cypt/internal/dddcore"
+	restful "cypt/internal/user/adapter/restful"
+	usecase "cypt/internal/user/usecase"
+	dddcoreMock "cypt/test/mocks/dddcore"
 )
 
 func getRouter(uc restful.RenameUseCaseType) *gin.Engine {

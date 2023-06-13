@@ -1,8 +1,9 @@
 package logger
 
 import (
-	"cypt/internal/dddcore"
 	"time"
+
+	"cypt/internal/dddcore"
 )
 
 type ErrorLog struct {

@@ -1,13 +1,13 @@
 package logger
 
 import (
-	dddcore "cypt/internal/dddcore"
-	entity "cypt/internal/logger/entity"
-	repository "cypt/internal/logger/repository"
+	"encoding/json"
 	"fmt"
 	"time"
 
-	"encoding/json"
+	dddcore "cypt/internal/dddcore"
+	entity "cypt/internal/logger/entity"
+	repository "cypt/internal/logger/repository"
 )
 
 type LogAccessUseCaseInput struct {

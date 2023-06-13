@@ -1,8 +1,9 @@
 package dddcore
 
 import (
-	"cypt/internal/dddcore"
 	"encoding/json"
+
+	"cypt/internal/dddcore"
 )
 
 type TestEventBus struct {

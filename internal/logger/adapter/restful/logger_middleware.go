@@ -2,12 +2,13 @@ package logger
 
 import (
 	"bytes"
-	"cypt/internal/dddcore"
-	events "cypt/internal/logger/entity/events"
 	"errors"
 	"time"
 
 	"github.com/gin-gonic/gin"
+
+	"cypt/internal/dddcore"
+	events "cypt/internal/logger/entity/events"
 )
 
 type copyWriter struct {

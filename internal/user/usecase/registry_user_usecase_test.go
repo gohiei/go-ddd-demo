@@ -1,14 +1,13 @@
 package user_test
 
 import (
-	usecase "cypt/internal/user/usecase"
 	"errors"
-
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	usecase "cypt/internal/user/usecase"
 	dddcoreMock "cypt/test/mocks/dddcore"
 	userMock "cypt/test/mocks/user"
 )

@@ -1,9 +1,10 @@
 package user
 
 import (
+	"net/http"
+
 	"cypt/internal/dddcore"
 	event "cypt/internal/user/entity/events"
-	"net/http"
 )
 
 type User struct {
