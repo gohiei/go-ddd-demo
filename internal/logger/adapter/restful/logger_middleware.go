@@ -24,9 +24,21 @@ func (cw *copyWriter) Write(b []byte) (int, error) {
 	return cw.ResponseWriter.Write(b)
 }
 
+func RequestIdGenerator() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		if rid := ctx.GetHeader("X-Request-Id"); rid == "" {
+			rid = dddcore.NewUUID().String()
+
+			ctx.Request.Header.Set("X-Request-Id", rid)
+			ctx.Header("X-Request-Id", rid)
+		}
+
+		ctx.Next()
+	}
+}
+
 func NormalLogger() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-
 		start := time.Now()
 
 		cw := &copyWriter{
