@@ -10,6 +10,7 @@ import (
 )
 
 func NewLoggerRestful(router *gin.Engine, eventBus dddcore.EventBus, config *viper.Viper) {
+	router.Use(RequestIdGenerator())
 	router.Use(ErrorLogger())
 	router.Use(NormalLogger())
 
