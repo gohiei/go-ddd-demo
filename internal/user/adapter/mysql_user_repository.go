@@ -37,7 +37,7 @@ func (repo *MySqlUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 		)
 	}
 
-	return entity.BuildUser(user.ID, user.Username, user.Password), nil
+	return entity.BuildUser(user.ID, user.Username, user.Password, user.UserID), nil
 }
 
 func (repo *MySqlUserRepository) Add(u entity.User) error {

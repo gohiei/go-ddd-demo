@@ -19,7 +19,7 @@ func TestRenameUseCase(t *testing.T) {
 	b := dddcoreMock.NewEventBus(t)
 
 	uuid := dddcore.NewUUID()
-	u := user.BuildUser(uuid.String(), "test2", "password2")
+	u := user.BuildUser(uuid.String(), "test2", "password2", 2)
 
 	getFunc := r.On("Get", mock.Anything).Return(u, nil)
 	renameFunc := r.On("Rename", mock.Anything).Return(nil)
@@ -46,7 +46,7 @@ func TestRenameUseCaseWithErrFailedToRenameUser(t *testing.T) {
 	b := dddcoreMock.NewEventBus(t)
 
 	uuid := dddcore.NewUUID()
-	u := user.BuildUser(uuid.String(), "test2", "password2")
+	u := user.BuildUser(uuid.String(), "test2", "password2", 3)
 
 	getFunc := r.On("Get", mock.Anything).Return(u, nil)
 	renameFunc := r.On("Rename", mock.Anything).Return(errors.New("user not found"))

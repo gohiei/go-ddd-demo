@@ -14,6 +14,10 @@ import (
 	entity "cypt/internal/user/entity"
 )
 
+var (
+	UserSchema = []string{"id", "username", "password", "user_id"}
+)
+
 func InitializeDatabase() (*gorm.DB, sqlmock.Sqlmock) {
 	db, mock, _ := sqlmock.New()
 	gormdb, _ := gorm.Open(mysql.New(mysql.Config{
@@ -28,8 +32,8 @@ func TestAdapterGet(t *testing.T) {
 	db, mock := InitializeDatabase()
 	uuid := dddcore.NewUUID()
 
-	rows := sqlmock.NewRows([]string{"id", "username", "password"})
-	rows = rows.AddRow(uuid.String(), "test1", "password1")
+	rows := sqlmock.NewRows(UserSchema)
+	rows = rows.AddRow(uuid.String(), "test1", "password1", 1)
 
 	mock.ExpectQuery("SELECT").WithArgs(uuid.String()).WillReturnRows(rows)
 
@@ -60,7 +64,7 @@ func TestAdapterGetWithErrUserNotFound(t *testing.T) {
 	db, mock := InitializeDatabase()
 	uuid := dddcore.NewUUID()
 
-	rows := sqlmock.NewRows([]string{"id", "username", "password"})
+	rows := sqlmock.NewRows(UserSchema)
 	mock.ExpectQuery("SELECT").WithArgs(uuid.String()).WillReturnRows(rows)
 
 	r := adapter.NewMySqlUserRepository(db)
@@ -73,11 +77,11 @@ func TestAdapterGetWithErrUserNotFound(t *testing.T) {
 
 func TestAdapterAdd(t *testing.T) {
 	db, mock := InitializeDatabase()
-	u, _ := entity.NewUser("test2", "password2")
+	u, _ := entity.NewUser("test2", "password2", 2)
 
 	mock.ExpectBegin()
 	mock.ExpectExec("INSERT").
-		WithArgs(u.GetID().String(), u.GetUsername(), u.GetPassword(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
+		WithArgs(u.GetID().String(), u.GetUsername(), u.GetPassword(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
 		WillReturnResult(sqlmock.NewResult(2, 1))
 	mock.ExpectCommit()
 
@@ -89,7 +93,7 @@ func TestAdapterAdd(t *testing.T) {
 
 func TestAdapterAddWithDatabaseError(t *testing.T) {
 	db, mock := InitializeDatabase()
-	u, _ := entity.NewUser("test2", "password2")
+	u, _ := entity.NewUser("test2", "password2", 2)
 
 	mock.ExpectBegin()
 	mock.ExpectExec("INSERT").WillReturnError(gorm.ErrInvalidDB)
@@ -104,11 +108,11 @@ func TestAdapterAddWithDatabaseError(t *testing.T) {
 
 func TestAdapterRename(t *testing.T) {
 	db, mock := InitializeDatabase()
-	u, _ := entity.NewUser("test3", "password3")
+	u, _ := entity.NewUser("test3", "password3", 3)
 	uid := u.GetID().String()
 
-	rows := sqlmock.NewRows([]string{"id", "username", "password"})
-	rows = rows.AddRow(uid, u.GetUsername(), u.GetPassword())
+	rows := sqlmock.NewRows(UserSchema)
+	rows = rows.AddRow(uid, u.GetUsername(), u.GetPassword(), u.GetUserID())
 
 	mock.ExpectQuery("SELECT").WithArgs(uid).WillReturnRows(rows)
 
@@ -126,10 +130,10 @@ func TestAdapterRename(t *testing.T) {
 
 func TestAdapterRenameWithErrUserNotFound(t *testing.T) {
 	db, mock := InitializeDatabase()
-	u, _ := entity.NewUser("test3", "password3")
+	u, _ := entity.NewUser("test3", "password3", 3)
 	uid := u.GetID().String()
 
-	rows := sqlmock.NewRows([]string{"id", "username", "password"})
+	rows := sqlmock.NewRows(UserSchema)
 	mock.ExpectQuery("SELECT").WithArgs(uid).WillReturnRows(rows)
 
 	r := adapter.NewMySqlUserRepository(db)
@@ -141,11 +145,11 @@ func TestAdapterRenameWithErrUserNotFound(t *testing.T) {
 
 func TestAdapterRenameWithDatabaseErrror(t *testing.T) {
 	db, mock := InitializeDatabase()
-	u, _ := entity.NewUser("test3", "password3")
+	u, _ := entity.NewUser("test3", "password3", 3)
 	uid := u.GetID().String()
 
-	rows := sqlmock.NewRows([]string{"id", "username", "password"})
-	rows = rows.AddRow(uid, u.GetUsername(), u.GetPassword())
+	rows := sqlmock.NewRows(UserSchema)
+	rows = rows.AddRow(uid, u.GetUsername(), u.GetPassword(), u.GetUserID())
 	mock.ExpectQuery("SELECT").WithArgs(uid).WillReturnRows(rows)
 
 	mock.ExpectBegin()
