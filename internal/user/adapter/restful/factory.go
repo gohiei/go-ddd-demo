@@ -2,7 +2,6 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 
 	"cypt/internal/dddcore"
 	"cypt/internal/infra"
@@ -10,14 +9,20 @@ import (
 	usecase "cypt/internal/user/usecase"
 )
 
-func NewUserRestful(router *gin.Engine, eventBus dddcore.EventBus, config *viper.Viper) {
+type UserRestfulConfig struct {
+	UserWriteDatabaseDSN string
+	UserReadDatabaseDSN  string
+	IDRedisDSN           string
+}
+
+func NewUserRestful(router *gin.Engine, eventBus dddcore.EventBus, config UserRestfulConfig) {
 	db, _ := infra.NewUserDB(
-		config.GetString("user_write_db_dsn"),
-		config.GetString("user_read_db_dsn"),
+		config.UserWriteDatabaseDSN,
+		config.UserReadDatabaseDSN,
 	)
 	userRepo := adapter.NewMySqlUserRepository(db)
 
-	redisConn, _ := infra.NewIdRedis(config.GetString("id_redis_dsn"))
+	redisConn, _ := infra.NewIdRedis(config.IDRedisDSN)
 	idRepo := adapter.NewRedisIDRepository(redisConn)
 
 	NewRegisterUserRestful(router, usecase.NewRegisterUserUseCase(userRepo, idRepo, eventBus))
