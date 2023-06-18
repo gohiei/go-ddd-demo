@@ -16,9 +16,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	adapter "cypt/internal/dddcore/adapter"
-	logger "cypt/internal/logger/adapter/restful"
-	user "cypt/internal/user/adapter/restful"
+	app "cypt/internal"
 )
 
 var serverCmd = &cobra.Command{
@@ -36,6 +34,7 @@ var serverCmd = &cobra.Command{
 			address: address,
 			port:    port,
 			config:  config,
+			app:     app.NewAppController,
 		}
 		runServer(currentServerSetting)
 	},
@@ -52,6 +51,7 @@ type serverSetting struct {
 	address string
 	port    int
 	config  *viper.Viper
+	app     func(*gin.Engine, *viper.Viper)
 }
 
 func runServer(s serverSetting) {
@@ -59,7 +59,7 @@ func runServer(s serverSetting) {
 	defer stop()
 
 	router := gin.Default()
-	newAppController(router, s.config)
+	s.app(router, s.config)
 
 	addr := fmt.Sprintf("%s:%d", s.address, s.port)
 
@@ -91,15 +91,4 @@ func runServer(s serverSetting) {
 	}
 
 	log.Println("Server existing")
-}
-
-func newAppController(router *gin.Engine, config *viper.Viper) {
-	eventBus := adapter.NewWatermillEventBus()
-
-	router.Use(func(c *gin.Context) {
-		c.Set("event-bus", &eventBus)
-	})
-
-	logger.NewLoggerRestful(router, &eventBus, config)
-	user.NewUserRestful(router, &eventBus, config)
 }
