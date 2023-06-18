@@ -12,9 +12,10 @@ type User struct {
 	id       dddcore.UUID
 	username string
 	password string
+	userID   int64
 }
 
-func NewUser(username string, password string) (User, error) {
+func NewUser(username string, password string, userID int64) (User, error) {
 	if username == "" {
 		return User{}, dddcore.NewErrorS("10001", "missing value `username`", http.StatusBadRequest)
 	}
@@ -24,18 +25,20 @@ func NewUser(username string, password string) (User, error) {
 		id:                dddcore.NewUUID(),
 		username:          username,
 		password:          password,
+		userID:            userID,
 	}
 
 	user.AddDomainEvent(event.NewUserCreatedEvent(
 		user.id.String(),
 		user.username,
 		user.password,
+		user.userID,
 	))
 
 	return user, nil
 }
 
-func BuildUser(id string, username string, password string) User {
+func BuildUser(id string, username string, password string, userID int64) User {
 	uid, _ := dddcore.BuildUUID(id)
 
 	return User{
@@ -43,6 +46,7 @@ func BuildUser(id string, username string, password string) User {
 		id:                uid,
 		username:          username,
 		password:          password,
+		userID:            userID,
 	}
 }
 
@@ -60,6 +64,10 @@ func (u *User) GetUsername() string {
 
 func (u *User) GetPassword() string {
 	return u.password
+}
+
+func (u *User) GetUserID() int64 {
+	return u.userID
 }
 
 func (u *User) Rename(username string) {

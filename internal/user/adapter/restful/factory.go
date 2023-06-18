@@ -15,8 +15,11 @@ func NewUserRestful(router *gin.Engine, eventBus dddcore.EventBus, config *viper
 		config.GetString("user_write_db_dsn"),
 		config.GetString("user_read_db_dsn"),
 	)
-	repo := adapter.NewMySqlUserRepository(db)
+	userRepo := adapter.NewMySqlUserRepository(db)
 
-	NewRegisterUserRestful(router, usecase.NewRegisterUserUseCase(repo, eventBus))
-	NewRenameRestful(router, usecase.NewRenameUseCase(repo, eventBus))
+	redisConn, _ := infra.NewIdRedis(config.GetString("id_redis_dsn"))
+	idRepo := adapter.NewRedisIDRepository(redisConn)
+
+	NewRegisterUserRestful(router, usecase.NewRegisterUserUseCase(userRepo, idRepo, eventBus))
+	NewRenameRestful(router, usecase.NewRenameUseCase(userRepo, eventBus))
 }
