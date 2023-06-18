@@ -12,6 +12,10 @@
 * Run some tests: `go test cypt/internal/user/usecase`
 * See [installation](https://vektra.github.io/mockery/installation/)
 
+## Release
+* `make build`
+* `./cypt server -c <config> -p 8080`
+
 ## Todo
 * ~EventBus~
 * ~Restful API (gin)~
