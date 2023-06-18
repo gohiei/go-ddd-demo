@@ -1,3 +1,4 @@
 USER_WRITE_DB_DSN: "xxx:yyyy@tcp(127.0.0.1:3306)/dddd?charset=utf8mb4&parseTime=True&loc=Local"
 USER_READ_DB_DSN: "xxx:yyyy@tcp(127.0.0.1:3306)/dddd?charset=utf8mb4&parseTime=True&loc=Local"
+ID_REDIS_DSN: "redis://127.0.0.1:6379/9"
 LOG_DIR: "/pwd/log/dir"
