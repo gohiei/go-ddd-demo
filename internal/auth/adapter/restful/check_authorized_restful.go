@@ -1,8 +1,6 @@
 package auth
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 
 	usecase "cypt/internal/auth/usecase"
@@ -23,19 +21,7 @@ type CheckAuthorizedRestful struct {
 	usecase *usecase.CheckAuthorizationUsecase
 }
 
-var (
-	skips = map[string]bool{
-		"POST /api/user": true,
-	}
-)
-
 func (r *CheckAuthorizedRestful) Execute(ctx *gin.Context) {
-	uri := fmt.Sprintf("%s %s", ctx.Request.Method, ctx.Request.URL.Path)
-
-	if skips[uri] {
-		return
-	}
-
 	token := ctx.GetHeader("Authorization")
 	input := &usecase.CheckAuthorizationUsecaseInput{
 		Token:  token,

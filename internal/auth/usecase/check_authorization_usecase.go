@@ -31,6 +31,10 @@ func NewCheckAuthorizationUsecase(bus dddcore.EventBus) *CheckAuthorizationUseca
 }
 
 func (uc *CheckAuthorizationUsecase) Execute(input *CheckAuthorizationUsecaseInput) (CheckAuthorizationUsecaseOutput, error) {
+	if entity.IgnoreRoute(input.Method, input.URL) {
+		return CheckAuthorizationUsecaseOutput{Authorized: true}, nil
+	}
+
 	jwtToken := entity.NewJwtToken(input.Token, entity.Request{
 		Method: input.Method,
 		URL:    input.URL,
