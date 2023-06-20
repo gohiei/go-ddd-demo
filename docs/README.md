@@ -31,3 +31,9 @@
 ## Recommendation
 * [uber-go/goleak](https://github.com/uber-go/goleak)
 * [uber-go/automaxprocs](https://github.com/uber-go/automaxprocs)
+
+## Modules
+
+### Auth
+* Use gin module for authentication
+* Use jwt token for validation
