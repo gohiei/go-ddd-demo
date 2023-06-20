@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"cypt/internal/dddcore"
+	adapter "cypt/internal/dddcore/adapter"
 	usecase "cypt/internal/user/usecase"
 )
 
@@ -27,10 +28,8 @@ func (c *RegisterUserRestful) Execute(ctx *gin.Context) {
 	out, err := c.Usecase.Execute(&input)
 
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"result":  "error",
-			"message": err.Error(),
-		})
+		adapter.RenderError(ctx, err)
+		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{

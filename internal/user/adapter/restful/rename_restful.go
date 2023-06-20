@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"cypt/internal/dddcore"
+	adapter "cypt/internal/dddcore/adapter"
 	usecase "cypt/internal/user/usecase"
 )
 
@@ -13,13 +14,6 @@ type RenameUseCaseType dddcore.UseCase[usecase.RenameUseCaseInput, usecase.Renam
 type RenameRestfulOutput struct {
 	Result string                      `json:"result"`
 	Ret    usecase.RenameUseCaseOutput `json:"ret"`
-}
-
-type RenameRestfulOutputError struct {
-	Result     string `json:"result"`
-	Code       string `json:"code"`
-	Message    string `json:"message"`
-	StatusCode int    `json:"status_code"`
 }
 
 func NewRenameRestful(router *gin.Engine, uc RenameUseCaseType) *RenameRestful {
@@ -42,15 +36,7 @@ func (c *RenameRestful) Execute(ctx *gin.Context) {
 	output, err := c.Usecase.Execute(&input)
 
 	if err != nil {
-		myerr := dddcore.NewErrorBy(err)
-
-		ctx.Error(myerr)
-		ctx.JSON(myerr.StatusCode, &RenameRestfulOutputError{
-			Result:     "error",
-			Message:    myerr.Message,
-			Code:       myerr.Code,
-			StatusCode: myerr.StatusCode,
-		})
+		adapter.RenderError(ctx, err)
 
 		return
 	}

@@ -14,6 +14,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"cypt/internal/dddcore"
+	adapter "cypt/internal/dddcore/adapter"
 	restful "cypt/internal/user/adapter/restful"
 	usecase "cypt/internal/user/usecase"
 	dddcoreMock "cypt/test/mocks/dddcore"
@@ -69,7 +70,7 @@ func TestRename(t *testing.T) {
 
 		assert.Equal(t, tc.code, w.Code)
 
-		var out restful.RenameRestfulOutputError
+		var out adapter.RestfulOutputError
 		err := json.Unmarshal(w.Body.Bytes(), &out)
 
 		if err != nil {
