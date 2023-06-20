@@ -35,5 +35,9 @@
 ## Modules
 
 ### Auth
-* Use gin module for authentication
+* Use gin middleware for authentication
 * Use jwt token for validation
+
+### Logger
+* Use gin middleware for event generation
+* Use event for logging
