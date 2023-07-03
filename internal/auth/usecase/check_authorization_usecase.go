@@ -35,12 +35,16 @@ func (uc *CheckAuthorizationUsecase) Execute(input *CheckAuthorizationUsecaseInp
 		return CheckAuthorizationUsecaseOutput{Authorized: true}, nil
 	}
 
-	jwtToken := entity.NewJwtToken(input.Token, entity.Request{
+	jwtToken, err := entity.NewJwtToken(input.Token, entity.Request{
 		Method: input.Method,
 		URL:    input.URL,
 		IP:     input.IP,
 		XFF:    input.XFF,
 	})
+
+	if err != nil {
+		return CheckAuthorizationUsecaseOutput{Authorized: false}, err
+	}
 
 	isValid := jwtToken.Valid()
 

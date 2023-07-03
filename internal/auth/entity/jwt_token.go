@@ -2,6 +2,7 @@ package auth
 
 import (
 	"cypt/internal/dddcore"
+	"net/http"
 
 	jwt "github.com/golang-jwt/jwt/v5"
 
@@ -27,13 +28,17 @@ type Request struct {
 	XFF    string
 }
 
-func NewJwtToken(token string, req Request) *JwtToken {
+func NewJwtToken(token string, req Request) (*JwtToken, error) {
+	if len(token) < len(tokenPrefix) {
+		return nil, dddcore.NewErrorS("00001", "invalid token", http.StatusForbidden)
+	}
+
 	return &JwtToken{
 		AggregateRoot: dddcore.NewAggregateRoot(),
 		token:         token,
 		parser:        dddcore.NewJwtTokenParser([]string{"HS256", "HS384", "HS512"}),
 		request:       req,
-	}
+	}, nil
 }
 
 func (t *JwtToken) Valid() bool {
