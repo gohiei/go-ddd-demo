@@ -24,7 +24,7 @@ func (h *NotifyManagerHandler) When(eventName string, msg []byte) {
 	event := user.UserRenamedEvent{}
 	json.Unmarshal(msg, &event)
 
-	fmt.Println("Received: ", event.BaseEvent, event)
+	fmt.Println("NotifyManagerHandler Received: ", event.BaseEvent, event)
 }
 
 func NewNotifyManagerHandler(eb dddcore.EventBus) NotifyManagerHandler {

@@ -25,6 +25,7 @@ func NewUserRestful(router *gin.Engine, eventBus dddcore.EventBus, config UserRe
 	redisConn, _ := infra.NewIdRedis(config.IDRedisDSN)
 	idRepo := adapter.NewRedisIDRepository(redisConn)
 
+	usecase.NewNotifyManagerHandler(eventBus)
 	NewRegisterUserRestful(router, usecase.NewRegisterUserUseCase(userRepo, idRepo, eventBus))
 	NewRenameRestful(router, usecase.NewRenameUseCase(userRepo, eventBus))
 }
