@@ -1,6 +1,3 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -19,6 +16,7 @@ import (
 	app "cypt/internal"
 )
 
+// serverCmd represents the server command
 var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Run restful api server",
@@ -47,6 +45,7 @@ func init() {
 	serverCmd.Flags().StringP("address", "a", "127.0.0.1", "Bind address")
 }
 
+// serverSetting holds the server configuration
 type serverSetting struct {
 	address string
 	port    int
@@ -54,6 +53,7 @@ type serverSetting struct {
 	app     func(*gin.Engine, *viper.Viper)
 }
 
+// runServer starts the HTTP server
 func runServer(s serverSetting) {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
@@ -79,7 +79,7 @@ func runServer(s serverSetting) {
 	<-ctx.Done()
 
 	stop()
-	log.Println("Shutting down gracefullly, press Ctrl+C again to force")
+	log.Println("Shutting down gracefully, press Ctrl+C again to force")
 
 	// The context is used to inform the server it has 5 seconds to finish
 	// the request it is currently handling
@@ -90,5 +90,5 @@ func runServer(s serverSetting) {
 		log.Fatal("Server forced to shutdown: ", err)
 	}
 
-	log.Println("Server existing")
+	log.Println("Server exiting")
 }

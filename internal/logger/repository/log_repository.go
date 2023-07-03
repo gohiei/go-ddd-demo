@@ -4,8 +4,9 @@ import (
 	entity "cypt/internal/logger/entity"
 )
 
+// LogRepository defines the interface for a log repository.
 type LogRepository interface {
-	WriteAccessLog(entity.AccessLog)
-	WritePostLog(entity.PostLog)
-	WriteErrorLog(entity.ErrorLog)
+	WriteAccessLog(log entity.AccessLog) // Write access log entry
+	WritePostLog(log entity.PostLog)     // Write post log entry
+	WriteErrorLog(log entity.ErrorLog)   // Write error log entry
 }

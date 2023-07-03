@@ -1,6 +1,6 @@
 package dddcore
 
-// @todo
+// EventBus represents an event bus that facilitates event publishing and subscription.
 type EventBus interface {
 	Post(ev Event)
 	PostAll(ar AggregateRoot)
@@ -8,6 +8,7 @@ type EventBus interface {
 	Unregister(h EventHandler)
 }
 
+// EventHandler represents a handler for events.
 type EventHandler interface {
 	Name() string
 	EventName() string

@@ -13,6 +13,7 @@ import (
 	repo "cypt/internal/logger/repository"
 )
 
+// ZerologLogRepository is an implementation of LogRepository using the Zerolog library.
 type ZerologLogRepository struct {
 	accessLogger zerolog.Logger
 	postLogger   zerolog.Logger
@@ -21,6 +22,7 @@ type ZerologLogRepository struct {
 
 var _ repo.LogRepository = (*ZerologLogRepository)(nil)
 
+// NewZerologLogRepository creates a new instance of ZerologLogRepository.
 func NewZerologLogRepository(logDir string) ZerologLogRepository {
 	aWriters := io.MultiWriter(
 		zerolog.ConsoleWriter{Out: os.Stdout},
@@ -48,21 +50,25 @@ func NewZerologLogRepository(logDir string) ZerologLogRepository {
 	}
 }
 
+// WriteAccessLog writes the access log to the appropriate logger.
 func (r ZerologLogRepository) WriteAccessLog(log entity.AccessLog) {
 	b, _ := json.Marshal(log)
 	r.accessLogger.Info().RawJSON("log", b).Msg("")
 }
 
+// WritePostLog writes the post log to the appropriate logger.
 func (r ZerologLogRepository) WritePostLog(log entity.PostLog) {
 	b, _ := json.Marshal(log)
 	r.postLogger.Info().RawJSON("log", b).Msg("")
 }
 
+// WriteErrorLog writes the error log to the appropriate logger.
 func (r ZerologLogRepository) WriteErrorLog(log entity.ErrorLog) {
 	b, _ := json.Marshal(log)
 	r.errorLogger.Info().RawJSON("log", b).Msg("")
 }
 
+// NewRollingLog creates a new lumberjack Logger for rolling log files.
 func NewRollingLog(logDir string, filename string) io.Writer {
 	return &lumberjack.Logger{
 		Filename:   path.Join(logDir, filename),

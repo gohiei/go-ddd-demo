@@ -11,6 +11,7 @@ import (
 	events "cypt/internal/logger/entity/events"
 )
 
+// copyWriter is a custom ResponseWriter that captures the response data.
 type copyWriter struct {
 	gin.ResponseWriter
 	buf *bytes.Buffer
@@ -24,6 +25,7 @@ func (cw *copyWriter) Write(b []byte) (int, error) {
 	return cw.ResponseWriter.Write(b)
 }
 
+// RequestIdGenerator is a Gin middleware that generates and adds a request ID to the request headers.
 func RequestIdGenerator() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if rid := ctx.GetHeader("X-Request-Id"); rid == "" {
@@ -37,6 +39,7 @@ func RequestIdGenerator() gin.HandlerFunc {
 	}
 }
 
+// NormalLogger is a Gin middleware that logs normal HTTP requests.
 func NormalLogger() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		start := time.Now()
@@ -69,6 +72,7 @@ func NormalLogger() gin.HandlerFunc {
 	}
 }
 
+// ErrorLogger is a Gin middleware that logs errors encountered during request processing.
 func ErrorLogger() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		start := time.Now()

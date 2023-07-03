@@ -10,6 +10,7 @@ import (
 	repository "cypt/internal/logger/repository"
 )
 
+// LogAccessUseCaseInput represents the input data for the LogAccessUseCase.
 type LogAccessUseCaseInput struct {
 	At            time.Time `json:"at"`
 	UserAgent     string    `json:"user_agent"`
@@ -18,7 +19,7 @@ type LogAccessUseCaseInput struct {
 	Host          string    `json:"host"`
 	Domain        string    `json:"domain"`
 	StatusCode    int       `json:"status_code"`
-	ContentLength int       `json:"content_log"`
+	ContentLength int       `json:"content_length"`
 	Latency       int64     `json:"latency"`
 	IP            string    `json:"ip"`
 	Method        string    `json:"method"`
@@ -26,12 +27,15 @@ type LogAccessUseCaseInput struct {
 	HttpVersion   string    `json:"http_version"`
 }
 
+// LogAccessUseCaseOutput represents the output data for the LogAccessUseCase.
 type LogAccessUseCaseOutput struct{}
 
+// LogAccessUseCase handles logging of access events.
 type LogAccessUseCase struct {
 	logger repository.LogRepository
 }
 
+// NewLogAccessUseCase creates a new instance of LogAccessUseCase.
 func NewLogAccessUseCase(logger repository.LogRepository, eventBus dddcore.EventBus) *LogAccessUseCase {
 	uc := &LogAccessUseCase{logger: logger}
 	eventBus.Register(uc)
@@ -39,19 +43,17 @@ func NewLogAccessUseCase(logger repository.LogRepository, eventBus dddcore.Event
 	return uc
 }
 
-// it's an usecase
-// and it's an event handler too.
-var _ dddcore.UseCase[LogAccessUseCaseInput, LogAccessUseCaseOutput] = (*LogAccessUseCase)(nil)
-var _ dddcore.EventHandler = (*LogAccessUseCase)(nil)
-
+// Name returns the name of the LogAccessUseCase.
 func (uc *LogAccessUseCase) Name() string {
 	return "logger.access"
 }
 
+// EventName returns the name of the event handled by the LogAccessUseCase.
 func (uc *LogAccessUseCase) EventName() string {
 	return "request.done"
 }
 
+// When handles the incoming event and executes the use case.
 func (uc *LogAccessUseCase) When(eventName string, message []byte) {
 	var input LogAccessUseCaseInput
 
@@ -63,6 +65,7 @@ func (uc *LogAccessUseCase) When(eventName string, message []byte) {
 	uc.Execute(&input)
 }
 
+// Execute performs the logging of access events based on the provided input.
 func (uc *LogAccessUseCase) Execute(input *LogAccessUseCaseInput) (LogAccessUseCaseOutput, error) {
 	log := entity.AccessLog{
 		At:            input.At,

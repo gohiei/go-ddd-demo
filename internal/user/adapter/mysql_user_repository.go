@@ -1,3 +1,4 @@
+// Package user represents user bounded context
 package user
 
 import (
@@ -12,15 +13,18 @@ import (
 	entity "cypt/internal/user/entity"
 )
 
-type MySqlUserRepository struct {
+// MySQLUserRepository is an implementation of UserRepository using MySQL as the underlying storage.
+type MySQLUserRepository struct {
 	db *gorm.DB
 }
 
-func NewMySqlUserRepository(db *gorm.DB) *MySqlUserRepository {
-	return &MySqlUserRepository{db}
+// NewMySQLUserRepository creates a new instance of MySqlUserRepository.
+func NewMySQLUserRepository(db *gorm.DB) *MySQLUserRepository {
+	return &MySQLUserRepository{db}
 }
 
-func (repo *MySqlUserRepository) Get(id dddcore.UUID) (entity.User, error) {
+// Get retrieves a user entity by its ID from the MySQL database.
+func (repo *MySQLUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 	user := model.UserModel{}
 	result := repo.db.Take(&user, &model.UserModel{ID: id.String()})
 
@@ -40,7 +44,8 @@ func (repo *MySqlUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 	return entity.BuildUser(user.ID, user.Username, user.Password, user.UserID), nil
 }
 
-func (repo *MySqlUserRepository) Add(u entity.User) error {
+// Add adds a new user entity to the MySQL database.
+func (repo *MySQLUserRepository) Add(u entity.User) error {
 	user := model.UserModel{
 		ID:       u.GetID().String(),
 		Username: u.GetUsername(),
@@ -59,7 +64,8 @@ func (repo *MySqlUserRepository) Add(u entity.User) error {
 	return nil
 }
 
-func (repo *MySqlUserRepository) Rename(u entity.User) error {
+// Rename updates the username of an existing user entity in the MySQL database.
+func (repo *MySQLUserRepository) Rename(u entity.User) error {
 	user := model.UserModel{ID: u.GetID().String()}
 
 	result := repo.db.Take(&user)

@@ -1,3 +1,4 @@
+// Package user represents user bounded context
 package user
 
 import (
@@ -7,6 +8,7 @@ import (
 	event "cypt/internal/user/entity/events"
 )
 
+// User represents a user entity.
 type User struct {
 	*dddcore.BaseAggregateRoot
 	id       dddcore.UUID
@@ -15,6 +17,7 @@ type User struct {
 	userID   int64
 }
 
+// NewUser creates a new User instance with the provided username, password, and userID.
 func NewUser(username string, password string, userID int64) (User, error) {
 	if username == "" {
 		return User{}, dddcore.NewErrorS("10001", "missing value `username`", http.StatusBadRequest)
@@ -38,6 +41,7 @@ func NewUser(username string, password string, userID int64) (User, error) {
 	return user, nil
 }
 
+// BuildUser creates a User instance with the provided ID, username, password, and userID.
 func BuildUser(id string, username string, password string, userID int64) User {
 	uid, _ := dddcore.BuildUUID(id)
 
@@ -50,26 +54,32 @@ func BuildUser(id string, username string, password string, userID int64) User {
 	}
 }
 
+// GetID returns the ID of the user.
 func (u *User) GetID() dddcore.UUID {
 	return u.id
 }
 
+// SetID sets the ID of the user.
 func (u *User) SetID(id dddcore.UUID) {
 	u.id = id
 }
 
+// GetUsername returns the username of the user.
 func (u *User) GetUsername() string {
 	return u.username
 }
 
+// GetPassword returns the password of the user.
 func (u *User) GetPassword() string {
 	return u.password
 }
 
+// GetUserID returns the userID of the user.
 func (u *User) GetUserID() int64 {
 	return u.userID
 }
 
+// Rename renames the user with the provided username.
 func (u *User) Rename(username string) {
 	old := u.username
 

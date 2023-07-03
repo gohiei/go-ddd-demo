@@ -37,7 +37,7 @@ func TestAdapterGet(t *testing.T) {
 
 	mock.ExpectQuery("SELECT").WithArgs(uuid.String()).WillReturnRows(rows)
 
-	r := adapter.NewMySqlUserRepository(db)
+	r := adapter.NewMySQLUserRepository(db)
 	u, err := r.Get(uuid)
 
 	assert.Nil(t, err)
@@ -52,7 +52,7 @@ func TestAdapterGetWithDatabaseError(t *testing.T) {
 
 	mock.ExpectQuery("SELECT").WithArgs(uuid.String()).WillReturnError(errors.New("fake error"))
 
-	r := adapter.NewMySqlUserRepository(db)
+	r := adapter.NewMySQLUserRepository(db)
 	u, err := r.Get(uuid)
 
 	assert.NotNil(t, err)
@@ -67,7 +67,7 @@ func TestAdapterGetWithErrUserNotFound(t *testing.T) {
 	rows := sqlmock.NewRows(UserSchema)
 	mock.ExpectQuery("SELECT").WithArgs(uuid.String()).WillReturnRows(rows)
 
-	r := adapter.NewMySqlUserRepository(db)
+	r := adapter.NewMySQLUserRepository(db)
 	u, err := r.Get(uuid)
 
 	assert.NotNil(t, err)
@@ -85,7 +85,7 @@ func TestAdapterAdd(t *testing.T) {
 		WillReturnResult(sqlmock.NewResult(2, 1))
 	mock.ExpectCommit()
 
-	r := adapter.NewMySqlUserRepository(db)
+	r := adapter.NewMySQLUserRepository(db)
 	err := r.Add(u)
 
 	assert.Nil(t, err)
@@ -99,7 +99,7 @@ func TestAdapterAddWithDatabaseError(t *testing.T) {
 	mock.ExpectExec("INSERT").WillReturnError(gorm.ErrInvalidDB)
 	mock.ExpectRollback()
 
-	r := adapter.NewMySqlUserRepository(db)
+	r := adapter.NewMySQLUserRepository(db)
 	err := r.Add(u)
 
 	assert.NotNil(t, err)
@@ -122,7 +122,7 @@ func TestAdapterRename(t *testing.T) {
 		WillReturnResult(sqlmock.NewResult(2, 1))
 	mock.ExpectCommit()
 
-	r := adapter.NewMySqlUserRepository(db)
+	r := adapter.NewMySQLUserRepository(db)
 	err := r.Rename(u)
 
 	assert.Nil(t, err)
@@ -136,7 +136,7 @@ func TestAdapterRenameWithErrUserNotFound(t *testing.T) {
 	rows := sqlmock.NewRows(UserSchema)
 	mock.ExpectQuery("SELECT").WithArgs(uid).WillReturnRows(rows)
 
-	r := adapter.NewMySqlUserRepository(db)
+	r := adapter.NewMySQLUserRepository(db)
 	err := r.Rename(u)
 
 	assert.NotNil(t, err)
@@ -156,7 +156,7 @@ func TestAdapterRenameWithDatabaseErrror(t *testing.T) {
 	mock.ExpectExec("UPDATE").WillReturnError(gorm.ErrInvalidValue)
 	mock.ExpectRollback()
 
-	r := adapter.NewMySqlUserRepository(db)
+	r := adapter.NewMySQLUserRepository(db)
 	err := r.Rename(u)
 
 	assert.NotNil(t, err)

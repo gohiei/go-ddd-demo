@@ -10,6 +10,7 @@ import (
 	usecase "cypt/internal/user/usecase"
 )
 
+// NewRegisterUserRestful creates and registers a new RESTful endpoint for user registration.
 func NewRegisterUserRestful(router *gin.Engine, uc usecase.RegisterUserUseCase) *RegisterUserRestful {
 	restful := &RegisterUserRestful{Usecase: uc}
 	router.POST("/api/user", restful.Execute)
@@ -17,10 +18,12 @@ func NewRegisterUserRestful(router *gin.Engine, uc usecase.RegisterUserUseCase) 
 	return restful
 }
 
+// RegisterUserRestful handles the user registration RESTful endpoint.
 type RegisterUserRestful struct {
 	Usecase dddcore.UseCase[usecase.RegisterUserUseCaseInput, usecase.RegisterUserUseCaseOutput]
 }
 
+// Execute handles the HTTP request for user registration.
 func (c *RegisterUserRestful) Execute(ctx *gin.Context) {
 	var input usecase.RegisterUserUseCaseInput
 	ctx.Bind(&input)

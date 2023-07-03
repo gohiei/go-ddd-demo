@@ -2,6 +2,7 @@ package user
 
 import "time"
 
+// UserModel represents the user model in the database.
 type UserModel struct {
 	ID        string `gorm:"primaryKey"`
 	Username  string
@@ -12,6 +13,7 @@ type UserModel struct {
 	UserID    int64 `gorm:"column:user_id"`
 }
 
+// TableName returns the name of the database table for the UserModel.
 func (UserModel) TableName() string {
 	return "user"
 }

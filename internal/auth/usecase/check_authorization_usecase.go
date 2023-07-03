@@ -6,10 +6,7 @@ import (
 	"net/http"
 )
 
-var _ dddcore.Input = (*CheckAuthorizationUsecaseInput)(nil)
-var _ dddcore.Output = (*CheckAuthorizationUsecaseOutput)(nil)
-var _ dddcore.UseCase[CheckAuthorizationUsecaseInput, CheckAuthorizationUsecaseOutput] = (*CheckAuthorizationUsecase)(nil)
-
+// CheckAuthorizationUsecaseInput represents the input for the CheckAuthorizationUsecase.
 type CheckAuthorizationUsecaseInput struct {
 	Token  string
 	Method string
@@ -18,18 +15,22 @@ type CheckAuthorizationUsecaseInput struct {
 	XFF    string
 }
 
+// CheckAuthorizationUsecaseOutput represents the output of the CheckAuthorizationUsecase.
 type CheckAuthorizationUsecaseOutput struct {
 	Authorized bool
 }
 
+// CheckAuthorizationUsecase is responsible for checking authorization.
 type CheckAuthorizationUsecase struct {
 	eventBus dddcore.EventBus
 }
 
+// NewCheckAuthorizationUsecase creates a new CheckAuthorizationUsecase instance.
 func NewCheckAuthorizationUsecase(bus dddcore.EventBus) *CheckAuthorizationUsecase {
 	return &CheckAuthorizationUsecase{eventBus: bus}
 }
 
+// Execute performs the authorization check.
 func (uc *CheckAuthorizationUsecase) Execute(input *CheckAuthorizationUsecaseInput) (CheckAuthorizationUsecaseOutput, error) {
 	if entity.IgnoreRoute(input.Method, input.URL) {
 		return CheckAuthorizationUsecaseOutput{Authorized: true}, nil
