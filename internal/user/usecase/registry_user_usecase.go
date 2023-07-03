@@ -26,6 +26,10 @@ type RegisterUserUseCase struct {
 	eventBus dddcore.EventBus
 }
 
+var _ dddcore.Input = (*RegisterUserUseCaseInput)(nil)
+var _ dddcore.Output = (*RegisterUserUseCaseOutput)(nil)
+var _ dddcore.UseCase[RegisterUserUseCaseInput, RegisterUserUseCaseOutput] = (*RegisterUserUseCase)(nil)
+
 // NewRegisterUserUseCase creates a new instance of RegisterUserUseCase.
 func NewRegisterUserUseCase(userRepo repo.UserRepository, idRepo repo.IDRepository, eb dddcore.EventBus) RegisterUserUseCase {
 	return RegisterUserUseCase{
