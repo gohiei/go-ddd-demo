@@ -7,6 +7,7 @@ import (
 	adapter "cypt/internal/dddcore/adapter"
 )
 
+// NewCheckAuthorizedRestful registers the CheckAuthorizedRestful middleware to the provided router with the given CheckAuthorizationUsecase.
 func NewCheckAuthorizedRestful(router *gin.Engine, usecase *usecase.CheckAuthorizationUsecase) *CheckAuthorizedRestful {
 	restful := &CheckAuthorizedRestful{
 		usecase: usecase,
@@ -17,10 +18,12 @@ func NewCheckAuthorizedRestful(router *gin.Engine, usecase *usecase.CheckAuthori
 	return restful
 }
 
+// CheckAuthorizedRestful is a middleware for checking user authorization.
 type CheckAuthorizedRestful struct {
 	usecase *usecase.CheckAuthorizationUsecase
 }
 
+// Execute is the middleware function for checking user authorization.
 func (r *CheckAuthorizedRestful) Execute(ctx *gin.Context) {
 	token := ctx.GetHeader("Authorization")
 	input := &usecase.CheckAuthorizationUsecaseInput{

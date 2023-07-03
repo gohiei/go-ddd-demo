@@ -19,15 +19,18 @@ var (
 	ctx = context.Background()
 )
 
+// WatermillEventBus is an implementation of the EventBus interface using Watermill pub/sub library.
 type WatermillEventBus struct {
 	router *message.Router
 	pubsub *gochannel.GoChannel
 }
 
+// Post publishes an event to the event bus.
 func (eb *WatermillEventBus) Post(e dddcore.Event) {
 	jsonData, err := json.Marshal(e)
 
 	if err != nil {
+		// Handle error
 	}
 
 	msg := message.NewMessage(e.GetID(), jsonData)
@@ -37,16 +40,18 @@ func (eb *WatermillEventBus) Post(e dddcore.Event) {
 	err = eb.pubsub.Publish(e.GetName(), msg)
 
 	if err != nil {
-
+		// Handle error
 	}
 }
 
+// PostAll publishes all the domain events of an aggregate root to the event bus.
 func (eb *WatermillEventBus) PostAll(ar dddcore.AggregateRoot) {
 	for _, event := range ar.GetDomainEvents() {
 		eb.Post(event)
 	}
 }
 
+// Register registers an event handler with the event bus.
 func (eb *WatermillEventBus) Register(h dddcore.EventHandler) {
 	eb.router.AddNoPublisherHandler(
 		h.Name(),
@@ -61,12 +66,14 @@ func (eb *WatermillEventBus) Register(h dddcore.EventHandler) {
 	eb.router.RunHandlers(ctx)
 }
 
+// Unregister unregisters an event handler from the event bus.
 func (eb *WatermillEventBus) Unregister(h dddcore.EventHandler) {
-
+	// Implementation for unregistering an event handler
 }
 
 var _ dddcore.EventBus = (*WatermillEventBus)(nil)
 
+// NewWatermillEventBus creates a new instance of WatermillEventBus.
 func NewWatermillEventBus() WatermillEventBus {
 	logger := watermill.NewStdLogger(false, false)
 	router, err := message.NewRouter(message.RouterConfig{}, logger)
@@ -91,7 +98,6 @@ func NewWatermillEventBus() WatermillEventBus {
 		watermill.NewStdLogger(false, false),
 	)
 
-	// @todo err
 	go router.Run(ctx)
 	<-router.Running()
 

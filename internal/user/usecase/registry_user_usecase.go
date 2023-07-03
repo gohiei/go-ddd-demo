@@ -6,27 +6,27 @@ import (
 	repo "cypt/internal/user/repository"
 )
 
+// RegisterUserUseCaseInput represents the input data for the RegisterUserUseCase.
 type RegisterUserUseCaseInput struct {
 	Username string `form:"username" binding:"required"`
 	Password string `form:"password" binding:"required"`
 }
 
+// RegisterUserUseCaseOutput represents the output data for the RegisterUserUseCase.
 type RegisterUserUseCaseOutput struct {
 	ID       string `json:"id"`
 	Username string `json:"username"`
 	UserID   int64  `json:"user_id"`
 }
 
+// RegisterUserUseCase is a use case for registering a new user.
 type RegisterUserUseCase struct {
 	userRepo repo.UserRepository
 	idRepo   repo.IDRepository
 	eventBus dddcore.EventBus
 }
 
-var _ dddcore.Input = (*RegisterUserUseCaseInput)(nil)
-var _ dddcore.Output = (*RegisterUserUseCaseOutput)(nil)
-var _ dddcore.UseCase[RegisterUserUseCaseInput, RegisterUserUseCaseOutput] = (*RegisterUserUseCase)(nil)
-
+// NewRegisterUserUseCase creates a new instance of RegisterUserUseCase.
 func NewRegisterUserUseCase(userRepo repo.UserRepository, idRepo repo.IDRepository, eb dddcore.EventBus) RegisterUserUseCase {
 	return RegisterUserUseCase{
 		userRepo: userRepo,
@@ -35,6 +35,7 @@ func NewRegisterUserUseCase(userRepo repo.UserRepository, idRepo repo.IDReposito
 	}
 }
 
+// Execute executes the RegisterUserUseCase with the provided input and returns the output.
 func (uc RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (RegisterUserUseCaseOutput, error) {
 	var user entity.User
 	var userID int64

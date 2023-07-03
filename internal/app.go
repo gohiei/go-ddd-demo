@@ -1,3 +1,4 @@
+// Package app builds a full application.
 package app
 
 import (
@@ -10,6 +11,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// NewAppController initializes the application controller.
 func NewAppController(router *gin.Engine, config *viper.Viper) {
 	eventBus := adapter.NewWatermillEventBus()
 
@@ -18,7 +20,9 @@ func NewAppController(router *gin.Engine, config *viper.Viper) {
 	})
 
 	logger.NewLoggerRestful(router, &eventBus, config.GetString("log_dir"))
+
 	auth.NewAuthRestful(router, &eventBus)
+
 	user.NewUserRestful(router, &eventBus, user.UserRestfulConfig{
 		UserWriteDatabaseDSN: config.GetString("user_write_db_dsn"),
 		UserReadDatabaseDSN:  config.GetString("user_read_db_dsn"),

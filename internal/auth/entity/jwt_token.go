@@ -9,11 +9,13 @@ import (
 	event "cypt/internal/auth/entity/events"
 )
 
+// Constants
 var (
 	tokenPrefix = "Bearer "
 	tokenKey    = "this.is.a.token"
 )
 
+// JwtToken represents a JWT token.
 type JwtToken struct {
 	dddcore.AggregateRoot
 	token   string
@@ -21,6 +23,7 @@ type JwtToken struct {
 	request Request
 }
 
+// Request represents an HTTP request.
 type Request struct {
 	Method string
 	URL    string
@@ -28,6 +31,7 @@ type Request struct {
 	XFF    string
 }
 
+// NewJwtToken creates a new JwtToken instance.
 func NewJwtToken(token string, req Request) (*JwtToken, error) {
 	if len(token) < len(tokenPrefix) {
 		return nil, dddcore.NewErrorS("00001", "invalid token", http.StatusForbidden)
@@ -41,15 +45,16 @@ func NewJwtToken(token string, req Request) (*JwtToken, error) {
 	}, nil
 }
 
+// Valid checks if the JWT token is valid.
 func (t *JwtToken) Valid() bool {
 	var valid bool
 	var jwtErr error
 
 	checked := false
 
-	len := len(tokenPrefix)
-	prefix := t.token[:len]
-	token := t.token[len:]
+	length := len(tokenPrefix)
+	prefix := t.token[:length]
+	token := t.token[length:]
 
 	if prefix != tokenPrefix {
 		valid = false

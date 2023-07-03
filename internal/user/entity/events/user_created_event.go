@@ -1,13 +1,13 @@
 package user
 
-import (
-	"cypt/internal/dddcore"
-)
+import "cypt/internal/dddcore"
 
+// UserCreatedEventName represents the event name
 const (
 	UserCreatedEventName = "user.created"
 )
 
+// UserCreatedEvent represents the event when a user is created.
 type UserCreatedEvent struct {
 	*dddcore.BaseEvent
 	UserID    string `json:"user_id"`
@@ -18,6 +18,7 @@ type UserCreatedEvent struct {
 
 var _ dddcore.Event = (*UserCreatedEvent)(nil)
 
+// NewUserCreatedEvent creates a new UserCreatedEvent instance with the provided parameters.
 func NewUserCreatedEvent(id, username, password string, userID int64) *UserCreatedEvent {
 	return &UserCreatedEvent{
 		BaseEvent: dddcore.NewEvent(UserCreatedEventName),

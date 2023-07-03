@@ -9,6 +9,7 @@ import (
 	repository "cypt/internal/logger/repository"
 )
 
+// LogPostUseCaseInput represents the input data for the LogPostUseCase.
 type LogPostUseCaseInput struct {
 	At            time.Time `json:"at"`
 	UserAgent     string    `json:"user_agent"`
@@ -27,12 +28,15 @@ type LogPostUseCaseInput struct {
 	ResponseData  string    `json:"response_data"`
 }
 
+// LogPostUseCaseOutput represents the output data for the LogPostUseCase.
 type LogPostUseCaseOutput struct{}
 
+// LogPostUseCase handles logging of post request events.
 type LogPostUseCase struct {
 	logger repository.LogRepository
 }
 
+// NewLogPostUseCase creates a new instance of LogPostUseCase.
 func NewLogPostUseCase(logger repository.LogRepository, eventBus dddcore.EventBus) *LogPostUseCase {
 	uc := &LogPostUseCase{logger: logger}
 	eventBus.Register(uc)
@@ -45,14 +49,17 @@ func NewLogPostUseCase(logger repository.LogRepository, eventBus dddcore.EventBu
 var _ dddcore.UseCase[LogPostUseCaseInput, LogPostUseCaseOutput] = (*LogPostUseCase)(nil)
 var _ dddcore.EventHandler = (*LogPostUseCase)(nil)
 
+// Name returns the name of the LogPostUseCase.
 func (uc *LogPostUseCase) Name() string {
 	return "logger.post"
 }
 
+// EventName returns the name of the event handled by the LogPostUseCase.
 func (uc *LogPostUseCase) EventName() string {
 	return "request.done"
 }
 
+// When handles the incoming event and executes the use case.
 func (uc *LogPostUseCase) When(eventName string, message []byte) {
 	var input LogPostUseCaseInput
 
@@ -63,6 +70,7 @@ func (uc *LogPostUseCase) When(eventName string, message []byte) {
 	uc.Execute(&input)
 }
 
+// Execute performs the logging of post request events based on the provided input.
 func (uc *LogPostUseCase) Execute(input *LogPostUseCaseInput) (LogPostUseCaseOutput, error) {
 	log := entity.PostLog{
 		At:            input.At,

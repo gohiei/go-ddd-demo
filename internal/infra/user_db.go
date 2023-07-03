@@ -7,6 +7,7 @@ import (
 	"gorm.io/plugin/dbresolver"
 )
 
+// NewUserDB creates a new GORM DB connection with write and read database sources.
 func NewUserDB(writeDsn string, readDsn string) (*gorm.DB, error) {
 	db, err := gorm.Open(mysql.Open(writeDsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),

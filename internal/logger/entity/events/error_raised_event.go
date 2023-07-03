@@ -7,10 +7,12 @@ import (
 	"cypt/internal/dddcore"
 )
 
+// ErrorRaisedEventName represents the event name for an error being raised
 const (
 	ErrorRaisedEventName = "error.raised"
 )
 
+// ErrorRaisedEventResponse represents the response data for an error raised event
 type ErrorRaisedEventResponse struct {
 	Latency       time.Duration
 	StatusCode    int
@@ -18,9 +20,11 @@ type ErrorRaisedEventResponse struct {
 	ResponseData  string
 }
 
+// ErrorRaisedEvent represents the event for an error being raised
 type ErrorRaisedEvent struct {
 	*dddcore.BaseEvent
 
+	// Event information
 	At          time.Time `json:"at"`
 	IP          string    `json:"ip"`
 	RequestId   string    `json:"request_id"`
@@ -34,17 +38,12 @@ type ErrorRaisedEvent struct {
 
 var _ dddcore.Event = (*ErrorRaisedEvent)(nil)
 
-func NewErrorRaisedEvent(
-	occurredAt time.Time,
-	clientIp string,
-	req *http.Request,
-	err dddcore.Error,
-) *ErrorRaisedEvent {
+// NewErrorRaisedEvent creates a new ErrorRaisedEvent
+func NewErrorRaisedEvent(occurredAt time.Time, clientIP string, req *http.Request, err dddcore.Error) *ErrorRaisedEvent {
 	return &ErrorRaisedEvent{
-		BaseEvent: dddcore.NewEvent(ErrorRaisedEventName),
-		At:        occurredAt,
-		IP:        clientIp,
-
+		BaseEvent:   dddcore.NewEvent(ErrorRaisedEventName),
+		At:          occurredAt,
+		IP:          clientIP,
 		RequestId:   req.Header.Get("X-Request-Id"),
 		Host:        req.Host,
 		Domain:      req.Header.Get("domain"),

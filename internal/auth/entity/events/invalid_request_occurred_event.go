@@ -6,6 +6,7 @@ const (
 	InvalidRequestOccurredEventName = "invalid_request.occurred"
 )
 
+// InvalidRequestOccurredEvent represents an event that occurs when an invalid request is detected.
 type InvalidRequestOccurredEvent struct {
 	dddcore.Event
 	IP     string `json:"ip"`
@@ -18,6 +19,7 @@ type InvalidRequestOccurredEvent struct {
 
 var _ dddcore.Event = (*InvalidRequestOccurredEvent)(nil)
 
+// NewInvalidRequestOccurredEvent creates a new instance of the InvalidRequestOccurredEvent.
 func NewInvalidRequestOccurredEvent(token, method, url, ip, xff string, err error) *InvalidRequestOccurredEvent {
 	errStr := "-"
 

@@ -9,17 +9,20 @@ import (
 	entity "cypt/internal/user/entity"
 )
 
+// InMemoryUserRepository is an implementation of `UserRepository` by memory
 type InMemoryUserRepository struct {
 	mutex sync.Mutex
 	users map[dddcore.UUID]entity.User
 }
 
+// NewInMemoryUserRepository is a constructor of `InMemoryUserRepository
 func NewInMemoryUserRepository() *InMemoryUserRepository {
 	return &InMemoryUserRepository{
 		users: make(map[dddcore.UUID]entity.User),
 	}
 }
 
+// Get return `User` by a given id
 func (repo *InMemoryUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 	if user, ok := repo.users[id]; ok {
 		return user, nil
@@ -28,6 +31,7 @@ func (repo *InMemoryUserRepository) Get(id dddcore.UUID) (entity.User, error) {
 	return entity.User{}, dddcore.NewErrorS("10006", "user not found", http.StatusBadRequest)
 }
 
+// Add `User` to collection
 func (repo *InMemoryUserRepository) Add(u entity.User) error {
 	if repo.users == nil {
 		repo.mutex.Lock()
@@ -46,6 +50,7 @@ func (repo *InMemoryUserRepository) Add(u entity.User) error {
 	return nil
 }
 
+// Rename would replace the `User` entity
 func (repo *InMemoryUserRepository) Rename(u entity.User) error {
 	if _, ok := repo.users[u.GetID()]; !ok {
 		return errors.New("user does not exist")

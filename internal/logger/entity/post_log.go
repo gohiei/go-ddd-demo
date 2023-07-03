@@ -5,20 +5,22 @@ import (
 	"time"
 )
 
+// PostLog represents a log entry for a POST request.
 type PostLog struct {
-	At            time.Time `json:"time"`
-	IP            string    `json:"ip"`
-	Method        string    `json:"method"`
-	Origin        string    `json:"origin"`
-	StatusCode    int       `json:"status_code"`
-	ContentLength int       `json:"length"`
-	Domain        string    `json:"domain"`
-	Host          string    `json:"host"`
-	RequestId     string    `json:"request_id"`
-	RequestBody   string    `json:"request"`
-	ResponseData  string    `json:"response"`
+	At            time.Time `json:"time"`        // Timestamp of the log entry
+	IP            string    `json:"ip"`          // IP address of the client
+	Method        string    `json:"method"`      // HTTP method
+	Origin        string    `json:"origin"`      // Origin of the request
+	StatusCode    int       `json:"status_code"` // HTTP status code
+	ContentLength int       `json:"length"`      // Length of the response content
+	Domain        string    `json:"domain"`      // Domain of the request
+	Host          string    `json:"host"`        // Host of the request
+	RequestId     string    `json:"request_id"`  // Request ID
+	RequestBody   string    `json:"request"`     // Request body
+	ResponseData  string    `json:"response"`    // Response data
 }
 
+// String returns a formatted string representation of the PostLog.
 func (l PostLog) String() string {
 	return fmt.Sprintf(
 		`%s %s "%s %s" %d %d %s "%s" "%s" "%s" %s`,

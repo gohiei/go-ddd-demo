@@ -1,3 +1,4 @@
+// Package user represents user bounded context
 package user
 
 import (
@@ -8,21 +9,25 @@ import (
 	repo "cypt/internal/user/repository"
 )
 
+// RenameUseCaseInput represents the input data for the RenameUseCase.
 type RenameUseCaseInput struct {
 	ID       string `uri:"id" binding:"required"`
 	Username string `form:"username" binding:"required"`
 }
 
+// RenameUseCaseOutput represents the output data for the RenameUseCase.
 type RenameUseCaseOutput struct {
 	ID       string `json:"id"`
 	Username string `json:"username"`
 }
 
+// RenameUseCase is a use case for renaming a user.
 type RenameUseCase struct {
 	userRepo repo.UserRepository
 	eventBus dddcore.EventBus
 }
 
+// NewRenameUseCase creates a new instance of RenameUseCase.
 func NewRenameUseCase(repo repo.UserRepository, eb dddcore.EventBus) *RenameUseCase {
 	return &RenameUseCase{
 		userRepo: repo,
@@ -30,13 +35,14 @@ func NewRenameUseCase(repo repo.UserRepository, eb dddcore.EventBus) *RenameUseC
 	}
 }
 
-func (uc RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput, error) {
+// Execute executes the RenameUseCase with the provided input and returns the output.
+func (uc *RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput, error) {
 	var userID dddcore.UUID
 	var user entity.User
 	var err error
 
 	if userID, err = dddcore.BuildUUID(input.ID); err != nil || userID.IsNil() {
-		return RenameUseCaseOutput{}, dddcore.NewErrorS("10007", "is is not UUID format", http.StatusBadRequest)
+		return RenameUseCaseOutput{}, dddcore.NewErrorS("10007", "ID is not in UUID format", http.StatusBadRequest)
 	}
 
 	if user, err = uc.userRepo.Get(userID); err != nil {
