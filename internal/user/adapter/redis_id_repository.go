@@ -4,6 +4,7 @@ import (
 	"context"
 
 	repo "cypt/internal/user/repository"
+
 	"github.com/redis/go-redis/v9"
 )
 

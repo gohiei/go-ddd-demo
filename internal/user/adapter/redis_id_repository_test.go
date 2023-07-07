@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	repo "cypt/internal/user/adapter"
+
 	"github.com/go-redis/redismock/v9"
 	"github.com/stretchr/testify/assert"
 )

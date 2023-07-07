@@ -8,7 +8,6 @@ import (
 
 	entity "cypt/internal/logger/entity"
 	repo "cypt/internal/logger/repository"
-
 	"github.com/natefinch/lumberjack"
 	"github.com/rs/zerolog"
 )

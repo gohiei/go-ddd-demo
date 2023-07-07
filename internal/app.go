@@ -6,6 +6,7 @@ import (
 	adapter "cypt/internal/dddcore/adapter"
 	logger "cypt/internal/logger/adapter/restful"
 	user "cypt/internal/user/adapter/restful"
+
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )

@@ -5,6 +5,7 @@ import (
 
 	event "cypt/internal/auth/entity/events"
 	"cypt/internal/dddcore"
+
 	jwt "github.com/golang-jwt/jwt/v5"
 )
 

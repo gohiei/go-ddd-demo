@@ -3,6 +3,7 @@ package auth
 import (
 	usecase "cypt/internal/auth/usecase"
 	"cypt/internal/dddcore"
+
 	"github.com/gin-gonic/gin"
 )
 
