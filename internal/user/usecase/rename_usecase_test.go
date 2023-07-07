@@ -4,14 +4,13 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-
 	"cypt/internal/dddcore"
 	user "cypt/internal/user/entity"
 	usecase "cypt/internal/user/usecase"
 	dddcoreMock "cypt/test/mocks/dddcore"
 	userMock "cypt/test/mocks/user"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestRenameUseCase(t *testing.T) {

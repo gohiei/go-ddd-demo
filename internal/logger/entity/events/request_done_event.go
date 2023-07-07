@@ -1,3 +1,4 @@
+// Package logger provides functionality for logging and event handling related to logging.
 package logger
 
 import (
@@ -28,13 +29,13 @@ type RequestDoneEvent struct {
 	At          time.Time `json:"at"`
 	UserAgent   string    `json:"user_agent"`
 	XFF         string    `json:"x_forwarded_for"`
-	RequestId   string    `json:"request_id"`
+	RequestID   string    `json:"request_id"`
 	Host        string    `json:"host"`
 	Domain      string    `json:"domain"`
 	IP          string    `json:"ip"`
 	Method      string    `json:"method"`
 	Origin      string    `json:"origin"`
-	HttpVersion string    `json:"http_version"`
+	HTTPVersion string    `json:"http_version"`
 	RequestBody string    `json:"request_body"`
 	Refer       string    `json:"refer"`
 
@@ -55,12 +56,12 @@ func NewRequestDoneEvent(occurredAt time.Time, clientIP string, req *http.Reques
 		IP:            clientIP,
 		UserAgent:     req.Header.Get("User-Agent"),
 		XFF:           req.Header.Get("X-Forwarded-For"),
-		RequestId:     req.Header.Get("X-Request-Id"),
+		RequestID:     req.Header.Get("X-Request-Id"),
 		Host:          req.Host,
 		Domain:        req.Header.Get("domain"),
 		Method:        req.Method,
 		Origin:        req.RequestURI,
-		HttpVersion:   req.Proto,
+		HTTPVersion:   req.Proto,
 		Refer:         req.Header.Get("Referer"),
 		RequestBody:   req.PostForm.Encode(),
 		StatusCode:    res.StatusCode,

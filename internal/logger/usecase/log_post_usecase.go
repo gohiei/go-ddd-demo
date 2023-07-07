@@ -14,7 +14,7 @@ type LogPostUseCaseInput struct {
 	At            time.Time `json:"at"`
 	UserAgent     string    `json:"user_agent"`
 	XFF           string    `json:"x_forwarded_for"`
-	RequestId     string    `json:"request_id"`
+	RequestID     string    `json:"request_id"`
 	Host          string    `json:"host"`
 	Domain        string    `json:"domain"`
 	StatusCode    int       `json:"status_code"`
@@ -23,7 +23,7 @@ type LogPostUseCaseInput struct {
 	IP            string    `json:"ip"`
 	Method        string    `json:"method"`
 	Origin        string    `json:"origin"`
-	HttpVersion   string    `json:"http_version"`
+	HTTPVersion   string    `json:"http_version"`
 	RequestBody   string    `json:"request_body"`
 	ResponseData  string    `json:"response_data"`
 }
@@ -81,7 +81,7 @@ func (uc *LogPostUseCase) Execute(input *LogPostUseCaseInput) (LogPostUseCaseOut
 		ContentLength: input.ContentLength,
 		Domain:        input.Domain,
 		Host:          input.Host,
-		RequestId:     input.RequestId,
+		RequestID:     input.RequestID,
 		RequestBody:   input.RequestBody,
 		ResponseData:  input.ResponseData,
 	}

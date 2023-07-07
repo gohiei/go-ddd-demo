@@ -27,7 +27,7 @@ type ErrorRaisedEvent struct {
 	// Event information
 	At          time.Time `json:"at"`
 	IP          string    `json:"ip"`
-	RequestId   string    `json:"request_id"`
+	RequestID   string    `json:"request_id"`
 	Host        string    `json:"host"`
 	Domain      string    `json:"domain"`
 	Method      string    `json:"method"`
@@ -44,7 +44,7 @@ func NewErrorRaisedEvent(occurredAt time.Time, clientIP string, req *http.Reques
 		BaseEvent:   dddcore.NewEvent(ErrorRaisedEventName),
 		At:          occurredAt,
 		IP:          clientIP,
-		RequestId:   req.Header.Get("X-Request-Id"),
+		RequestID:   req.Header.Get("X-Request-Id"),
 		Host:        req.Host,
 		Domain:      req.Header.Get("domain"),
 		Method:      req.Method,

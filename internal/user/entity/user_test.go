@@ -3,10 +3,9 @@ package user_test
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"cypt/internal/dddcore"
 	user "cypt/internal/user/entity"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewUser(t *testing.T) {

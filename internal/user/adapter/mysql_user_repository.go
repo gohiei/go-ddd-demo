@@ -6,11 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"gorm.io/gorm"
-
 	"cypt/internal/dddcore"
 	model "cypt/internal/user/adapter/model"
 	entity "cypt/internal/user/entity"
+	"gorm.io/gorm"
 )
 
 // MySQLUserRepository is an implementation of UserRepository using MySQL as the underlying storage.

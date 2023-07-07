@@ -1,3 +1,4 @@
+// Package logger provides functionality for logging and event handling related to logging.
 package logger
 
 import (
@@ -15,7 +16,7 @@ type LogAccessUseCaseInput struct {
 	At            time.Time `json:"at"`
 	UserAgent     string    `json:"user_agent"`
 	XFF           string    `json:"x_forwarded_for"`
-	RequestId     string    `json:"request_id"`
+	RequestID     string    `json:"request_id"`
 	Host          string    `json:"host"`
 	Domain        string    `json:"domain"`
 	StatusCode    int       `json:"status_code"`
@@ -24,7 +25,7 @@ type LogAccessUseCaseInput struct {
 	IP            string    `json:"ip"`
 	Method        string    `json:"method"`
 	Origin        string    `json:"origin"`
-	HttpVersion   string    `json:"http_version"`
+	HTTPVersion   string    `json:"http_version"`
 }
 
 // LogAccessUseCaseOutput represents the output data for the LogAccessUseCase.
@@ -71,7 +72,7 @@ func (uc *LogAccessUseCase) Execute(input *LogAccessUseCaseInput) (LogAccessUseC
 		At:            input.At,
 		Method:        input.Method,
 		Origin:        input.Origin,
-		HttpVersion:   input.HttpVersion,
+		HTTPVersion:   input.HTTPVersion,
 		UserAgent:     input.UserAgent,
 		XFF:           input.XFF,
 		StatusCode:    input.StatusCode,
@@ -79,7 +80,7 @@ func (uc *LogAccessUseCase) Execute(input *LogAccessUseCaseInput) (LogAccessUseC
 		Latency:       input.Latency,
 		Domain:        input.Domain,
 		Host:          input.Host,
-		RequestId:     input.RequestId,
+		RequestID:     input.RequestID,
 	}
 
 	uc.logger.WriteAccessLog(log)

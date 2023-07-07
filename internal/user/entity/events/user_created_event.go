@@ -1,3 +1,4 @@
+// Package user represents user bounded context
 package user
 
 import "cypt/internal/dddcore"

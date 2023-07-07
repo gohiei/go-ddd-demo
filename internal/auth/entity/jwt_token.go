@@ -1,12 +1,11 @@
 package auth
 
 import (
-	"cypt/internal/dddcore"
 	"net/http"
 
-	jwt "github.com/golang-jwt/jwt/v5"
-
 	event "cypt/internal/auth/entity/events"
+	"cypt/internal/dddcore"
+	jwt "github.com/golang-jwt/jwt/v5"
 )
 
 // Constants

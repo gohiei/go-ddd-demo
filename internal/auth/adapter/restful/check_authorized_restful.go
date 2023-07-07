@@ -1,10 +1,9 @@
 package auth
 
 import (
-	"github.com/gin-gonic/gin"
-
 	usecase "cypt/internal/auth/usecase"
 	adapter "cypt/internal/dddcore/adapter"
+	"github.com/gin-gonic/gin"
 )
 
 // NewCheckAuthorizedRestful registers the CheckAuthorizedRestful middleware to the provided router with the given CheckAuthorizationUsecase.

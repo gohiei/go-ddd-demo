@@ -3,9 +3,8 @@ package user
 import (
 	"context"
 
-	"github.com/redis/go-redis/v9"
-
 	repo "cypt/internal/user/repository"
+	"github.com/redis/go-redis/v9"
 )
 
 var _ repo.IDRepository = (*RedisIDRepository)(nil)

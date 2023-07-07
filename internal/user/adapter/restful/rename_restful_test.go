@@ -9,15 +9,15 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-
 	"cypt/internal/dddcore"
 	adapter "cypt/internal/dddcore/adapter"
 	restful "cypt/internal/user/adapter/restful"
 	usecase "cypt/internal/user/usecase"
 	dddcoreMock "cypt/test/mocks/dddcore"
+
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func getRouter(uc restful.RenameUseCaseType) *gin.Engine {
@@ -29,7 +29,7 @@ func getRouter(uc restful.RenameUseCaseType) *gin.Engine {
 }
 
 func TestRename(t *testing.T) {
-	userId := dddcore.NewUUID().String()
+	userID := dddcore.NewUUID().String()
 	testcases := []struct {
 		output usecase.RenameUseCaseOutput
 		err    error
@@ -38,7 +38,7 @@ func TestRename(t *testing.T) {
 	}{
 		{
 			output: usecase.RenameUseCaseOutput{
-				ID:       userId,
+				ID:       userID,
 				Username: "test2",
 			},
 			code:   http.StatusOK,
@@ -64,7 +64,7 @@ func TestRename(t *testing.T) {
 
 		router := getRouter(uc)
 		w := httptest.NewRecorder()
-		req, _ := http.NewRequest("PUT", "/api/user/"+userId, strings.NewReader("username=test2"))
+		req, _ := http.NewRequest("PUT", "/api/user/"+userID, strings.NewReader("username=test2"))
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 		router.ServeHTTP(w, req)
 
