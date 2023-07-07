@@ -3,11 +3,10 @@ package user
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-
 	"cypt/internal/dddcore"
 	adapter "cypt/internal/dddcore/adapter"
 	usecase "cypt/internal/user/usecase"
+	"github.com/gin-gonic/gin"
 )
 
 // RenameUseCaseType is a type alias for the RenameUseCase from dddcore package.

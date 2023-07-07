@@ -5,10 +5,10 @@ import (
 	"errors"
 	"time"
 
-	"github.com/gin-gonic/gin"
-
 	"cypt/internal/dddcore"
 	events "cypt/internal/logger/entity/events"
+
+	"github.com/gin-gonic/gin"
 )
 
 // copyWriter is a custom ResponseWriter that captures the response data.
@@ -25,8 +25,8 @@ func (cw *copyWriter) Write(b []byte) (int, error) {
 	return cw.ResponseWriter.Write(b)
 }
 
-// RequestIdGenerator is a Gin middleware that generates and adds a request ID to the request headers.
-func RequestIdGenerator() gin.HandlerFunc {
+// RequestIDGenerator is a Gin middleware that generates and adds a request ID to the request headers.
+func RequestIDGenerator() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if rid := ctx.GetHeader("X-Request-Id"); rid == "" {
 			rid = dddcore.NewUUID().String()

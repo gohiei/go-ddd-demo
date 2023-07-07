@@ -1,12 +1,12 @@
 package user
 
 import (
-	"github.com/gin-gonic/gin"
-
 	"cypt/internal/dddcore"
 	"cypt/internal/infra"
 	adapter "cypt/internal/user/adapter"
 	usecase "cypt/internal/user/usecase"
+
+	"github.com/gin-gonic/gin"
 )
 
 // UserRestfulConfig holds the configuration for the user RESTful API.
@@ -24,7 +24,7 @@ func NewUserRestful(router *gin.Engine, eventBus dddcore.EventBus, config UserRe
 	)
 	userRepo := adapter.NewMySQLUserRepository(db)
 
-	redisConn, _ := infra.NewIdRedis(config.IDRedisDSN)
+	redisConn, _ := infra.NewIDRedis(config.IDRedisDSN)
 	idRepo := adapter.NewRedisIDRepository(redisConn)
 
 	usecase.NewNotifyManagerHandler(eventBus)

@@ -15,7 +15,7 @@ type PostLog struct {
 	ContentLength int       `json:"length"`      // Length of the response content
 	Domain        string    `json:"domain"`      // Domain of the request
 	Host          string    `json:"host"`        // Host of the request
-	RequestId     string    `json:"request_id"`  // Request ID
+	RequestID     string    `json:"request_id"`  // Request ID
 	RequestBody   string    `json:"request"`     // Request body
 	ResponseData  string    `json:"response"`    // Response data
 }
@@ -32,7 +32,7 @@ func (l PostLog) String() string {
 		l.ContentLength,
 		l.Domain,
 		l.Host,
-		l.RequestId,
+		l.RequestID,
 		l.RequestBody,
 		l.ResponseData,
 	)

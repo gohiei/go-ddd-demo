@@ -6,12 +6,11 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/mock"
-
 	"cypt/internal/dddcore"
 	restful "cypt/internal/logger/adapter/restful"
 	dddcoreMock "cypt/test/mocks/dddcore"
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestNormalLogger(t *testing.T) {

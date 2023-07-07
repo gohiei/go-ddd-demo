@@ -6,11 +6,11 @@ import (
 	"os"
 	"path"
 
-	"github.com/natefinch/lumberjack"
-	"github.com/rs/zerolog"
-
 	entity "cypt/internal/logger/entity"
 	repo "cypt/internal/logger/repository"
+
+	"github.com/natefinch/lumberjack"
+	"github.com/rs/zerolog"
 )
 
 // ZerologLogRepository is an implementation of LogRepository using the Zerolog library.
@@ -23,7 +23,7 @@ type ZerologLogRepository struct {
 var _ repo.LogRepository = (*ZerologLogRepository)(nil)
 
 // NewZerologLogRepository creates a new instance of ZerologLogRepository.
-func NewZerologLogRepository(logDir string) ZerologLogRepository {
+func NewZerologLogRepository(logDir string) *ZerologLogRepository {
 	aWriters := io.MultiWriter(
 		zerolog.ConsoleWriter{Out: os.Stdout},
 		NewRollingLog(logDir, "/access.log"),
@@ -43,7 +43,7 @@ func NewZerologLogRepository(logDir string) ZerologLogRepository {
 	pLogger := zerolog.New(pWriters).With().Logger()
 	eLogger := zerolog.New(eWriters).With().Logger()
 
-	return ZerologLogRepository{
+	return &ZerologLogRepository{
 		accessLogger: aLogger,
 		postLogger:   pLogger,
 		errorLogger:  eLogger,
@@ -51,19 +51,19 @@ func NewZerologLogRepository(logDir string) ZerologLogRepository {
 }
 
 // WriteAccessLog writes the access log to the appropriate logger.
-func (r ZerologLogRepository) WriteAccessLog(log entity.AccessLog) {
+func (r *ZerologLogRepository) WriteAccessLog(log entity.AccessLog) {
 	b, _ := json.Marshal(log)
 	r.accessLogger.Info().RawJSON("log", b).Msg("")
 }
 
 // WritePostLog writes the post log to the appropriate logger.
-func (r ZerologLogRepository) WritePostLog(log entity.PostLog) {
+func (r *ZerologLogRepository) WritePostLog(log entity.PostLog) {
 	b, _ := json.Marshal(log)
 	r.postLogger.Info().RawJSON("log", b).Msg("")
 }
 
 // WriteErrorLog writes the error log to the appropriate logger.
-func (r ZerologLogRepository) WriteErrorLog(log entity.ErrorLog) {
+func (r *ZerologLogRepository) WriteErrorLog(log entity.ErrorLog) {
 	b, _ := json.Marshal(log)
 	r.errorLogger.Info().RawJSON("log", b).Msg("")
 }

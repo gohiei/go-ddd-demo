@@ -13,7 +13,7 @@ type ErrorLog struct {
 	Origin      string        `json:"origin"`     // Origin of the request
 	Domain      string        `json:"domain"`     // Domain of the request
 	Host        string        `json:"host"`       // Host of the request
-	RequestId   string        `json:"request_id"` // Request ID
+	RequestID   string        `json:"request_id"` // Request ID
 	IP          string        `json:"ip"`         // IP address of the client
 	RequestBody string        `json:"request"`    // Request body
 	Error       dddcore.Error `json:"error"`      // Error information

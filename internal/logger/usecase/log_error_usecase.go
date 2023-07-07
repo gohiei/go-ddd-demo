@@ -13,7 +13,7 @@ import (
 // LogErrorUseCaseInput represents the input data for the LogErrorUseCase.
 type LogErrorUseCaseInput struct {
 	At          time.Time     `json:"at"`
-	RequestId   string        `json:"request_id"`
+	RequestID   string        `json:"request_id"`
 	Host        string        `json:"host"`
 	Domain      string        `json:"domain"`
 	IP          string        `json:"ip"`
@@ -75,7 +75,7 @@ func (uc *LogErrorUseCase) Execute(input *LogErrorUseCaseInput) (LogErrorUseCase
 		Origin:      input.Origin,
 		Domain:      input.Domain,
 		Host:        input.Host,
-		RequestId:   input.RequestId,
+		RequestID:   input.RequestID,
 		RequestBody: input.RequestBody,
 		Error:       input.Error,
 	}

@@ -1,9 +1,10 @@
 package auth
 
 import (
+	"net/http"
+
 	entity "cypt/internal/auth/entity"
 	"cypt/internal/dddcore"
-	"net/http"
 )
 
 // CheckAuthorizationUsecaseInput represents the input for the CheckAuthorizationUsecase.
