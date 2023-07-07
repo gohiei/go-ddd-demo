@@ -2,6 +2,7 @@ package dddcore
 
 import (
 	"cypt/internal/dddcore"
+
 	"github.com/gin-gonic/gin"
 )
 

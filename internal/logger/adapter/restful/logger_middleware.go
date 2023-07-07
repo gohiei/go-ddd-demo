@@ -7,7 +7,6 @@ import (
 
 	"cypt/internal/dddcore"
 	events "cypt/internal/logger/entity/events"
-
 	"github.com/gin-gonic/gin"
 )
 

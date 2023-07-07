@@ -7,6 +7,7 @@ import (
 	"cypt/internal/dddcore"
 	adapter "cypt/internal/user/adapter"
 	entity "cypt/internal/user/entity"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/mysql"

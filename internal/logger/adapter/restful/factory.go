@@ -4,7 +4,6 @@ import (
 	"cypt/internal/dddcore"
 	adapter "cypt/internal/logger/adapter"
 	usecase "cypt/internal/logger/usecase"
-
 	"github.com/gin-gonic/gin"
 )
 

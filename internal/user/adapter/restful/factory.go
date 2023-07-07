@@ -5,7 +5,6 @@ import (
 	"cypt/internal/infra"
 	adapter "cypt/internal/user/adapter"
 	usecase "cypt/internal/user/usecase"
-
 	"github.com/gin-gonic/gin"
 )
 
