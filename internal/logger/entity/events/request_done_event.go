@@ -2,6 +2,7 @@
 package logger
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -38,6 +39,7 @@ type RequestDoneEvent struct {
 	HTTPVersion string    `json:"http_version"`
 	RequestBody string    `json:"request_body"`
 	Refer       string    `json:"refer"`
+	FullPath    string    `json:"full_path"`
 
 	// Response information
 	StatusCode    int    `json:"status_code"`
@@ -49,7 +51,13 @@ type RequestDoneEvent struct {
 var _ dddcore.Event = (*RequestDoneEvent)(nil)
 
 // NewRequestDoneEvent creates a new RequestDoneEvent
-func NewRequestDoneEvent(occurredAt time.Time, clientIP string, req *http.Request, res *RequestDoneEventResponse) *RequestDoneEvent {
+func NewRequestDoneEvent(
+	occurredAt time.Time,
+	clientIP string,
+	fullPath string,
+	req *http.Request,
+	res *RequestDoneEventResponse,
+) *RequestDoneEvent {
 	return &RequestDoneEvent{
 		BaseEvent:     dddcore.NewEvent(RequestDoneEventName),
 		At:            occurredAt,
@@ -67,6 +75,7 @@ func NewRequestDoneEvent(occurredAt time.Time, clientIP string, req *http.Reques
 		StatusCode:    res.StatusCode,
 		ContentLength: res.ContentLength,
 		Latency:       res.Latency.Milliseconds(),
+		FullPath:      fmt.Sprintf("%s %s", req.Method, fullPath),
 		ResponseData:  res.ResponseData,
 	}
 }

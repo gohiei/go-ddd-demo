@@ -7,6 +7,7 @@ import (
 
 	"cypt/internal/dddcore"
 	events "cypt/internal/logger/entity/events"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -56,6 +57,7 @@ func NormalLogger() gin.HandlerFunc {
 		event := events.NewRequestDoneEvent(
 			start,
 			ctx.ClientIP(),
+			ctx.FullPath(),
 			ctx.Request,
 			&events.RequestDoneEventResponse{
 				Latency:       latency,

@@ -21,12 +21,13 @@ type AccessLog struct {
 	Host          string    `json:"host"`        // Host of the request
 	RequestID     string    `json:"request_id"`  // Request ID
 	IP            string    `json:"ip"`          // IP address of the client
+	FullPath      string    `json:"full_path"`   // API FullPath
 }
 
 // String formats the AccessLog as a string.
 func (l AccessLog) String() string {
 	return fmt.Sprintf(
-		`"%s" %s "%s %s %s" "%s" "%s" %d %d %d %s "%s" "%s"`,
+		`"%s" %s "%s %s %s" "%s" "%s" %d %d %d %s "%s" "%s" "%s"`,
 		l.At.Local().Format(time.RFC3339),
 		l.IP,
 		l.Method,
@@ -40,5 +41,6 @@ func (l AccessLog) String() string {
 		l.Domain,
 		l.Host,
 		l.RequestID,
+		l.FullPath,
 	)
 }
