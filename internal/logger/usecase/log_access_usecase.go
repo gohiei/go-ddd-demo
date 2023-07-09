@@ -26,6 +26,7 @@ type LogAccessUseCaseInput struct {
 	Method        string    `json:"method"`
 	Origin        string    `json:"origin"`
 	HTTPVersion   string    `json:"http_version"`
+	FullPath      string    `json:"full_path"`
 }
 
 // LogAccessUseCaseOutput represents the output data for the LogAccessUseCase.
@@ -81,6 +82,7 @@ func (uc *LogAccessUseCase) Execute(input *LogAccessUseCaseInput) (LogAccessUseC
 		Domain:        input.Domain,
 		Host:          input.Host,
 		RequestID:     input.RequestID,
+		FullPath:      input.FullPath,
 	}
 
 	uc.logger.WriteAccessLog(log)
