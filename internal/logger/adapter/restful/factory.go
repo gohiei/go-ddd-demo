@@ -4,6 +4,7 @@ import (
 	"cypt/internal/dddcore"
 	adapter "cypt/internal/logger/adapter"
 	usecase "cypt/internal/logger/usecase"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,4 +20,5 @@ func NewLoggerRestful(router *gin.Engine, eventBus dddcore.EventBus, logDir stri
 	usecase.NewLogAccessUseCase(repo, eventBus)
 	usecase.NewLogPostUseCase(repo, eventBus)
 	usecase.NewLogErrorUseCase(repo, eventBus)
+	usecase.NewLogHTTPRequestUseCase(repo, eventBus)
 }

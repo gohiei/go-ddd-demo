@@ -3,8 +3,10 @@ package user
 import (
 	"cypt/internal/dddcore"
 	"cypt/internal/infra"
+	logger "cypt/internal/logger/service"
 	adapter "cypt/internal/user/adapter"
 	usecase "cypt/internal/user/usecase"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,7 +28,21 @@ func NewUserRestful(router *gin.Engine, eventBus dddcore.EventBus, config UserRe
 	redisConn, _ := infra.NewIDRedis(config.IDRedisDSN)
 	idRepo := adapter.NewRedisIDRepository(redisConn)
 
-	usecase.NewNotifyManagerHandler(eventBus)
+	// Use a normal client
+	// client := logger.NewHTTPClient(eventBus)
+
+	// Use a client with decoder function
+	client := logger.NewHTTPClientWithDecoder(eventBus, decoder)
+
+	testAPIRepo := adapter.NewTestAPIOutsideRepository(client)
+
+	usecase.NewNotifyManagerHandler(testAPIRepo, eventBus)
 	NewRegisterUserRestful(router, usecase.NewRegisterUserUseCase(userRepo, idRepo, eventBus))
 	NewRenameRestful(router, usecase.NewRenameUseCase(userRepo, eventBus))
+}
+
+// Example for decoding
+func decoder(b []byte) (string, error) {
+	body := "DECODE: " + string(b)
+	return body, nil
 }
