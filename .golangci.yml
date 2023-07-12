@@ -9,9 +9,10 @@ linters-settings:
     check-blank: false
 
   # Disable error checking, as errorcheck detects more errors and is more configurable.
+  # See https://github.com/securego/gosec#available-rules
   gosec:
     exclude:
-      - "G104"
+      - G104
 
   funlen:
     lines: 60
@@ -29,41 +30,31 @@ linters-settings:
           - (github.com/golangci/golangci-lint/pkg/logutils.Log).Warnf
           - (github.com/golangci/golangci-lint/pkg/logutils.Log).Errorf
           - (github.com/golangci/golangci-lint/pkg/logutils.Log).Fatalf
-  golint:
-    # minimal confidence for issues, default is 0.8
-    min-confidence: 0.8
+
   gofmt:
     # simplify code: gofmt with `-s` option, true by default
     simplify: true
+
   goimports:
     # put imports beginning with prefix after 3rd-party packages;
     # it's a comma-separated list of prefixes
     # local-prefixes: github.com/org/project
-  gocyclo:
-    # minimal code complexity to report, 30 by default (but we recommend 10-20)
-    min-complexity: 30
+
   gocognit:
     # minimal code complexity to report, 30 by default (but we recommend 10-20)
     min-complexity: 20
-  maligned:
-    # print struct with more effective memory layout or not, false by default
-    suggest-new: true
+
+  # See https://github.com/mibk/dupl
   dupl:
     # tokens count to trigger issue, 150 by default
     threshold: 100
+
   goconst:
     # minimal length of string constant, 3 by default
     min-len: 3
     # minimal occurrences count to trigger, 3 by default
     min-occurrences: 3
-  # depguard:
-  #   list-type: blacklist
-  #   include-go-root: false
-  #   packages:
-  #     - github.com/sirupsen/logrus
-  #   packages-with-error-messages:
-  #     # specify an error message to output when a blacklisted package is used
-  #     github.com/sirupsen/logrus: "logging is allowed only by logutils.Log"
+
   misspell:
     # Correct spellings using locale preferences for US or UK.
     # Default is to use a neutral variety of English.
@@ -71,27 +62,28 @@ linters-settings:
     locale: US
     ignore-words:
       - GitLab
-  lll:
-    # max line length, lines longer will be reported. Default is 120.
-    # '\t' is counted as 1 character by default, and can be changed with the tab-width option
-    line-length: 120
-    # tab width in spaces. Default to 1.
-    tab-width: 1
+
   unused:
     # treat code as a program (not a library) and report unused exported identifiers; default is false.
     # XXX: if you enable this setting, unused will report a lot of false-positives in text editors:
     # if it's called for subdir of a project it can't find funcs usages. All text editor integrations
     # with golangci-lint call it on a directory with the changed file.
     check-exported: false
+
   unparam:
     # Inspect exported functions, default is false. Set to true if no external program/library imports your code.
     # XXX: if you enable this setting, unparam will report a lot of false-positives in text editors:
     # if it's called for subdir of a project it can't find external interfaces. All text editor integrations
     # with golangci-lint call it on a directory with the changed file.
     check-exported: false
+
   nakedret:
     # make an issue if func has more lines of code than this setting and it has naked returns; default is 30
     max-func-lines: 30
+
+  revive:
+    ignore-generated-header: true
+
   prealloc:
     # XXX: we don't recommend using this linter before doing performance profiling.
     # For most programs usage of prealloc will be a premature optimization.
@@ -101,6 +93,7 @@ linters-settings:
     simple: true
     range-loops: true # Report preallocation suggestions on range loops, true by default
     for-loops: false # Report preallocation suggestions on for loops, false by default
+
   gocritic:
     # Which checks should be enabled; can't be combined with 'disabled-checks';
     # See https://go-critic.github.io/overview#checks-overview
@@ -115,14 +108,24 @@ linters-settings:
 
     # Enable multiple checks by tags, run `GL_DEBUG=gocritic golangci-lint run` to see all tags and checks.
     # Empty list by default. See https://github.com/go-critic/go-critic#usage -> section "Tags".
-    # enabled-tags:
-    #   - performance
+    enabled-tags:
+      - performance
+    disabled-tags:
+      - experimental
 
-    settings: # settings passed to gocritic
+    # Settings passed to gocritic.
+    # The settings key is the name of a supported gocritic checker.
+    # The list of supported checkers can be find in https://go-critic.github.io/overview.
+    settings:
       captLocal: # must be valid enabled check name
+        # whether to restrict checker to params only (default true)
         paramsOnly: true
+      elseif:
+        # whether to skip balanced if-else pairs (default true)
+        skipBalanced: true
     # rangeValCopy:
     #   sizeThreshold: 32
+
   godox:
     # report any comments starting with keywords, this is useful for TODO or FIXME comments that
     # might be left in the code accidentally and should be resolved before merging
@@ -133,13 +136,15 @@ linters-settings:
       - NOTE
       - OPTIMIZE # marks code that should be optimized before merging
       - HACK # marks hack-arounds that should be removed before merging
+
   dogsled:
     # checks assignments with too many blank identifiers; default is 2
     max-blank-identifiers: 2
 
   whitespace:
-    multi-if: false # Enforces newlines (or comments) after every multi-line if statement
-    multi-func: false # Enforces newlines (or comments) after every multi-line function signature
+    multi-if: true # Enforces newlines (or comments) after every multi-line if statement
+    multi-func: true # Enforces newlines (or comments) after every multi-line function signature
+
   wsl:
     # If true append is only allowed to be cuddled if appending value is
     # matching variables, fields or types on line above. Default is true.
@@ -149,6 +154,8 @@ linters-settings:
     allow-assign-and-call: true
     # Allow multiline assignments to be cuddled. Default is true.
     allow-multiline-assign: true
+    # Allow multiple comments in the beginning of a block separated with newline.
+    allow-separated-leading-comment: false
     # Allow declarations (var) to be cuddled.
     allow-cuddle-declarations: false
     # Allow trailing comments in ending of blocks
@@ -156,44 +163,51 @@ linters-settings:
     # Force newlines in end of case at this limit (0 = never).
     force-case-trailing-whitespace: 0
 
+# See https://golangci-lint.run/usage/linters/
 linters:
+  # Disable all linters.
+  # Default: false
   disable-all: true
+  # Enable specific linter
+  # https://golangci-lint.run/usage/linters/#enabled-by-default
   enable:
     - bodyclose
-    # - depguard
     - dogsled
     - dupl
     - errcheck
+    - exhaustive
+    - exportloopref
+    - forbidigo
     - funlen
+    - gci
     - gocognit
     - goconst
     - gocritic
     - godox
     - gofmt
     - goimports
-    - golint
     - gosec
     - gosimple
     - govet
     - ineffassign
-    - interfacer
     - misspell
     - nakedret
-    - scopelint
+    - prealloc
+    - revive
     - staticcheck
-    - structcheck
     - stylecheck
     - typecheck
     - unconvert
     - unparam
     - unused
     - whitespace
+    - wsl
 
 issues:
   exclude-rules:
     - path: _test\.go
       linters:
-        - gocyclo
+        - gocognit
         - errcheck
         - dupl
         - gosec
