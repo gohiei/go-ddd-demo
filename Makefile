@@ -2,13 +2,19 @@
 
 BIN=cypt
 
-all: check build
+all: lint check build
 
 build:
 	go build -o "${BIN}"
 
 test:
 	go test ./...
+
+lint-install:
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+lint:
+	golangci-lint run -v
 
 check:
 	go fmt ./...
