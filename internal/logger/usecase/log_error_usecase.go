@@ -3,7 +3,6 @@ package logger
 import (
 	"encoding/json"
 	"fmt"
-	"time"
 
 	dddcore "cypt/internal/dddcore"
 	entity "cypt/internal/logger/entity"
@@ -11,17 +10,7 @@ import (
 )
 
 // LogErrorUseCaseInput represents the input data for the LogErrorUseCase.
-type LogErrorUseCaseInput struct {
-	At          time.Time     `json:"at"`
-	RequestID   string        `json:"request_id"`
-	Host        string        `json:"host"`
-	Domain      string        `json:"domain"`
-	IP          string        `json:"ip"`
-	Method      string        `json:"method"`
-	Origin      string        `json:"origin"`
-	RequestBody string        `json:"request_body"`
-	Error       dddcore.Error `json:"error"`
-}
+type LogErrorUseCaseInput entity.ErrorLog
 
 // LogErrorUseCaseOutput represents the output data for the LogErrorUseCase.
 type LogErrorUseCaseOutput struct{}

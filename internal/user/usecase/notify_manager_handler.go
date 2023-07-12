@@ -6,10 +6,12 @@ import (
 
 	"cypt/internal/dddcore"
 	user "cypt/internal/user/entity/events"
+	repository "cypt/internal/user/repository"
 )
 
 // NotifyManagerHandler is a handler for NotifyManager events.
 type NotifyManagerHandler struct {
+	repo repository.OutsideRepository
 }
 
 // Name returns the name of the handler.
@@ -28,11 +30,15 @@ func (h *NotifyManagerHandler) When(eventName string, msg []byte) {
 	json.Unmarshal(msg, &event)
 
 	fmt.Println("NotifyManagerHandler Received:", event.BaseEvent, event)
+
+	if data, err := h.repo.GetEchoData(); err == nil {
+		fmt.Println("Echo: ", data)
+	}
 }
 
 // NewNotifyManagerHandler creates a new instance of NotifyManagerHandler and registers it to the event bus.
-func NewNotifyManagerHandler(eb dddcore.EventBus) NotifyManagerHandler {
-	h := NotifyManagerHandler{}
+func NewNotifyManagerHandler(repo repository.OutsideRepository, eb dddcore.EventBus) NotifyManagerHandler {
+	h := NotifyManagerHandler{repo: repo}
 	eb.Register(&h)
 
 	return h

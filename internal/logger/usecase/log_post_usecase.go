@@ -2,7 +2,6 @@ package logger
 
 import (
 	"encoding/json"
-	"time"
 
 	dddcore "cypt/internal/dddcore"
 	entity "cypt/internal/logger/entity"
@@ -10,23 +9,7 @@ import (
 )
 
 // LogPostUseCaseInput represents the input data for the LogPostUseCase.
-type LogPostUseCaseInput struct {
-	At            time.Time `json:"at"`
-	UserAgent     string    `json:"user_agent"`
-	XFF           string    `json:"x_forwarded_for"`
-	RequestID     string    `json:"request_id"`
-	Host          string    `json:"host"`
-	Domain        string    `json:"domain"`
-	StatusCode    int       `json:"status_code"`
-	ContentLength int       `json:"content_log"`
-	Latency       int       `json:"latency"`
-	IP            string    `json:"ip"`
-	Method        string    `json:"method"`
-	Origin        string    `json:"origin"`
-	HTTPVersion   string    `json:"http_version"`
-	RequestBody   string    `json:"request_body"`
-	ResponseData  string    `json:"response_data"`
-}
+type LogPostUseCaseInput entity.PostLog
 
 // LogPostUseCaseOutput represents the output data for the LogPostUseCase.
 type LogPostUseCaseOutput struct{}
