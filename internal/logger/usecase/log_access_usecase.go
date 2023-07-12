@@ -53,7 +53,7 @@ func (uc *LogAccessUseCase) When(eventName string, message []byte) {
 
 // Execute performs the logging of access events based on the provided input.
 func (uc *LogAccessUseCase) Execute(input *LogAccessUseCaseInput) (LogAccessUseCaseOutput, error) {
-	log := entity.AccessLog{
+	log := &entity.AccessLog{
 		At:            input.At,
 		Method:        input.Method,
 		Origin:        input.Origin,

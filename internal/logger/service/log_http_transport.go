@@ -25,7 +25,7 @@ type LogHTTPTransport struct {
 }
 
 // RoundTrip executes a single HTTP transaction and logs the request and response information.
-func (tripper *LogHTTPTransport) RoundTrip(req *http.Request) (res *http.Response, err error) {
+func (t *LogHTTPTransport) RoundTrip(req *http.Request) (res *http.Response, err error) {
 	var reqBody, resBody []byte
 
 	log := entity.HTTPRequestLog{
@@ -37,17 +37,17 @@ func (tripper *LogHTTPTransport) RoundTrip(req *http.Request) (res *http.Respons
 	}
 
 	if reqBody, req.Body, err = drainBody(req.Body); err == nil {
-		log.ReqBody = tripper.decodeBody(reqBody)
+		log.ReqBody = t.decodeBody(reqBody)
 	}
 
-	res, err = tripper.core.RoundTrip(req)
+	res, err = t.core.RoundTrip(req)
 	if err != nil {
 		log.Error = err
 		return nil, err
 	}
 
 	if resBody, res.Body, err = drainBody(res.Body); err == nil {
-		log.ResBody = tripper.decodeBody(resBody)
+		log.ResBody = t.decodeBody(resBody)
 	}
 
 	log.StatusCode = res.StatusCode
@@ -55,7 +55,7 @@ func (tripper *LogHTTPTransport) RoundTrip(req *http.Request) (res *http.Respons
 	log.ResHeader = res.Header
 
 	ev := event.NewHTTPRequestDoneEvent(&log)
-	tripper.eventBus.Post(ev)
+	t.eventBus.Post(ev)
 
 	return res, nil
 }

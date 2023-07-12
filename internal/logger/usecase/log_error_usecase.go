@@ -57,7 +57,7 @@ func (uc *LogErrorUseCase) When(eventName string, message []byte) {
 
 // Execute performs the logging of error events based on the provided input.
 func (uc *LogErrorUseCase) Execute(input *LogErrorUseCaseInput) (LogErrorUseCaseOutput, error) {
-	log := entity.ErrorLog{
+	log := &entity.ErrorLog{
 		At:          input.At,
 		IP:          input.IP,
 		Method:      input.Method,

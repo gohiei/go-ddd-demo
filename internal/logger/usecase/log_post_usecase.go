@@ -55,7 +55,7 @@ func (uc *LogPostUseCase) When(eventName string, message []byte) {
 
 // Execute performs the logging of post request events based on the provided input.
 func (uc *LogPostUseCase) Execute(input *LogPostUseCaseInput) (LogPostUseCaseOutput, error) {
-	log := entity.PostLog{
+	log := &entity.PostLog{
 		At:            input.At,
 		IP:            input.IP,
 		Method:        input.Method,

@@ -25,7 +25,7 @@ type AccessLog struct {
 }
 
 // String formats the AccessLog as a string.
-func (l AccessLog) String() string {
+func (l *AccessLog) String() string {
 	return fmt.Sprintf(
 		`"%s" %s "%s %s %s" "%s" "%s" %d %d %d %s "%s" "%s" "%s"`,
 		l.At.Local().Format(time.RFC3339),

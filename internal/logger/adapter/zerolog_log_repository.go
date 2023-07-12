@@ -59,19 +59,19 @@ func NewZerologLogRepository(logDir string) *ZerologLogRepository {
 }
 
 // WriteAccessLog writes the access log to the appropriate logger.
-func (r *ZerologLogRepository) WriteAccessLog(log entity.AccessLog) {
+func (r *ZerologLogRepository) WriteAccessLog(log *entity.AccessLog) {
 	b, _ := json.Marshal(log)
 	r.accessLogger.Info().RawJSON("log", b).Msg("")
 }
 
 // WritePostLog writes the post log to the appropriate logger.
-func (r *ZerologLogRepository) WritePostLog(log entity.PostLog) {
+func (r *ZerologLogRepository) WritePostLog(log *entity.PostLog) {
 	b, _ := json.Marshal(log)
 	r.postLogger.Info().RawJSON("log", b).Msg("")
 }
 
 // WriteErrorLog writes the error log to the appropriate logger.
-func (r *ZerologLogRepository) WriteErrorLog(log entity.ErrorLog) {
+func (r *ZerologLogRepository) WriteErrorLog(log *entity.ErrorLog) {
 	b, _ := json.Marshal(log)
 	r.errorLogger.Info().RawJSON("log", b).Msg("")
 }
