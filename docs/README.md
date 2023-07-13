@@ -31,6 +31,7 @@
 ## Recommendation
 * [uber-go/goleak](https://github.com/uber-go/goleak)
 * [uber-go/automaxprocs](https://github.com/uber-go/automaxprocs)
+* [go-kit/kit](https://github.com/go-kit/kit)
 
 ## Modules
 
