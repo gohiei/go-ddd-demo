@@ -11,7 +11,7 @@ import (
 )
 
 // NewRegisterUserRestful creates and registers a new RESTful endpoint for user registration.
-func NewRegisterUserRestful(router *gin.Engine, uc usecase.RegisterUserUseCase) *RegisterUserRestful {
+func NewRegisterUserRestful(router *gin.Engine, uc *usecase.RegisterUserUseCase) *RegisterUserRestful {
 	restful := &RegisterUserRestful{Usecase: uc}
 	router.POST("/api/user", restful.Execute)
 

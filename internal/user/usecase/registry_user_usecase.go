@@ -31,8 +31,8 @@ var _ dddcore.Output = (*RegisterUserUseCaseOutput)(nil)
 var _ dddcore.UseCase[RegisterUserUseCaseInput, RegisterUserUseCaseOutput] = (*RegisterUserUseCase)(nil)
 
 // NewRegisterUserUseCase creates a new instance of RegisterUserUseCase.
-func NewRegisterUserUseCase(userRepo repo.UserRepository, idRepo repo.IDRepository, eb dddcore.EventBus) RegisterUserUseCase {
-	return RegisterUserUseCase{
+func NewRegisterUserUseCase(userRepo repo.UserRepository, idRepo repo.IDRepository, eb dddcore.EventBus) *RegisterUserUseCase {
+	return &RegisterUserUseCase{
 		userRepo: userRepo,
 		idRepo:   idRepo,
 		eventBus: eb,
@@ -40,7 +40,7 @@ func NewRegisterUserUseCase(userRepo repo.UserRepository, idRepo repo.IDReposito
 }
 
 // Execute executes the RegisterUserUseCase with the provided input and returns the output.
-func (uc RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (RegisterUserUseCaseOutput, error) {
+func (uc *RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (RegisterUserUseCaseOutput, error) {
 	var user entity.User
 	var userID int64
 	var err error
