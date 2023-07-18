@@ -12,10 +12,11 @@ import (
 // It configures the necessary Gin middlewares and sets up the log repository and use cases.
 func NewLoggerRestful(router *gin.Engine, eventBus dddcore.EventBus, logDir string) {
 	router.Use(RequestIDGenerator())
-	router.Use(ErrorLogger())
 	router.Use(NormalLogger())
+	router.Use(ErrorLogger())
 
-	repo := adapter.NewZerologLogRepository(logDir)
+	// repo := adapter.NewZerologLogRepository(logDir)
+	repo := adapter.NewZapLogRepository(logDir)
 
 	usecase.NewLogAccessUseCase(repo, eventBus)
 	usecase.NewLogPostUseCase(repo, eventBus)

@@ -5,6 +5,7 @@ import (
 
 	dddcore "cypt/internal/dddcore"
 	entity "cypt/internal/logger/entity"
+	event "cypt/internal/logger/entity/events"
 	repository "cypt/internal/logger/repository"
 )
 
@@ -39,7 +40,7 @@ func (uc *LogPostUseCase) Name() string {
 
 // EventName returns the name of the event handled by the LogPostUseCase.
 func (uc *LogPostUseCase) EventName() string {
-	return "request.done"
+	return event.RequestDoneEventName
 }
 
 // When handles the incoming event and executes the use case.
@@ -66,7 +67,7 @@ func (uc *LogPostUseCase) Execute(input *LogPostUseCaseInput) (LogPostUseCaseOut
 		Host:          input.Host,
 		RequestID:     input.RequestID,
 		RequestBody:   input.RequestBody,
-		ResponseData:  input.ResponseData,
+		ResponseBody:  input.ResponseBody,
 	}
 
 	uc.logger.WritePostLog(log)

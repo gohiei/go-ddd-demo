@@ -7,6 +7,7 @@ import (
 
 	dddcore "cypt/internal/dddcore"
 	entity "cypt/internal/logger/entity"
+	event "cypt/internal/logger/entity/events"
 	repository "cypt/internal/logger/repository"
 )
 
@@ -36,7 +37,7 @@ func (uc *LogAccessUseCase) Name() string {
 
 // EventName returns the name of the event handled by the LogAccessUseCase.
 func (uc *LogAccessUseCase) EventName() string {
-	return "request.done"
+	return event.RequestDoneEventName
 }
 
 // When handles the incoming event and executes the use case.
@@ -67,6 +68,8 @@ func (uc *LogAccessUseCase) Execute(input *LogAccessUseCaseInput) (LogAccessUseC
 		Host:          input.Host,
 		RequestID:     input.RequestID,
 		FullPath:      input.FullPath,
+		SessionID:     input.SessionID,
+		Agent:         input.Agent,
 	}
 
 	uc.logger.WriteAccessLog(log)

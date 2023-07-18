@@ -22,7 +22,7 @@ func BuildUUID(id string) (UUID, error) {
 	uid, err := uuid.Parse(id)
 
 	if err != nil {
-		return UUID{}, err
+		return UUID{}, NewErrorBy(err)
 	}
 
 	return UUID{uuid: uid}, nil
