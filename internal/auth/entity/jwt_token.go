@@ -64,7 +64,6 @@ func (t *JwtToken) Valid() bool {
 
 	if !checked {
 		valid = true
-		checked = true
 
 		_, err := dddcore.JwtParse(t.parser, token, []byte(tokenKey))
 

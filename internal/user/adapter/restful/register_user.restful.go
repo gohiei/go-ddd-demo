@@ -26,7 +26,11 @@ type RegisterUserRestful struct {
 // Execute handles the HTTP request for user registration.
 func (c *RegisterUserRestful) Execute(ctx *gin.Context) {
 	var input usecase.RegisterUserUseCaseInput
-	ctx.Bind(&input)
+
+	if err := ctx.Bind(&input); err != nil {
+		adapter.RenderError(ctx, err)
+		return
+	}
 
 	out, err := c.Usecase.Execute(&input)
 

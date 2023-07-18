@@ -36,6 +36,7 @@ func loadConfiguration(cfgFile string) *viper.Viper {
 	config.AddConfigPath(".")
 
 	if err := config.ReadInConfig(); err != nil {
+		// nolint: forbidigo
 		fmt.Println("Cannot read config:", err)
 	}
 

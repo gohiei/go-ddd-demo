@@ -27,11 +27,13 @@ func (h *NotifyManagerHandler) EventName() string {
 // When is the actual processing logic of the event handler, used to handle specific events.
 func (h *NotifyManagerHandler) When(eventName string, msg []byte) {
 	event := events.UserRenamedEvent{}
-	json.Unmarshal(msg, &event)
 
-	fmt.Println("NotifyManagerHandler Received:", event.BaseEvent, event)
+	if err := json.Unmarshal(msg, &event); err != nil {
+		return
+	}
 
-	if data, err := h.repo.GetEchoData(); err == nil {
+	if data, err := h.repo.GetEchoData(); err != nil {
+		// nolint: forbidigo
 		fmt.Println("Echo: ", data)
 	}
 }

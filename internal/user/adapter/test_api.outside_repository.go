@@ -29,7 +29,9 @@ func (r *TestAPIOutsideRepository) GetEchoData() (string, error) {
 		return "", err
 	}
 
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 
 	b, err := io.ReadAll(resp.Body)
 
