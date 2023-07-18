@@ -1,8 +1,8 @@
-package auth
+package restful
 
 import (
-	usecase "cypt/internal/auth/usecase"
-	adapter "cypt/internal/dddcore/adapter"
+	"cypt/internal/auth/usecase"
+	"cypt/internal/dddcore/adapter"
 
 	"github.com/gin-gonic/gin"
 )

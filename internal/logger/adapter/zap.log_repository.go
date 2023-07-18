@@ -1,11 +1,12 @@
-package logger
+// Package adapter provides an implementation of the LogRepository interface
+package adapter
 
 import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	entity "cypt/internal/logger/entity"
-	repository "cypt/internal/logger/repository"
+	"cypt/internal/logger/entity"
+	"cypt/internal/logger/repository"
 )
 
 var _ repository.LogRepository = (*ZapLogRepository)(nil)

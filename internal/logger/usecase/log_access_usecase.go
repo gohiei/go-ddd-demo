@@ -1,14 +1,14 @@
-// Package logger provides functionality for logging and event handling related to logging.
-package logger
+// Package usecase provides use case implementations for logging.
+package usecase
 
 import (
 	"encoding/json"
 	"fmt"
 
-	dddcore "cypt/internal/dddcore"
-	entity "cypt/internal/logger/entity"
-	event "cypt/internal/logger/entity/events"
-	repository "cypt/internal/logger/repository"
+	"cypt/internal/dddcore"
+	"cypt/internal/logger/entity"
+	"cypt/internal/logger/entity/events"
+	"cypt/internal/logger/repository"
 )
 
 // LogAccessUseCaseInput represents the input data for the LogAccessUseCase.
@@ -37,7 +37,7 @@ func (uc *LogAccessUseCase) Name() string {
 
 // EventName returns the name of the event handled by the LogAccessUseCase.
 func (uc *LogAccessUseCase) EventName() string {
-	return event.RequestDoneEventName
+	return events.RequestDoneEventName
 }
 
 // When handles the incoming event and executes the use case.

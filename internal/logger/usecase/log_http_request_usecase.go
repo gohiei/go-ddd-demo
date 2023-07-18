@@ -1,12 +1,12 @@
-package logger
+package usecase
 
 import (
 	"encoding/json"
 	"fmt"
 
-	dddcore "cypt/internal/dddcore"
-	entity "cypt/internal/logger/entity"
-	repository "cypt/internal/logger/repository"
+	"cypt/internal/dddcore"
+	"cypt/internal/logger/entity"
+	"cypt/internal/logger/repository"
 )
 
 type LogHTTPRequestUseCaseInput entity.HTTPRequestLog

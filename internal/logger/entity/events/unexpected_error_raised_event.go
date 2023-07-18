@@ -1,4 +1,4 @@
-package logger
+package events
 
 import (
 	"net/http"

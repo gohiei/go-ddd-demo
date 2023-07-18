@@ -1,4 +1,4 @@
-package dddcore
+package adapter
 
 import (
 	"encoding/json"

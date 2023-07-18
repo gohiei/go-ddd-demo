@@ -1,5 +1,5 @@
-// Package logger provides functionality for logging and event handling related to logging.
-package logger
+// Package entity provides functionality for logging and event handling related to logging.
+package entity
 
 import (
 	"cypt/internal/dddcore"

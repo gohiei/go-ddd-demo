@@ -1,12 +1,12 @@
-package user_test
+package usecase_test
 
 import (
 	"errors"
 	"testing"
 
 	"cypt/internal/dddcore"
-	user "cypt/internal/user/entity"
-	usecase "cypt/internal/user/usecase"
+	"cypt/internal/user/entity"
+	"cypt/internal/user/usecase"
 	dddcoreMock "cypt/test/mocks/dddcore"
 	userMock "cypt/test/mocks/user"
 
@@ -19,7 +19,7 @@ func TestRenameUseCase(t *testing.T) {
 	b := dddcoreMock.NewEventBus(t)
 
 	uuid := dddcore.NewUUID()
-	u := user.BuildUser(uuid.String(), "test2", "password2", 2)
+	u := entity.BuildUser(uuid.String(), "test2", "password2", 2)
 
 	getFunc := r.On("Get", mock.Anything).Return(u, nil)
 	renameFunc := r.On("Rename", mock.Anything).Return(nil)
@@ -46,7 +46,7 @@ func TestRenameUseCaseWithErrFailedToRenameUser(t *testing.T) {
 	b := dddcoreMock.NewEventBus(t)
 
 	uuid := dddcore.NewUUID()
-	u := user.BuildUser(uuid.String(), "test2", "password2", 3)
+	u := entity.BuildUser(uuid.String(), "test2", "password2", 3)
 
 	getFunc := r.On("Get", mock.Anything).Return(u, nil)
 	renameFunc := r.On("Rename", mock.Anything).Return(errors.New("user not found"))

@@ -1,11 +1,11 @@
-package logger
+package events
 
 import (
 	"net/http"
 	"time"
 
 	"cypt/internal/dddcore"
-	entity "cypt/internal/logger/entity"
+	"cypt/internal/logger/entity"
 )
 
 const (

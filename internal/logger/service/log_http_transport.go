@@ -1,4 +1,5 @@
-package logger
+// Package service provides functionality related to HTTP transport and logging.
+package service
 
 import (
 	"bytes"
@@ -10,8 +11,8 @@ import (
 	"time"
 
 	"cypt/internal/dddcore"
-	entity "cypt/internal/logger/entity"
-	event "cypt/internal/logger/entity/events"
+	"cypt/internal/logger/entity"
+	"cypt/internal/logger/entity/events"
 )
 
 // HTTPBodyDecoder represents a function signature for decoding a byte slice into a string, with the possibility of returning an error.
@@ -54,7 +55,7 @@ func (t *LogHTTPTransport) RoundTrip(req *http.Request) (res *http.Response, err
 	log.Latency = time.Since(log.At)
 	log.ResHeader = res.Header
 
-	ev := event.NewHTTPRequestDoneEvent(&log)
+	ev := events.NewHTTPRequestDoneEvent(&log)
 	t.eventBus.Post(ev)
 
 	return res, nil

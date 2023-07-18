@@ -1,13 +1,13 @@
-package logger
+package usecase
 
 import (
 	"encoding/json"
 	"fmt"
 
-	dddcore "cypt/internal/dddcore"
-	entity "cypt/internal/logger/entity"
-	event "cypt/internal/logger/entity/events"
-	repository "cypt/internal/logger/repository"
+	"cypt/internal/dddcore"
+	"cypt/internal/logger/entity"
+	"cypt/internal/logger/entity/events"
+	"cypt/internal/logger/repository"
 )
 
 // LogErrorUseCaseInput represents the input data for the LogErrorUseCase.
@@ -41,7 +41,7 @@ func (uc *LogErrorUseCase) Name() string {
 
 // EventName returns the name of the event handled by the LogErrorUseCase.
 func (uc *LogErrorUseCase) EventName() string {
-	return event.UnexpectedErrorRaisedEventName
+	return events.UnexpectedErrorRaisedEventName
 }
 
 // When handles the incoming event and executes the use case.

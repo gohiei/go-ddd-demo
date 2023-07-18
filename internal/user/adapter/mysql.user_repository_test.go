@@ -1,4 +1,4 @@
-package user_test
+package adapter_test
 
 import (
 	"errors"

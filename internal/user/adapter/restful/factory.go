@@ -1,4 +1,5 @@
-package user
+// Package restful provides RESTful API handlers for user-related operations.
+package restful
 
 import (
 	"cypt/internal/dddcore"

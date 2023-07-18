@@ -1,9 +1,11 @@
-package logger
+// Package restful provides functions for setting up a logger for a RESTful API using Gin.
+// It configures the necessary Gin middlewares and sets up the log repository and use cases.
+package restful
 
 import (
 	"cypt/internal/dddcore"
-	adapter "cypt/internal/logger/adapter"
-	usecase "cypt/internal/logger/usecase"
+	"cypt/internal/logger/adapter"
+	"cypt/internal/logger/usecase"
 
 	"github.com/gin-gonic/gin"
 )

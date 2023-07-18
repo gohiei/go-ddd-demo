@@ -1,11 +1,12 @@
-package user
+// Package restful provides RESTful API handlers for user-related operations.
+package restful
 
 import (
 	"net/http"
 
 	"cypt/internal/dddcore"
-	adapter "cypt/internal/dddcore/adapter"
-	usecase "cypt/internal/user/usecase"
+	"cypt/internal/dddcore/adapter"
+	"cypt/internal/user/usecase"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,4 +1,4 @@
-package user
+package events
 
 import "cypt/internal/dddcore"
 

@@ -1,4 +1,6 @@
-package dddcore
+// Package adapter provides adapters and implementations for integrating external libraries or frameworks
+// with the core domain logic of the application.
+package adapter
 
 import (
 	"github.com/gin-gonic/gin"

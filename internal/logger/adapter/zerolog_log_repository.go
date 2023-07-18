@@ -1,4 +1,4 @@
-package logger
+package adapter
 
 import (
 	"encoding/json"
@@ -6,8 +6,8 @@ import (
 	"os"
 	"path"
 
-	entity "cypt/internal/logger/entity"
-	repo "cypt/internal/logger/repository"
+	"cypt/internal/logger/entity"
+	"cypt/internal/logger/repository"
 
 	"github.com/natefinch/lumberjack"
 	"github.com/rs/zerolog"
@@ -21,7 +21,7 @@ type ZerologLogRepository struct {
 	httpRequestLogger *zerolog.Logger
 }
 
-var _ repo.LogRepository = (*ZerologLogRepository)(nil)
+var _ repository.LogRepository = (*ZerologLogRepository)(nil)
 
 // NewZerologLogRepository creates a new instance of ZerologLogRepository.
 func NewZerologLogRepository(logDir string) *ZerologLogRepository {

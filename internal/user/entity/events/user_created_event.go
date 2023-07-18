@@ -1,5 +1,5 @@
-// Package user represents user bounded context
-package user
+// Package events defines the domain events related to the user entity.
+package events
 
 import "cypt/internal/dddcore"
 

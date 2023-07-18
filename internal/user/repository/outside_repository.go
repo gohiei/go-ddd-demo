@@ -1,4 +1,4 @@
-package user
+package repository
 
 type OutsideRepository interface {
 	GetEchoData() (string, error)

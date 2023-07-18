@@ -1,4 +1,4 @@
-package user
+package adapter
 
 import (
 	repo "cypt/internal/user/repository"

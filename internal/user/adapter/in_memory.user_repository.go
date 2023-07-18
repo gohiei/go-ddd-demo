@@ -1,4 +1,5 @@
-package user
+// Package adapter provides an implementation of the UserRepository interface
+package adapter
 
 import (
 	"errors"
