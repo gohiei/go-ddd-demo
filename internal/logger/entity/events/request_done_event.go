@@ -1,5 +1,5 @@
-// Package logger provides functionality for logging and event handling related to logging.
-package logger
+// Package events provides functionality for logging and event handling related to logging.
+package events
 
 import (
 	"fmt"

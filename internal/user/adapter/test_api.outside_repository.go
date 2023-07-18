@@ -1,9 +1,10 @@
-package user
+package adapter
 
 import (
-	repo "cypt/internal/user/repository"
 	"io"
 	"net/http"
+
+	repo "cypt/internal/user/repository"
 )
 
 func NewTestAPIOutsideRepository(client *http.Client) *TestAPIOutsideRepository {

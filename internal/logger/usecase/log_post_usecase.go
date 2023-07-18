@@ -1,12 +1,12 @@
-package logger
+package usecase
 
 import (
 	"encoding/json"
 
-	dddcore "cypt/internal/dddcore"
-	entity "cypt/internal/logger/entity"
-	event "cypt/internal/logger/entity/events"
-	repository "cypt/internal/logger/repository"
+	"cypt/internal/dddcore"
+	"cypt/internal/logger/entity"
+	"cypt/internal/logger/entity/events"
+	"cypt/internal/logger/repository"
 )
 
 // LogPostUseCaseInput represents the input data for the LogPostUseCase.
@@ -40,7 +40,7 @@ func (uc *LogPostUseCase) Name() string {
 
 // EventName returns the name of the event handled by the LogPostUseCase.
 func (uc *LogPostUseCase) EventName() string {
-	return event.RequestDoneEventName
+	return events.RequestDoneEventName
 }
 
 // When handles the incoming event and executes the use case.

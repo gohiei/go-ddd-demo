@@ -1,16 +1,16 @@
-package user_test
+package entity_test
 
 import (
 	"testing"
 
 	"cypt/internal/dddcore"
-	user "cypt/internal/user/entity"
+	"cypt/internal/user/entity"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewUser(t *testing.T) {
-	u, err := user.NewUser("test1", "password1", 2)
+	u, err := entity.NewUser("test1", "password1", 2)
 
 	assert.Nil(t, err)
 	assert.Equal(t, "test1", u.GetUsername())
@@ -21,7 +21,7 @@ func TestNewUser(t *testing.T) {
 
 func TestBuildNewUser(t *testing.T) {
 	uuid := dddcore.NewUUID().String()
-	u := user.BuildUser(uuid, "test2", "password2", 3)
+	u := entity.BuildUser(uuid, "test2", "password2", 3)
 
 	assert.Equal(t, "test2", u.GetUsername())
 	assert.Equal(t, "password2", u.GetPassword())
@@ -31,7 +31,7 @@ func TestBuildNewUser(t *testing.T) {
 }
 
 func TestRename(t *testing.T) {
-	u, _ := user.NewUser("test3", "password3", 5)
+	u, _ := entity.NewUser("test3", "password3", 5)
 
 	u.Rename("test4")
 	assert.Equal(t, "test4", u.GetUsername())

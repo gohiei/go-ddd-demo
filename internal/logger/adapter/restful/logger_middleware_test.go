@@ -1,4 +1,4 @@
-package logger_test
+package restful_test
 
 import (
 	"bytes"
@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"cypt/internal/dddcore"
-	restful "cypt/internal/logger/adapter/restful"
+	"cypt/internal/logger/adapter/restful"
 	dddcoreMock "cypt/test/mocks/dddcore"
 
 	"github.com/gin-gonic/gin"

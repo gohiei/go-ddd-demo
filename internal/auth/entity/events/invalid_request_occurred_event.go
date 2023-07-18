@@ -1,4 +1,5 @@
-package auth
+// Package events provides event structures and functions related to authentication functionality.
+package events
 
 import "cypt/internal/dddcore"
 

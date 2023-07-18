@@ -1,4 +1,5 @@
-package user
+// Package model provides the data model for the user entity in the database.
+package model
 
 import "time"
 

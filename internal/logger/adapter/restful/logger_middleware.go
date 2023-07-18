@@ -1,4 +1,4 @@
-package logger
+package restful
 
 import (
 	"bytes"
@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"cypt/internal/dddcore"
-	adapter "cypt/internal/dddcore/adapter"
-	events "cypt/internal/logger/entity/events"
+	"cypt/internal/dddcore/adapter"
+	"cypt/internal/logger/entity/events"
 
 	"github.com/gin-gonic/gin"
 )

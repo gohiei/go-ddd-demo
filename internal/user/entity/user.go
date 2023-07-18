@@ -1,11 +1,11 @@
-// Package user represents user bounded context
-package user
+// Package entity defines the user entity and related operations.
+package entity
 
 import (
 	"net/http"
 
 	"cypt/internal/dddcore"
-	event "cypt/internal/user/entity/events"
+	"cypt/internal/user/entity/events"
 )
 
 // User represents a user entity.
@@ -31,7 +31,7 @@ func NewUser(username string, password string, userID int64) (User, error) {
 		userID:            userID,
 	}
 
-	user.AddDomainEvent(event.NewUserCreatedEvent(
+	user.AddDomainEvent(events.NewUserCreatedEvent(
 		user.id.String(),
 		user.username,
 		user.password,
@@ -89,7 +89,7 @@ func (u *User) Rename(username string) {
 
 	u.username = username
 
-	u.AddDomainEvent(event.NewUserRenameEvent(
+	u.AddDomainEvent(events.NewUserRenameEvent(
 		u.id.String(),
 		old,
 		username,

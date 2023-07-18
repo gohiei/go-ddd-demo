@@ -1,9 +1,10 @@
-package auth
+// Package usecase contains the logic for checking authorization in the authentication system.
+package usecase
 
 import (
 	"net/http"
 
-	entity "cypt/internal/auth/entity"
+	"cypt/internal/auth/entity"
 	"cypt/internal/dddcore"
 )
 

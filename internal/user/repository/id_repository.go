@@ -1,4 +1,4 @@
-package user
+package repository
 
 // IDRepository represents a repository for generating and managing unique identifiers.
 type IDRepository interface {

@@ -3,7 +3,7 @@ package app
 
 import (
 	auth "cypt/internal/auth/adapter/restful"
-	adapter "cypt/internal/dddcore/adapter"
+	dddcore "cypt/internal/dddcore/adapter"
 	logger "cypt/internal/logger/adapter/restful"
 	user "cypt/internal/user/adapter/restful"
 
@@ -13,7 +13,7 @@ import (
 
 // NewAppController initializes the application controller.
 func NewAppController(router *gin.Engine, config *viper.Viper) {
-	eventBus := adapter.NewWatermillEventBus()
+	eventBus := dddcore.NewWatermillEventBus()
 
 	router.Use(func(c *gin.Context) {
 		c.Set("event-bus", &eventBus)

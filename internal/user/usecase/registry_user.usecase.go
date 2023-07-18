@@ -1,9 +1,10 @@
-package user
+// Package usecase provides the business logic and use cases for managing user
+package usecase
 
 import (
-	dddcore "cypt/internal/dddcore"
-	entity "cypt/internal/user/entity"
-	repo "cypt/internal/user/repository"
+	"cypt/internal/dddcore"
+	"cypt/internal/user/entity"
+	"cypt/internal/user/repository"
 )
 
 // RegisterUserUseCaseInput represents the input data for the RegisterUserUseCase.
@@ -21,8 +22,8 @@ type RegisterUserUseCaseOutput struct {
 
 // RegisterUserUseCase is a use case for registering a new user.
 type RegisterUserUseCase struct {
-	userRepo repo.UserRepository
-	idRepo   repo.IDRepository
+	userRepo repository.UserRepository
+	idRepo   repository.IDRepository
 	eventBus dddcore.EventBus
 }
 
@@ -31,7 +32,7 @@ var _ dddcore.Output = (*RegisterUserUseCaseOutput)(nil)
 var _ dddcore.UseCase[RegisterUserUseCaseInput, RegisterUserUseCaseOutput] = (*RegisterUserUseCase)(nil)
 
 // NewRegisterUserUseCase creates a new instance of RegisterUserUseCase.
-func NewRegisterUserUseCase(userRepo repo.UserRepository, idRepo repo.IDRepository, eb dddcore.EventBus) *RegisterUserUseCase {
+func NewRegisterUserUseCase(userRepo repository.UserRepository, idRepo repository.IDRepository, eb dddcore.EventBus) *RegisterUserUseCase {
 	return &RegisterUserUseCase{
 		userRepo: userRepo,
 		idRepo:   idRepo,

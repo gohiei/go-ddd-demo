@@ -1,9 +1,9 @@
-// Package user represents user bounded context
-package user
+// Package repository provides interfaces for managing user entities
+package repository
 
 import (
 	"cypt/internal/dddcore"
-	entity "cypt/internal/user/entity"
+	"cypt/internal/user/entity"
 )
 
 // UserRepository represents a repository for managing user entities.

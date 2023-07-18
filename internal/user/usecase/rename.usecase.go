@@ -1,12 +1,11 @@
-// Package user represents user bounded context
-package user
+package usecase
 
 import (
 	"net/http"
 
-	dddcore "cypt/internal/dddcore"
-	entity "cypt/internal/user/entity"
-	repo "cypt/internal/user/repository"
+	"cypt/internal/dddcore"
+	"cypt/internal/user/entity"
+	"cypt/internal/user/repository"
 )
 
 // RenameUseCaseInput represents the input data for the RenameUseCase.
@@ -23,12 +22,12 @@ type RenameUseCaseOutput struct {
 
 // RenameUseCase is a use case for renaming a user.
 type RenameUseCase struct {
-	userRepo repo.UserRepository
+	userRepo repository.UserRepository
 	eventBus dddcore.EventBus
 }
 
 // NewRenameUseCase creates a new instance of RenameUseCase.
-func NewRenameUseCase(repo repo.UserRepository, eb dddcore.EventBus) *RenameUseCase {
+func NewRenameUseCase(repo repository.UserRepository, eb dddcore.EventBus) *RenameUseCase {
 	return &RenameUseCase{
 		userRepo: repo,
 		eventBus: eb,

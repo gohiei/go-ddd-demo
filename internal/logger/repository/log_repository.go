@@ -1,7 +1,8 @@
-package logger
+// Package repository provides the interface for a log repository.
+package repository
 
 import (
-	entity "cypt/internal/logger/entity"
+	"cypt/internal/logger/entity"
 )
 
 // LogRepository defines the interface for a log repository.

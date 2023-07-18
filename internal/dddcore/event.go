@@ -1,3 +1,4 @@
+// Package dddcore provides core functionality for Domain-Driven Design (DDD) concepts.
 package dddcore
 
 import "time"

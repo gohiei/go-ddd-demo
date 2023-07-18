@@ -1,10 +1,10 @@
-package user_test
+package usecase_test
 
 import (
 	"errors"
 	"testing"
 
-	usecase "cypt/internal/user/usecase"
+	"cypt/internal/user/usecase"
 	dddcoreMock "cypt/test/mocks/dddcore"
 	userMock "cypt/test/mocks/user"
 

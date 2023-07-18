@@ -1,9 +1,10 @@
-package auth
+// Package entity provides entities related to authentication functionality.
+package entity
 
 import (
 	"net/http"
 
-	event "cypt/internal/auth/entity/events"
+	"cypt/internal/auth/entity/events"
 	"cypt/internal/dddcore"
 
 	jwt "github.com/golang-jwt/jwt/v5"
@@ -74,7 +75,7 @@ func (t *JwtToken) Valid() bool {
 	}
 
 	if !valid {
-		t.AddDomainEvent(event.NewInvalidRequestOccurredEvent(
+		t.AddDomainEvent(events.NewInvalidRequestOccurredEvent(
 			t.token,
 			t.request.Method,
 			t.request.URL,

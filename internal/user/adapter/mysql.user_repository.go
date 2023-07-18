@@ -1,5 +1,4 @@
-// Package user represents user bounded context
-package user
+package adapter
 
 import (
 	"errors"

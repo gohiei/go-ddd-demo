@@ -1,12 +1,12 @@
-package user
+package usecase
 
 import (
 	"encoding/json"
 	"fmt"
 
 	"cypt/internal/dddcore"
-	user "cypt/internal/user/entity/events"
-	repository "cypt/internal/user/repository"
+	"cypt/internal/user/entity/events"
+	"cypt/internal/user/repository"
 )
 
 // NotifyManagerHandler is a handler for NotifyManager events.
@@ -21,12 +21,12 @@ func (h *NotifyManagerHandler) Name() string {
 
 // EventName returns the name of the event handled by the handler.
 func (h *NotifyManagerHandler) EventName() string {
-	return user.UserRenamedEventName
+	return events.UserRenamedEventName
 }
 
 // When is the actual processing logic of the event handler, used to handle specific events.
 func (h *NotifyManagerHandler) When(eventName string, msg []byte) {
-	event := user.UserRenamedEvent{}
+	event := events.UserRenamedEvent{}
 	json.Unmarshal(msg, &event)
 
 	fmt.Println("NotifyManagerHandler Received:", event.BaseEvent, event)

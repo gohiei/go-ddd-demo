@@ -1,4 +1,4 @@
-package user_test
+package restful_test
 
 import (
 	"encoding/json"

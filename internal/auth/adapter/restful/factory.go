@@ -1,7 +1,8 @@
-package auth
+// Package restful provides functionality for setting up authentication-related RESTful endpoints.
+package restful
 
 import (
-	usecase "cypt/internal/auth/usecase"
+	"cypt/internal/auth/usecase"
 	"cypt/internal/dddcore"
 
 	"github.com/gin-gonic/gin"
