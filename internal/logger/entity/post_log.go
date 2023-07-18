@@ -23,7 +23,7 @@ type PostLog struct {
 // String returns a formatted string representation of the PostLog.
 func (l *PostLog) String() string {
 	return fmt.Sprintf(
-		`%s %s "%s %s" %d %d %s "%s" "%s" "%s" %s`,
+		`%s %s "%s %s" %d %d %d "%s" "%s" "%s" %s`,
 		l.At.Local().Format(time.RFC3339),
 		l.IP,
 		l.Method,
