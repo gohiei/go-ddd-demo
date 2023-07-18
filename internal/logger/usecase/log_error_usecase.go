@@ -6,6 +6,7 @@ import (
 
 	dddcore "cypt/internal/dddcore"
 	entity "cypt/internal/logger/entity"
+	event "cypt/internal/logger/entity/events"
 	repository "cypt/internal/logger/repository"
 )
 
@@ -40,7 +41,7 @@ func (uc *LogErrorUseCase) Name() string {
 
 // EventName returns the name of the event handled by the LogErrorUseCase.
 func (uc *LogErrorUseCase) EventName() string {
-	return "error.raised"
+	return event.UnexpectedErrorRaisedEventName
 }
 
 // When handles the incoming event and executes the use case.

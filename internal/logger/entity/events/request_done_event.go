@@ -4,6 +4,7 @@ package logger
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"cypt/internal/dddcore"
@@ -27,25 +28,27 @@ type RequestDoneEvent struct {
 	*dddcore.BaseEvent
 
 	// Request information
-	At          time.Time `json:"at"`
+	At          time.Time `json:"time"`
 	UserAgent   string    `json:"user_agent"`
-	XFF         string    `json:"x_forwarded_for"`
+	XFF         string    `json:"xff"`
 	RequestID   string    `json:"request_id"`
 	Host        string    `json:"host"`
-	Domain      string    `json:"domain"`
+	Domain      int       `json:"domain"`
 	IP          string    `json:"ip"`
 	Method      string    `json:"method"`
 	Origin      string    `json:"origin"`
-	HTTPVersion string    `json:"http_version"`
-	RequestBody string    `json:"request_body"`
+	HTTPVersion string    `json:"version"`
+	RequestBody string    `json:"req_body"`
 	Refer       string    `json:"refer"`
 	FullPath    string    `json:"full_path"`
+	SessionID   string    `json:"session_id"`
+	Agent       string    `json:"agent"`
 
 	// Response information
 	StatusCode    int    `json:"status_code"`
 	ContentLength int    `json:"content_length"`
 	Latency       int64  `json:"latency"`
-	ResponseData  string `json:"response_data"`
+	ResponseBody  string `json:"res_body"`
 }
 
 var _ dddcore.Event = (*RequestDoneEvent)(nil)
@@ -58,6 +61,13 @@ func NewRequestDoneEvent(
 	req *http.Request,
 	res *RequestDoneEventResponse,
 ) *RequestDoneEvent {
+
+	domain, err := strconv.Atoi(req.Header.Get("Domain"))
+
+	if err != nil {
+		domain = 0
+	}
+
 	return &RequestDoneEvent{
 		BaseEvent:     dddcore.NewEvent(RequestDoneEventName),
 		At:            occurredAt,
@@ -66,7 +76,7 @@ func NewRequestDoneEvent(
 		XFF:           req.Header.Get("X-Forwarded-For"),
 		RequestID:     req.Header.Get("X-Request-Id"),
 		Host:          req.Host,
-		Domain:        req.Header.Get("domain"),
+		Domain:        domain,
 		Method:        req.Method,
 		Origin:        req.RequestURI,
 		HTTPVersion:   req.Proto,
@@ -76,6 +86,8 @@ func NewRequestDoneEvent(
 		ContentLength: res.ContentLength,
 		Latency:       res.Latency.Milliseconds(),
 		FullPath:      fmt.Sprintf("%s %s", req.Method, fullPath),
-		ResponseData:  res.ResponseData,
+		ResponseBody:  res.ResponseData,
+		SessionID:     req.Header.Get("Session-Id"),
+		Agent:         req.Header.Get("X-Agent"),
 	}
 }

@@ -2,10 +2,11 @@ package logger
 
 import (
 	"bytes"
-	"errors"
+	"net/http"
 	"time"
 
 	"cypt/internal/dddcore"
+	adapter "cypt/internal/dddcore/adapter"
 	events "cypt/internal/logger/entity/events"
 
 	"github.com/gin-gonic/gin"
@@ -73,7 +74,11 @@ func NormalLogger() gin.HandlerFunc {
 	}
 }
 
-// ErrorLogger is a Gin middleware that logs errors encountered during request processing.
+// ErrorLogger is a middleware function that handles error logging and response generation for Gin framework.
+// It captures any errors occurred during the request processing and logs them using the defined format.
+// If the error is an expected domain-specific error, it returns an appropriate JSON response with the corresponding status code.
+// Otherwise, it creates a new error based on the original error and returns an internal server error response.
+// Additionally, if an event bus is available in the context, it publishes an unexpected-error-raised event for further processing.
 func ErrorLogger() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		start := time.Now()
@@ -84,19 +89,41 @@ func ErrorLogger() gin.HandlerFunc {
 			return
 		}
 
-		if eb, _ := ctx.Get("event-bus"); eb != nil {
-			for _, curError := range ctx.Errors {
-				var err dddcore.Error
-				errors.As(curError.Err, &err)
+		err := ctx.Errors[0].Err
 
-				event := events.NewErrorRaisedEvent(
-					start,
-					ctx.ClientIP(),
-					ctx.Request,
-					err,
-				)
-				eb.(dddcore.EventBus).Post(event)
-			}
+		var cerr dddcore.Error
+		var statusCode int
+
+		_, isExpected := err.(dddcore.Error)
+
+		if isExpected {
+			cerr = err.(dddcore.Error)
+			statusCode = http.StatusOK
+		} else {
+			cerr = dddcore.NewErrorBy(err)
+			statusCode = http.StatusInternalServerError
+		}
+
+		ctx.JSON(statusCode, &adapter.RestfulOutputError{
+			Result:     "error",
+			Message:    cerr.Message,
+			Code:       cerr.Code,
+			RequestID:  ctx.Request.Header.Get("X-Request-ID"),
+			StatusCode: cerr.StatusCode,
+		})
+
+		if isExpected {
+			return
+		}
+
+		if eb, _ := ctx.Get("event-bus"); eb != nil {
+			event := events.NewUnexpectedErrorRaisedEvent(
+				start,
+				ctx.ClientIP(),
+				ctx.Request,
+				cerr,
+			)
+			eb.(dddcore.EventBus).Post(event)
 		}
 	}
 }

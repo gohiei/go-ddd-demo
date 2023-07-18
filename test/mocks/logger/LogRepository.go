@@ -13,19 +13,24 @@ type LogRepository struct {
 	mock.Mock
 }
 
-// WriteAccessLog provides a mock function with given fields: _a0
-func (_m *LogRepository) WriteAccessLog(_a0 logger.AccessLog) {
-	_m.Called(_a0)
+// WriteAccessLog provides a mock function with given fields: log
+func (_m *LogRepository) WriteAccessLog(log *logger.AccessLog) {
+	_m.Called(log)
 }
 
-// WriteErrorLog provides a mock function with given fields: _a0
-func (_m *LogRepository) WriteErrorLog(_a0 logger.ErrorLog) {
-	_m.Called(_a0)
+// WriteErrorLog provides a mock function with given fields: log
+func (_m *LogRepository) WriteErrorLog(log *logger.ErrorLog) {
+	_m.Called(log)
 }
 
-// WritePostLog provides a mock function with given fields: _a0
-func (_m *LogRepository) WritePostLog(_a0 logger.PostLog) {
-	_m.Called(_a0)
+// WriteHTTPRequestLog provides a mock function with given fields: log
+func (_m *LogRepository) WriteHTTPRequestLog(log *logger.HTTPRequestLog) {
+	_m.Called(log)
+}
+
+// WritePostLog provides a mock function with given fields: log
+func (_m *LogRepository) WritePostLog(log *logger.PostLog) {
+	_m.Called(log)
 }
 
 type mockConstructorTestingTNewLogRepository interface {

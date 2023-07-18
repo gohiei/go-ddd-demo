@@ -15,10 +15,10 @@ import (
 
 // ZerologLogRepository is an implementation of LogRepository using the Zerolog library.
 type ZerologLogRepository struct {
-	accessLogger      zerolog.Logger
-	postLogger        zerolog.Logger
-	errorLogger       zerolog.Logger
-	httpRequestLogger zerolog.Logger
+	accessLogger      *zerolog.Logger
+	postLogger        *zerolog.Logger
+	errorLogger       *zerolog.Logger
+	httpRequestLogger *zerolog.Logger
 }
 
 var _ repo.LogRepository = (*ZerologLogRepository)(nil)
@@ -51,10 +51,10 @@ func NewZerologLogRepository(logDir string) *ZerologLogRepository {
 	hLogger := zerolog.New(hWriters).With().Logger()
 
 	return &ZerologLogRepository{
-		accessLogger:      aLogger,
-		postLogger:        pLogger,
-		errorLogger:       eLogger,
-		httpRequestLogger: hLogger,
+		accessLogger:      &aLogger,
+		postLogger:        &pLogger,
+		errorLogger:       &eLogger,
+		httpRequestLogger: &hLogger,
 	}
 }
 

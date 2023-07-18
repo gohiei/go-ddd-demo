@@ -3,7 +3,6 @@ package user_test
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -11,9 +10,11 @@ import (
 
 	"cypt/internal/dddcore"
 	adapter "cypt/internal/dddcore/adapter"
+	logger "cypt/internal/logger/adapter/restful"
 	restful "cypt/internal/user/adapter/restful"
 	usecase "cypt/internal/user/usecase"
 	dddcoreMock "cypt/test/mocks/dddcore"
+
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -22,6 +23,7 @@ import (
 func getRouter(uc restful.RenameUseCaseType) *gin.Engine {
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
+	router.Use(logger.ErrorLogger())
 	restful.NewRenameRestful(router, uc)
 
 	return router
@@ -46,7 +48,7 @@ func TestRename(t *testing.T) {
 		{
 			output: usecase.RenameUseCaseOutput{},
 			err:    dddcore.NewErrorS("10xxx", "user not found", http.StatusBadRequest),
-			code:   http.StatusBadRequest,
+			code:   http.StatusOK,
 			result: "error",
 		},
 		{
@@ -70,13 +72,8 @@ func TestRename(t *testing.T) {
 		assert.Equal(t, tc.code, w.Code)
 
 		var out adapter.RestfulOutputError
-		err := json.Unmarshal(w.Body.Bytes(), &out)
+		_ = json.Unmarshal(w.Body.Bytes(), &out)
 
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		fmt.Println(w.Body.String())
 		assert.Equal(t, tc.result, out.Result)
 	}
 }

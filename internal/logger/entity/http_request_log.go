@@ -8,9 +8,9 @@ import (
 
 type HTTPRequestLog struct {
 	At         time.Time     `json:"time"`
+	Host       string        `json:"host"`
 	Method     string        `json:"method"`
 	Origin     string        `json:"origin"`
-	Host       string        `json:"host"`
 	ReqHeader  http.Header   `json:"req_header"`
 	ReqBody    string        `json:"req_body"`
 	StatusCode int           `json:"status_code"`

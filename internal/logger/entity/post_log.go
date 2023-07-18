@@ -13,11 +13,11 @@ type PostLog struct {
 	Origin        string    `json:"origin"`      // Origin of the request
 	StatusCode    int       `json:"status_code"` // HTTP status code
 	ContentLength int       `json:"length"`      // Length of the response content
-	Domain        string    `json:"domain"`      // Domain of the request
 	Host          string    `json:"host"`        // Host of the request
+	Domain        int       `json:"domain"`      // Domain of the request
 	RequestID     string    `json:"request_id"`  // Request ID
-	RequestBody   string    `json:"request"`     // Request body
-	ResponseData  string    `json:"response"`    // Response data
+	RequestBody   string    `json:"req_body"`    // Request body
+	ResponseBody  string    `json:"res_body"`    // Response data
 }
 
 // String returns a formatted string representation of the PostLog.
@@ -34,6 +34,6 @@ func (l *PostLog) String() string {
 		l.Host,
 		l.RequestID,
 		l.RequestBody,
-		l.ResponseData,
+		l.ResponseBody,
 	)
 }
