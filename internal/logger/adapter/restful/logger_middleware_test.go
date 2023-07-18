@@ -38,6 +38,7 @@ func TestErrorLoggerGivenExpectedError(t *testing.T) {
 	ctx.Request, _ = http.NewRequest("GET", "/", new(bytes.Buffer))
 
 	eb := dddcoreMock.NewEventBus(t)
+	ctx.Request.Header.Set("X-Request-Id", "ttt")
 	ctx.Set("event-bus", eb)
 	ctx.Error(dddcore.NewErrorI("10xxx", "fake error 1"))
 
@@ -46,7 +47,7 @@ func TestErrorLoggerGivenExpectedError(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, "application/json; charset=utf-8", w.Header().Get("Content-Type"))
-	assert.Equal(t, "{\"result\":\"error\",\"code\":\"10xxx\",\"message\":\"fake error 1\",\"request_id\":\"\",\"http_status_code\":500}", w.Body.String())
+	assert.Equal(t, "{\"result\":\"error\",\"code\":\"10xxx\",\"message\":\"fake error 1\",\"request_id\":\"ttt\",\"http_status_code\":500}", w.Body.String())
 }
 
 func TestErrorLoggerGivenUnexpectedError(t *testing.T) {
@@ -55,6 +56,7 @@ func TestErrorLoggerGivenUnexpectedError(t *testing.T) {
 	ctx.Request, _ = http.NewRequest("GET", "/", new(bytes.Buffer))
 
 	eb := dddcoreMock.NewEventBus(t)
+	ctx.Request.Header.Set("X-Request-Id", "ttt")
 	ctx.Set("event-bus", eb)
 	ctx.Error(errors.New("fake error 2"))
 
@@ -65,7 +67,7 @@ func TestErrorLoggerGivenUnexpectedError(t *testing.T) {
 
 	assert.Equal(t, http.StatusInternalServerError, w.Code)
 	assert.Equal(t, "application/json; charset=utf-8", w.Header().Get("Content-Type"))
-	assert.Equal(t, "{\"result\":\"error\",\"code\":\"-\",\"message\":\"fake error 2\",\"request_id\":\"\",\"http_status_code\":500}", w.Body.String())
+	assert.Equal(t, "{\"result\":\"error\",\"code\":\"-\",\"message\":\"fake error 2\",\"request_id\":\"ttt\",\"http_status_code\":500}", w.Body.String())
 
 	eb.AssertExpectations(t)
 	postFunc.Unset()
