@@ -3,7 +3,6 @@ package adapter
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"cypt/internal/dddcore"
@@ -29,16 +28,16 @@ type WatermillEventBus struct {
 func (eb *WatermillEventBus) Post(e dddcore.Event) {
 	jsonData, err := json.Marshal(e)
 
+	// nolint: staticcheck
 	if err != nil {
 		// Handle error
 	}
 
 	msg := message.NewMessage(e.GetID(), jsonData)
 
-	fmt.Println("post: ", string(jsonData))
-
 	err = eb.pubsub.Publish(e.GetName(), msg)
 
+	// nolint: staticcheck
 	if err != nil {
 		// Handle error
 	}
@@ -63,7 +62,7 @@ func (eb *WatermillEventBus) Register(h dddcore.EventHandler) {
 		},
 	)
 
-	eb.router.RunHandlers(ctx)
+	_ = eb.router.RunHandlers(ctx)
 }
 
 // Unregister unregisters an event handler from the event bus.
@@ -98,7 +97,12 @@ func NewWatermillEventBus() WatermillEventBus {
 		watermill.NewStdLogger(false, false),
 	)
 
-	go router.Run(ctx)
+	go func() {
+		if err := router.Run(ctx); err != nil {
+			panic(err)
+		}
+	}()
+
 	<-router.Running()
 
 	return WatermillEventBus{

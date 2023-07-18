@@ -13,6 +13,7 @@ func NewIDRedis(redisDsn string) (*redis.Client, error) {
 	var err error
 
 	if options, err = redis.ParseURL(redisDsn); err != nil {
+		// nolint: forbidigo
 		fmt.Println(redisDsn, err)
 		panic(err)
 	}

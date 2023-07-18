@@ -49,11 +49,12 @@ func (uc *LogErrorUseCase) When(eventName string, message []byte) {
 	var input LogErrorUseCaseInput
 
 	if err := json.Unmarshal(message, &input); err != nil {
+		// nolint: forbidigo
 		fmt.Println("err ", err)
 		return
 	}
 
-	uc.Execute(&input)
+	_, _ = uc.Execute(&input)
 }
 
 // Execute performs the logging of error events based on the provided input.

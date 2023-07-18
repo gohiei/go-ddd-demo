@@ -35,16 +35,16 @@ func NewLogger(filepath string) *zap.Logger {
 
 func NewZapLogRepository(logDir string) *ZapLogRepository {
 	aLogger := NewLogger(logDir + "/access.log")
-	defer aLogger.Sync()
+	defer func() { _ = aLogger.Sync() }()
 
 	pLogger := NewLogger(logDir + "/post.log")
-	defer pLogger.Sync()
+	defer func() { _ = pLogger.Sync() }()
 
 	eLogger := NewLogger(logDir + "/error.log")
-	defer eLogger.Sync()
+	defer func() { _ = eLogger.Sync() }()
 
 	hLogger := NewLogger(logDir + "/http.request.log")
-	defer hLogger.Sync()
+	defer func() { _ = hLogger.Sync() }()
 
 	return &ZapLogRepository{
 		accessLogger:      aLogger,

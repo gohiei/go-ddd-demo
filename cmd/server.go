@@ -64,8 +64,9 @@ func runServer(s serverSetting) {
 	addr := fmt.Sprintf("%s:%d", s.address, s.port)
 
 	srv := &http.Server{
-		Addr:    addr,
-		Handler: router,
+		Addr:              addr,
+		Handler:           router,
+		ReadHeaderTimeout: 10 * time.Second,
 	}
 
 	go func() {
@@ -87,7 +88,7 @@ func runServer(s serverSetting) {
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Fatal("Server forced to shutdown: ", err)
+		log.Println("Server forced to shutdown: ", err)
 	}
 
 	log.Println("Server exiting")

@@ -36,11 +36,12 @@ func (uc *LogHTTPRequestUseCase) When(eventName string, message []byte) {
 	var input LogHTTPRequestUseCaseInput
 
 	if err := json.Unmarshal(message, &input); err != nil {
+		// nolint: forbidigo
 		fmt.Println("err ", err)
 		return
 	}
 
-	uc.Execute(&input)
+	_, _ = uc.Execute(&input)
 }
 
 func (uc *LogHTTPRequestUseCase) Execute(input *LogHTTPRequestUseCaseInput) (LogHTTPRequestUseCaseOutput, error) {

@@ -51,7 +51,7 @@ func (uc *LogPostUseCase) When(eventName string, message []byte) {
 		return
 	}
 
-	uc.Execute(&input)
+	_, _ = uc.Execute(&input)
 }
 
 // Execute performs the logging of post request events based on the provided input.

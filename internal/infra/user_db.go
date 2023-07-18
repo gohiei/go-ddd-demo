@@ -14,12 +14,16 @@ func NewUserDB(writeDsn string, readDsn string) (*gorm.DB, error) {
 	})
 
 	if err != nil {
-		return &gorm.DB{}, err
+		return nil, err
 	}
 
-	db.Use(dbresolver.Register(dbresolver.Config{
+	err = db.Use(dbresolver.Register(dbresolver.Config{
 		Replicas: []gorm.Dialector{mysql.Open(readDsn)},
 	}))
+
+	if err != nil {
+		return nil, err
+	}
 
 	return db, nil
 }
