@@ -2,11 +2,11 @@
 package adapter
 
 import (
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
-
 	"cypt/internal/logger/entity"
 	"cypt/internal/logger/repository"
+
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 var _ repository.LogRepository = (*ZapLogRepository)(nil)

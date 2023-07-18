@@ -2,10 +2,11 @@
 package entity
 
 import (
-	"cypt/internal/dddcore"
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"cypt/internal/dddcore"
 )
 
 // AccessLog represents an access log entry.
