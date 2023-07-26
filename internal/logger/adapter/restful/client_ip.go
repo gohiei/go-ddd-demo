@@ -65,7 +65,7 @@ func parseFromTunnel(ip string) (string, error) {
 		return parseFromBrowser()
 	}
 
-	return "", errors.New("Unrecognized client ip")
+	return "", errors.New("unrecognized client ip")
 }
 
 // @todo
