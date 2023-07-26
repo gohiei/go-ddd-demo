@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	logger "cypt/internal/logger/entity"
+	entity "cypt/internal/logger/entity"
 
 	mock "github.com/stretchr/testify/mock"
 )
@@ -14,22 +14,22 @@ type LogRepository struct {
 }
 
 // WriteAccessLog provides a mock function with given fields: log
-func (_m *LogRepository) WriteAccessLog(log *logger.AccessLog) {
+func (_m *LogRepository) WriteAccessLog(log *entity.AccessLog) {
 	_m.Called(log)
 }
 
 // WriteErrorLog provides a mock function with given fields: log
-func (_m *LogRepository) WriteErrorLog(log *logger.ErrorLog) {
+func (_m *LogRepository) WriteErrorLog(log *entity.ErrorLog) {
 	_m.Called(log)
 }
 
 // WriteHTTPRequestLog provides a mock function with given fields: log
-func (_m *LogRepository) WriteHTTPRequestLog(log *logger.HTTPRequestLog) {
+func (_m *LogRepository) WriteHTTPRequestLog(log *entity.HTTPRequestLog) {
 	_m.Called(log)
 }
 
 // WritePostLog provides a mock function with given fields: log
-func (_m *LogRepository) WritePostLog(log *logger.PostLog) {
+func (_m *LogRepository) WritePostLog(log *entity.PostLog) {
 	_m.Called(log)
 }
 
