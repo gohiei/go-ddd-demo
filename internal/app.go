@@ -19,7 +19,11 @@ func NewAppController(router *gin.Engine, config *viper.Viper) {
 		c.Set("event-bus", &eventBus)
 	})
 
-	logger.NewLoggerRestful(router, &eventBus, config.GetString("log_dir"))
+	logger.NewLoggerRestful(router, &eventBus, logger.LogConfig{
+		Dir:           config.GetString("log_dir"),
+		TrustedHeader: config.GetString("trusted_header"),
+		TrustedProxy:  config.GetStringSlice("trusted_proxy"),
+	})
 
 	auth.NewAuthRestful(router, &eventBus)
 
