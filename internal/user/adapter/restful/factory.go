@@ -3,10 +3,10 @@ package restful
 
 import (
 	"cypt/internal/dddcore"
-	"cypt/internal/infra"
 	logger "cypt/internal/logger/service"
-	adapter "cypt/internal/user/adapter"
-	usecase "cypt/internal/user/usecase"
+	"cypt/internal/user/adapter"
+	"cypt/internal/user/infra"
+	"cypt/internal/user/usecase"
 
 	"github.com/gin-gonic/gin"
 )
