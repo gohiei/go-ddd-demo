@@ -21,12 +21,15 @@
 * ~Restful API (gin)~
 * ~Database Read/Write Split (gorm)~
 * ~IoC/DI package~ (Deprecated)
-* Tests
+* ~Tests~
 * ~Logger~
 * ~Customized Error~ ([ref](https://github.com/gohiei/go-ddd-demo/commit/11416ce5673785122497fe300e720a70e6831912))
 * ~Configuration (viper)~
 * ~Commandline tool (cobra)~
 * ~Makefile~
+
+## Breaking Change
+* [2023-08-01] `When` will return error (77d2e4a)
 
 ## Recommendation
 * [uber-go/goleak](https://github.com/uber-go/goleak)
