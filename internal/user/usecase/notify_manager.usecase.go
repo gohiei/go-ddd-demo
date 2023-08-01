@@ -9,6 +9,7 @@ import (
 	"cypt/internal/user/repository"
 )
 
+var _ dddcore.EventHandler = (*NotifyManagerUseCase)(nil)
 var _ dddcore.UseCase[NotifyManagerUseCaseInput, NotifyManagerUseCaseOutput] = (*NotifyManagerUseCase)(nil)
 
 // NotifyManagerUseCase is a handler for NotifyManager events.
@@ -24,14 +25,15 @@ func (h *NotifyManagerUseCase) EventName() string {
 	return events.UserRenamedEventName
 }
 
-func (h *NotifyManagerUseCase) When(eventName string, msg []byte) {
+func (h *NotifyManagerUseCase) When(eventName string, msg []byte) error {
 	event := events.UserRenamedEvent{}
 
 	if err := json.Unmarshal(msg, &event); err != nil {
-		return
+		return err
 	}
 
-	_, _ = h.Execute(&NotifyManagerUseCaseInput{})
+	_, err := h.Execute(&NotifyManagerUseCaseInput{})
+	return err
 }
 
 type NotifyManagerUseCaseInput struct{}

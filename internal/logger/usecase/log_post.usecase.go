@@ -44,14 +44,15 @@ func (uc *LogPostUseCase) EventName() string {
 }
 
 // When handles the incoming event and executes the use case.
-func (uc *LogPostUseCase) When(eventName string, message []byte) {
+func (uc *LogPostUseCase) When(eventName string, message []byte) error {
 	var input LogPostUseCaseInput
 
 	if err := json.Unmarshal(message, &input); err != nil {
-		return
+		return err
 	}
 
-	_, _ = uc.Execute(&input)
+	_, err := uc.Execute(&input)
+	return err
 }
 
 // Execute performs the logging of post request events based on the provided input.

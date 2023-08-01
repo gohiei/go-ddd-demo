@@ -12,5 +12,5 @@ type EventBus interface {
 type EventHandler interface {
 	Name() string
 	EventName() string
-	When(name string, message []byte)
+	When(name string, message []byte) error
 }

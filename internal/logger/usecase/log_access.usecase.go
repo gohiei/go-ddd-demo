@@ -3,7 +3,6 @@ package usecase
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"cypt/internal/dddcore"
 	"cypt/internal/logger/entity"
@@ -43,16 +42,15 @@ func (uc *LogAccessUseCase) EventName() string {
 }
 
 // When handles the incoming event and executes the use case.
-func (uc *LogAccessUseCase) When(eventName string, message []byte) {
+func (uc *LogAccessUseCase) When(eventName string, message []byte) error {
 	var input LogAccessUseCaseInput
 
 	if err := json.Unmarshal(message, &input); err != nil {
-		// nolint: forbidigo
-		fmt.Println("err ", err)
-		return
+		return err
 	}
 
-	_, _ = uc.Execute(&input)
+	_, err := uc.Execute(&input)
+	return err
 }
 
 // Execute performs the logging of access events based on the provided input.

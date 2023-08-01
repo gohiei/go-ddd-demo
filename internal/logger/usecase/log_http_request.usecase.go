@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"cypt/internal/dddcore"
 	"cypt/internal/logger/entity"
@@ -34,16 +33,15 @@ func (uc *LogHTTPRequestUseCase) EventName() string {
 	return "http_request.done"
 }
 
-func (uc *LogHTTPRequestUseCase) When(eventName string, message []byte) {
+func (uc *LogHTTPRequestUseCase) When(eventName string, message []byte) error {
 	var input LogHTTPRequestUseCaseInput
 
 	if err := json.Unmarshal(message, &input); err != nil {
-		// nolint: forbidigo
-		fmt.Println("err ", err)
-		return
+		return err
 	}
 
-	_, _ = uc.Execute(&input)
+	_, err := uc.Execute(&input)
+	return err
 }
 
 func (uc *LogHTTPRequestUseCase) Execute(input *LogHTTPRequestUseCaseInput) (*LogHTTPRequestUseCaseOutput, error) {
