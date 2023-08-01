@@ -35,28 +35,28 @@ func NewRenameUseCase(repo repository.UserRepository, eb dddcore.EventBus) *Rena
 }
 
 // Execute executes the RenameUseCase with the provided input and returns the output.
-func (uc *RenameUseCase) Execute(input *RenameUseCaseInput) (RenameUseCaseOutput, error) {
+func (uc *RenameUseCase) Execute(input *RenameUseCaseInput) (*RenameUseCaseOutput, error) {
 	var userID dddcore.UUID
 	var user entity.User
 	var err error
 
 	if userID, err = dddcore.BuildUUID(input.ID); err != nil || userID.IsNil() {
-		return RenameUseCaseOutput{}, dddcore.NewErrorS("10007", "ID is not in UUID format", http.StatusBadRequest)
+		return nil, dddcore.NewErrorS("10007", "ID is not in UUID format", http.StatusBadRequest)
 	}
 
 	if user, err = uc.userRepo.Get(userID); err != nil {
-		return RenameUseCaseOutput{}, err
+		return nil, err
 	}
 
 	user.Rename(input.Username)
 
 	if err = uc.userRepo.Rename(user); err != nil {
-		return RenameUseCaseOutput{}, err
+		return nil, err
 	}
 
 	uc.eventBus.PostAll(user)
 
-	return RenameUseCaseOutput{
+	return &RenameUseCaseOutput{
 		ID:       user.GetID().String(),
 		Username: user.GetUsername(),
 	}, nil

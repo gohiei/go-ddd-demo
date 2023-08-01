@@ -10,5 +10,5 @@ type Output interface{}
 // It is parameterized with types I for the input and O for the output.
 type UseCase[I Input, O Output] interface {
 	// Execute executes the use case with the given input and returns the output and an error if applicable.
-	Execute(*I) (O, error)
+	Execute(*I) (*O, error)
 }
