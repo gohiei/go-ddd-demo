@@ -38,8 +38,17 @@ func (_m *EventHandler) Name() string {
 }
 
 // When provides a mock function with given fields: name, message
-func (_m *EventHandler) When(name string, message []byte) {
-	_m.Called(name, message)
+func (_m *EventHandler) When(name string, message []byte) error {
+	ret := _m.Called(name, message)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, []byte) error); ok {
+		r0 = rf(name, message)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
 // NewEventHandler creates a new instance of EventHandler. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.

@@ -28,7 +28,7 @@ func (b *TestEventBus) Post(e dddcore.Event) {
 	}
 
 	for _, handler := range handlers {
-		handler.When(e.GetName(), jsonData)
+		_ = handler.When(e.GetName(), jsonData)
 	}
 }
 

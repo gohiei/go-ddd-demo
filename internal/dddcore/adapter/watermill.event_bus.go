@@ -57,7 +57,8 @@ func (eb *WatermillEventBus) Register(h dddcore.EventHandler) {
 		h.EventName(),
 		eb.pubsub,
 		func(msg *message.Message) error {
-			h.When(h.EventName(), msg.Payload)
+			// @todo Maybe do something, such as retry
+			_ = h.When(h.EventName(), msg.Payload)
 			return nil
 		},
 	)
