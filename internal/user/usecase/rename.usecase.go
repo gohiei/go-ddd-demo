@@ -26,6 +26,8 @@ type RenameUseCase struct {
 	eventBus dddcore.EventBus
 }
 
+var _ dddcore.UseCase[RenameUseCaseInput, RenameUseCaseOutput] = (*RenameUseCase)(nil)
+
 // NewRenameUseCase creates a new instance of RenameUseCase.
 func NewRenameUseCase(repo repository.UserRepository, eb dddcore.EventBus) *RenameUseCase {
 	return &RenameUseCase{
