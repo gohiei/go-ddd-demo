@@ -32,13 +32,13 @@ func getRouter(uc restful.RenameUseCaseType) *gin.Engine {
 func TestRename(t *testing.T) {
 	userID := dddcore.NewUUID().String()
 	testcases := []struct {
-		output usecase.RenameUseCaseOutput
+		output *usecase.RenameUseCaseOutput
 		err    error
 		code   int
 		result string
 	}{
 		{
-			output: usecase.RenameUseCaseOutput{
+			output: &usecase.RenameUseCaseOutput{
 				ID:       userID,
 				Username: "test2",
 			},
@@ -46,13 +46,13 @@ func TestRename(t *testing.T) {
 			result: "ok",
 		},
 		{
-			output: usecase.RenameUseCaseOutput{},
+			output: nil,
 			err:    dddcore.NewErrorS("10xxx", "user not found", http.StatusBadRequest),
 			code:   http.StatusOK,
 			result: "error",
 		},
 		{
-			output: usecase.RenameUseCaseOutput{},
+			output: nil,
 			err:    errors.New("other error"),
 			code:   http.StatusInternalServerError,
 			result: "error",

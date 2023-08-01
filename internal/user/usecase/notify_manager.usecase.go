@@ -35,15 +35,15 @@ func (h *NotifyManagerUseCase) When(eventName string, msg []byte) {
 }
 
 type NotifyManagerUseCaseInput struct{}
-type NotifyManagerUseCaseOutput bool
+type NotifyManagerUseCaseOutput struct{ Result bool }
 
-func (h *NotifyManagerUseCase) Execute(input *NotifyManagerUseCaseInput) (NotifyManagerUseCaseOutput, error) {
+func (h *NotifyManagerUseCase) Execute(input *NotifyManagerUseCaseInput) (*NotifyManagerUseCaseOutput, error) {
 	if data, err := h.repo.GetEchoData(); err != nil {
 		// nolint: forbidigo
 		fmt.Println("Echo: ", data)
 	}
 
-	return false, nil
+	return &NotifyManagerUseCaseOutput{Result: false}, nil
 }
 
 func NewNotifyManagerHandler(repo repository.OutsideRepository, eb dddcore.EventBus) NotifyManagerUseCase {

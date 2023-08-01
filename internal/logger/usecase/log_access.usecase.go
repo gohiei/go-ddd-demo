@@ -30,6 +30,8 @@ func NewLogAccessUseCase(logger repository.LogRepository, eventBus dddcore.Event
 	return uc
 }
 
+var _ dddcore.UseCase[LogAccessUseCaseInput, LogAccessUseCaseOutput] = (*LogAccessUseCase)(nil)
+
 // Name returns the name of the LogAccessUseCase.
 func (uc *LogAccessUseCase) Name() string {
 	return "logger.access"
@@ -54,7 +56,7 @@ func (uc *LogAccessUseCase) When(eventName string, message []byte) {
 }
 
 // Execute performs the logging of access events based on the provided input.
-func (uc *LogAccessUseCase) Execute(input *LogAccessUseCaseInput) (LogAccessUseCaseOutput, error) {
+func (uc *LogAccessUseCase) Execute(input *LogAccessUseCaseInput) (*LogAccessUseCaseOutput, error) {
 	log := &entity.AccessLog{
 		At:            input.At,
 		Method:        input.Method,
@@ -75,5 +77,5 @@ func (uc *LogAccessUseCase) Execute(input *LogAccessUseCaseInput) (LogAccessUseC
 
 	uc.logger.WriteAccessLog(log)
 
-	return LogAccessUseCaseOutput{}, nil
+	return &LogAccessUseCaseOutput{}, nil
 }

@@ -16,8 +16,8 @@ type RenameUseCaseType dddcore.UseCase[usecase.RenameUseCaseInput, usecase.Renam
 
 // RenameRestfulOutput defines the output structure for the RenameRestful handler.
 type RenameRestfulOutput struct {
-	Result string                      `json:"result"`
-	Ret    usecase.RenameUseCaseOutput `json:"ret"`
+	Result string                       `json:"result"`
+	Ret    *usecase.RenameUseCaseOutput `json:"ret"`
 }
 
 // NewRenameRestful registers the RenameRestful handler to the provided router with the given RenameUseCaseType.

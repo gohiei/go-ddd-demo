@@ -41,26 +41,26 @@ func NewRegisterUserUseCase(userRepo repository.UserRepository, idRepo repositor
 }
 
 // Execute executes the RegisterUserUseCase with the provided input and returns the output.
-func (uc *RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (RegisterUserUseCaseOutput, error) {
+func (uc *RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (*RegisterUserUseCaseOutput, error) {
 	var user entity.User
 	var userID int64
 	var err error
 
 	if userID, err = uc.idRepo.Incr(1); err != nil {
-		return RegisterUserUseCaseOutput{}, err
+		return nil, err
 	}
 
 	if user, err = entity.NewUser(input.Username, input.Password, userID); err != nil {
-		return RegisterUserUseCaseOutput{}, err
+		return nil, err
 	}
 
 	if err = uc.userRepo.Add(user); err != nil {
-		return RegisterUserUseCaseOutput{}, err
+		return nil, err
 	}
 
 	uc.eventBus.PostAll(user)
 
-	return RegisterUserUseCaseOutput{
+	return &RegisterUserUseCaseOutput{
 		ID:       user.GetID().String(),
 		Username: user.GetUsername(),
 		UserID:   user.GetUserID(),

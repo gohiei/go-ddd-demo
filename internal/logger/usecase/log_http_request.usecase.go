@@ -11,11 +11,13 @@ import (
 
 type LogHTTPRequestUseCaseInput entity.HTTPRequestLog
 
-type LogHTTPRequestUseCaseOutput bool
+type LogHTTPRequestUseCaseOutput struct{ Result bool }
 
 type LogHTTPRequestUseCase struct {
 	logger repository.LogRepository
 }
+
+var _ dddcore.UseCase[LogHTTPRequestUseCaseInput, LogHTTPRequestUseCaseOutput] = (*LogHTTPRequestUseCase)(nil)
 
 func NewLogHTTPRequestUseCase(logger repository.LogRepository, eventBus dddcore.EventBus) *LogHTTPRequestUseCase {
 	uc := &LogHTTPRequestUseCase{logger: logger}
@@ -44,7 +46,7 @@ func (uc *LogHTTPRequestUseCase) When(eventName string, message []byte) {
 	_, _ = uc.Execute(&input)
 }
 
-func (uc *LogHTTPRequestUseCase) Execute(input *LogHTTPRequestUseCaseInput) (LogHTTPRequestUseCaseOutput, error) {
+func (uc *LogHTTPRequestUseCase) Execute(input *LogHTTPRequestUseCaseInput) (*LogHTTPRequestUseCaseOutput, error) {
 	log := &entity.HTTPRequestLog{
 		At:         input.At,
 		Method:     input.Method,
@@ -60,5 +62,5 @@ func (uc *LogHTTPRequestUseCase) Execute(input *LogHTTPRequestUseCaseInput) (Log
 	}
 	uc.logger.WriteHTTPRequestLog(log)
 
-	return true, nil
+	return &LogHTTPRequestUseCaseOutput{Result: true}, nil
 }
