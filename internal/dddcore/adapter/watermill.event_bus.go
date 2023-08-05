@@ -25,33 +25,33 @@ type WatermillEventBus struct {
 }
 
 // Post publishes an event to the event bus.
-func (eb *WatermillEventBus) Post(e dddcore.Event) {
+func (eb *WatermillEventBus) Post(e dddcore.Event) error {
 	jsonData, err := json.Marshal(e)
 
-	// nolint: staticcheck
 	if err != nil {
-		// Handle error
+		return err
 	}
 
 	msg := message.NewMessage(e.GetID(), jsonData)
 
-	err = eb.pubsub.Publish(e.GetName(), msg)
-
-	// nolint: staticcheck
-	if err != nil {
-		// Handle error
-	}
+	return eb.pubsub.Publish(e.GetName(), msg)
 }
 
 // PostAll publishes all the domain events of an aggregate root to the event bus.
-func (eb *WatermillEventBus) PostAll(ar dddcore.AggregateRoot) {
+func (eb *WatermillEventBus) PostAll(ar dddcore.AggregateRoot) error {
 	for _, event := range ar.GetDomainEvents() {
-		eb.Post(event)
+		err := eb.Post(event)
+
+		if err != nil {
+			return err
+		}
 	}
+
+	return nil
 }
 
 // Register registers an event handler with the event bus.
-func (eb *WatermillEventBus) Register(h dddcore.EventHandler) {
+func (eb *WatermillEventBus) Register(h dddcore.EventHandler) error {
 	eb.router.AddNoPublisherHandler(
 		h.Name(),
 		h.EventName(),
@@ -63,12 +63,13 @@ func (eb *WatermillEventBus) Register(h dddcore.EventHandler) {
 		},
 	)
 
-	_ = eb.router.RunHandlers(ctx)
+	return eb.router.RunHandlers(ctx)
 }
 
 // Unregister unregisters an event handler from the event bus.
-func (eb *WatermillEventBus) Unregister(h dddcore.EventHandler) {
+func (eb *WatermillEventBus) Unregister(h dddcore.EventHandler) error {
 	// Implementation for unregistering an event handler
+	return nil
 }
 
 var _ dddcore.EventBus = (*WatermillEventBus)(nil)

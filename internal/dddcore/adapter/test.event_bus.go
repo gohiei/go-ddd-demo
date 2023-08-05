@@ -11,36 +11,42 @@ type TestEventBus struct {
 	handlers map[string][]dddcore.EventHandler
 }
 
+var _ dddcore.EventBus = (*TestEventBus)(nil)
+
 // Post publishes an event to the event bus.
-func (b *TestEventBus) Post(e dddcore.Event) {
+func (b *TestEventBus) Post(e dddcore.Event) error {
 	name := e.GetName()
 
 	handlers, ok := b.handlers[name]
 
 	if !ok || len(handlers) == 0 {
-		return
+		return nil
 	}
 
 	jsonData, err := json.Marshal(e)
 
 	if err != nil {
-		return
+		return err
 	}
 
 	for _, handler := range handlers {
 		_ = handler.When(e.GetName(), jsonData)
 	}
+
+	return nil
 }
 
 // PostAll publishes all the domain events of an aggregate root to the event bus.
-func (b *TestEventBus) PostAll(ar dddcore.AggregateRoot) {
+func (b *TestEventBus) PostAll(ar dddcore.AggregateRoot) error {
 	for _, e := range ar.GetDomainEvents() {
 		b.Post(e)
 	}
+
+	return nil
 }
 
 // Register registers an event handler with the event bus.
-func (b *TestEventBus) Register(h dddcore.EventHandler) {
+func (b *TestEventBus) Register(h dddcore.EventHandler) error {
 	name := h.EventName()
 	_, ok := b.handlers[name]
 
@@ -49,14 +55,16 @@ func (b *TestEventBus) Register(h dddcore.EventHandler) {
 	}
 
 	b.handlers[name] = append(b.handlers[name], h)
+
+	return nil
 }
 
 // Unregister unregisters an event handler from the event bus.
-func (b *TestEventBus) Unregister(h dddcore.EventHandler) {
+func (b *TestEventBus) Unregister(h dddcore.EventHandler) error {
 	name := h.EventName()
 	handlers, ok := b.handlers[name]
 	if !ok {
-		return
+		return nil
 	}
 
 	var index = -1
@@ -70,6 +78,8 @@ func (b *TestEventBus) Unregister(h dddcore.EventHandler) {
 	if index >= 0 {
 		b.handlers[name] = append(handlers[:index], handlers[index+1:]...)
 	}
+
+	return nil
 }
 
 // NewTestEventBus creates a new instance of TestEventBus.
