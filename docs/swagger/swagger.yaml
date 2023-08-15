@@ -1,0 +1,99 @@
+definitions:
+  restful.RegisterUserRestfulInput:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  restful.RegisterUserRestfulOutput:
+    properties:
+      result:
+        type: string
+      ret:
+        $ref: '#/definitions/usecase.RegisterUserUseCaseOutput'
+    type: object
+  restful.RenameRestfulInput:
+    properties:
+      usernmae:
+        type: string
+    type: object
+  restful.RenameRestfulOutput:
+    properties:
+      result:
+        type: string
+      ret:
+        $ref: '#/definitions/usecase.RenameUseCaseOutput'
+    type: object
+  usecase.RegisterUserUseCaseOutput:
+    properties:
+      id:
+        type: string
+      user_id:
+        type: integer
+      username:
+        type: string
+    type: object
+  usecase.RenameUseCaseOutput:
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/user:
+    post:
+      consumes:
+      - application/json
+      - application/x-www-form-urlencoded
+      description: Register User
+      parameters:
+      - description: User Info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/restful.RegisterUserRestfulInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/restful.RegisterUserRestfulOutput'
+      tags:
+      - User
+  /api/user/{id}:
+    put:
+      consumes:
+      - application/json
+      - application/x-www-form-urlencoded
+      description: Rename a user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/restful.RenameRestfulInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/restful.RenameRestfulOutput'
+      tags:
+      - User
+swagger: "2.0"

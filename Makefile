@@ -1,4 +1,4 @@
-.PHONY: all build run check help mocks clean test
+.PHONY: all build run check help mocks clean test docs
 
 BIN=cypt
 
@@ -34,6 +34,9 @@ mocks:
 upgrade:
 	go get -u ./...
 
+docs:
+	swag init -o docs/swagger
+
 help:
 	echo "make         檢查後編譯"
 	echo "make build   編譯"
@@ -42,3 +45,4 @@ help:
 	echo "make run     直接執行"
 	echo "make mocks   產生測試用的mock"
 	echo "make upgrade 升級所有套件"
+	echo "make docs    產生API文件"

@@ -18,7 +18,7 @@ import (
 
 func TestNormalLogger(t *testing.T) {
 	ctx, _ := gin.CreateTestContext(httptest.NewRecorder())
-	ctx.Request, _ = http.NewRequest("GET", "/", new(bytes.Buffer))
+	ctx.Request, _ = http.NewRequest("GET", "/api/test", new(bytes.Buffer))
 
 	eb := dddcoreMock.NewEventBus(t)
 	ctx.Set("event-bus", eb)
@@ -35,7 +35,7 @@ func TestNormalLogger(t *testing.T) {
 func TestErrorLoggerGivenExpectedError(t *testing.T) {
 	w := httptest.NewRecorder()
 	ctx, _ := gin.CreateTestContext(w)
-	ctx.Request, _ = http.NewRequest("GET", "/", new(bytes.Buffer))
+	ctx.Request, _ = http.NewRequest("GET", "/api/fake", new(bytes.Buffer))
 
 	eb := dddcoreMock.NewEventBus(t)
 	ctx.Request.Header.Set("X-Request-Id", "ttt")
@@ -53,7 +53,7 @@ func TestErrorLoggerGivenExpectedError(t *testing.T) {
 func TestErrorLoggerGivenUnexpectedError(t *testing.T) {
 	w := httptest.NewRecorder()
 	ctx, _ := gin.CreateTestContext(w)
-	ctx.Request, _ = http.NewRequest("GET", "/", new(bytes.Buffer))
+	ctx.Request, _ = http.NewRequest("GET", "/api/test", new(bytes.Buffer))
 
 	eb := dddcoreMock.NewEventBus(t)
 	ctx.Request.Header.Set("X-Request-Id", "ttt")

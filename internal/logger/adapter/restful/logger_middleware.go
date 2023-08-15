@@ -3,6 +3,7 @@ package restful
 import (
 	"bytes"
 	"net/http"
+	"strings"
 	"time"
 
 	"cypt/internal/dddcore"
@@ -69,6 +70,10 @@ func NormalLogger() gin.HandlerFunc {
 		)
 
 		if eb, _ := ctx.Get("event-bus"); eb != nil {
+			if !strings.HasPrefix(ctx.Request.URL.Path, "/api") {
+				return
+			}
+
 			eb.(dddcore.EventBus).Post(event)
 		}
 	}
