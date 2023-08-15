@@ -39,7 +39,7 @@ func (b *TestEventBus) Post(e dddcore.Event) error {
 // PostAll publishes all the domain events of an aggregate root to the event bus.
 func (b *TestEventBus) PostAll(ar dddcore.AggregateRoot) error {
 	for _, e := range ar.GetDomainEvents() {
-		b.Post(e)
+		_ = b.Post(e)
 	}
 
 	return nil

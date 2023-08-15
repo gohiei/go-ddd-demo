@@ -20,7 +20,7 @@ var _ dddcore.UseCase[LogHTTPRequestUseCaseInput, LogHTTPRequestUseCaseOutput] =
 
 func NewLogHTTPRequestUseCase(logger repository.LogRepository, eventBus dddcore.EventBus) *LogHTTPRequestUseCase {
 	uc := &LogHTTPRequestUseCase{logger: logger}
-	eventBus.Register(uc)
+	_ = eventBus.Register(uc)
 
 	return uc
 }

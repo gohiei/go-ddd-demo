@@ -74,7 +74,7 @@ func NormalLogger() gin.HandlerFunc {
 				return
 			}
 
-			eb.(dddcore.EventBus).Post(event)
+			_ = eb.(dddcore.EventBus).Post(event)
 		}
 	}
 }
@@ -128,7 +128,7 @@ func ErrorLogger() gin.HandlerFunc {
 				ctx.Request,
 				cerr,
 			)
-			eb.(dddcore.EventBus).Post(event)
+			_ = eb.(dddcore.EventBus).Post(event)
 		}
 	}
 }

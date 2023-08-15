@@ -52,7 +52,7 @@ func (uc *CheckAuthorizationUsecase) Execute(input *CheckAuthorizationUsecaseInp
 	isValid := jwtToken.Valid()
 
 	if !isValid {
-		uc.eventBus.PostAll(jwtToken)
+		_ = uc.eventBus.PostAll(jwtToken)
 
 		return CheckAuthorizationUsecaseOutput{}, dddcore.NewErrorS(
 			"00001",

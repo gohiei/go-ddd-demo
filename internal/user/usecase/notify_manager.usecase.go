@@ -50,7 +50,7 @@ func (h *NotifyManagerUseCase) Execute(input *NotifyManagerUseCaseInput) (*Notif
 
 func NewNotifyManagerHandler(repo repository.OutsideRepository, eb dddcore.EventBus) NotifyManagerUseCase {
 	h := NotifyManagerUseCase{repo: repo}
-	eb.Register(&h)
+	_ = eb.Register(&h)
 
 	return h
 }

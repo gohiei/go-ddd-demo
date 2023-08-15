@@ -23,7 +23,7 @@ type LogPostUseCase struct {
 // NewLogPostUseCase creates a new instance of LogPostUseCase.
 func NewLogPostUseCase(logger repository.LogRepository, eventBus dddcore.EventBus) *LogPostUseCase {
 	uc := &LogPostUseCase{logger: logger}
-	eventBus.Register(uc)
+	_ = eventBus.Register(uc)
 
 	return uc
 }

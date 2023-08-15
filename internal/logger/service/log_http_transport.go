@@ -56,7 +56,7 @@ func (t *LogHTTPTransport) RoundTrip(req *http.Request) (res *http.Response, err
 	log.ResHeader = res.Header
 
 	ev := events.NewHTTPRequestDoneEvent(&log)
-	t.eventBus.Post(ev)
+	_ = t.eventBus.Post(ev)
 
 	return res, nil
 }

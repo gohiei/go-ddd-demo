@@ -58,7 +58,7 @@ func (uc *RegisterUserUseCase) Execute(input *RegisterUserUseCaseInput) (*Regist
 		return nil, err
 	}
 
-	uc.eventBus.PostAll(user)
+	_ = uc.eventBus.PostAll(user)
 
 	return &RegisterUserUseCaseOutput{
 		ID:       user.GetID().String(),

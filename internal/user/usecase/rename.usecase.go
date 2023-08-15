@@ -56,7 +56,7 @@ func (uc *RenameUseCase) Execute(input *RenameUseCaseInput) (*RenameUseCaseOutpu
 		return nil, err
 	}
 
-	uc.eventBus.PostAll(user)
+	_ = uc.eventBus.PostAll(user)
 
 	return &RenameUseCaseOutput{
 		ID:       user.GetID().String(),

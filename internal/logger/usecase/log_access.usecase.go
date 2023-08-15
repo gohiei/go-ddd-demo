@@ -24,7 +24,7 @@ type LogAccessUseCase struct {
 // NewLogAccessUseCase creates a new instance of LogAccessUseCase.
 func NewLogAccessUseCase(logger repository.LogRepository, eventBus dddcore.EventBus) *LogAccessUseCase {
 	uc := &LogAccessUseCase{logger: logger}
-	eventBus.Register(uc)
+	_ = eventBus.Register(uc)
 
 	return uc
 }

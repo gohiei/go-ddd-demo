@@ -23,7 +23,7 @@ type LogErrorUseCase struct {
 // NewLogErrorUseCase creates a new instance of LogErrorUseCase.
 func NewLogErrorUseCase(logger repository.LogRepository, eventBus dddcore.EventBus) *LogErrorUseCase {
 	uc := &LogErrorUseCase{logger: logger}
-	eventBus.Register(uc)
+	_ = eventBus.Register(uc)
 
 	return uc
 }
