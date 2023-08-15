@@ -5,6 +5,7 @@ import (
 	auth "cypt/internal/auth/adapter/restful"
 	dddcore "cypt/internal/dddcore/adapter"
 	logger "cypt/internal/logger/adapter/restful"
+	swagger "cypt/internal/swagger/adapter/restful"
 	user "cypt/internal/user/adapter/restful"
 
 	"github.com/gin-gonic/gin"
@@ -32,4 +33,6 @@ func NewAppController(router *gin.Engine, config *viper.Viper) {
 		UserReadDatabaseDSN:  config.GetString("user_read_db_dsn"),
 		IDRedisDSN:           config.GetString("id_redis_dsn"),
 	})
+
+	swagger.NewSwaggerRestful(router)
 }

@@ -23,7 +23,21 @@ type RegisterUserRestful struct {
 	Usecase dddcore.UseCase[usecase.RegisterUserUseCaseInput, usecase.RegisterUserUseCaseOutput]
 }
 
+type RegisterUserRestfulInput usecase.RegisterUserUseCaseInput
+
+type RegisterUserRestfulOutput struct {
+	Result string                             `json:"result"`
+	Ret    *usecase.RegisterUserUseCaseOutput `json:"ret"`
+}
+
 // Execute handles the HTTP request for user registration.
+// @Description Register User
+// @Tags User
+// @Accept json,x-www-form-urlencoded
+// @Produce json
+// @Param user body RegisterUserRestfulInput true "User Info"
+// @Success 200 {object} RegisterUserRestfulOutput
+// @Router /api/user [post]
 func (c *RegisterUserRestful) Execute(ctx *gin.Context) {
 	var input usecase.RegisterUserUseCaseInput
 
@@ -39,8 +53,8 @@ func (c *RegisterUserRestful) Execute(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"result": "ok",
-		"ret":    out,
+	ctx.JSON(http.StatusOK, &RegisterUserRestfulOutput{
+		Result: "ok",
+		Ret:    out,
 	})
 }

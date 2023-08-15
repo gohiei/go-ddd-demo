@@ -20,6 +20,10 @@ type RenameRestfulOutput struct {
 	Ret    *usecase.RenameUseCaseOutput `json:"ret"`
 }
 
+type RenameRestfulInput struct {
+	Username string `json:"usernmae"`
+}
+
 // NewRenameRestful registers the RenameRestful handler to the provided router with the given RenameUseCaseType.
 func NewRenameRestful(router *gin.Engine, uc RenameUseCaseType) *RenameRestful {
 	restful := &RenameRestful{Usecase: uc}
@@ -34,6 +38,14 @@ type RenameRestful struct {
 }
 
 // Execute is the handler function for renaming a user.
+// @Description Rename a user
+// @Tags User
+// @Accept json,x-www-form-urlencoded
+// @Produce json
+// @Param id path string true "User ID"
+// @Param user body RenameRestfulInput true "User"
+// @Success 200 {object} RenameRestfulOutput
+// @Router /api/user/:id [put]
 func (c *RenameRestful) Execute(ctx *gin.Context) {
 	input := usecase.RenameUseCaseInput{
 		ID:       ctx.Param("id"),

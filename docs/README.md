@@ -5,6 +5,7 @@
 * `go run main.go server -c <your config filename>`
   * More detail: `go run main.go --help`
   * More detail: `go run main.go server --help`
+* Create swagger documentation: `make docs`
 
 ## Test
 * Use mockery to generate mock files: `mockery --all --dir internal/user/ --output test/mocks/user`
