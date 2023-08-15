@@ -31,7 +31,7 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "description": "Username",
+                        "description": "User Info",
                         "name": "user",
                         "in": "body",
                         "required": true,
@@ -50,7 +50,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/user/:id": {
+        "/api/user/{id}": {
             "put": {
                 "description": "Rename a user",
                 "consumes": [

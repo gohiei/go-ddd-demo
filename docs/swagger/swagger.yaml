@@ -54,7 +54,7 @@ paths:
       - application/x-www-form-urlencoded
       description: Register User
       parameters:
-      - description: Username
+      - description: User Info
         in: body
         name: user
         required: true
@@ -69,7 +69,7 @@ paths:
             $ref: '#/definitions/restful.RegisterUserRestfulOutput'
       tags:
       - User
-  /api/user/:id:
+  /api/user/{id}:
     put:
       consumes:
       - application/json

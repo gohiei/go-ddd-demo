@@ -45,7 +45,7 @@ type RenameRestful struct {
 // @Param id path string true "User ID"
 // @Param user body RenameRestfulInput true "User"
 // @Success 200 {object} RenameRestfulOutput
-// @Router /api/user/:id [put]
+// @Router /api/user/{id} [put]
 func (c *RenameRestful) Execute(ctx *gin.Context) {
 	input := usecase.RenameUseCaseInput{
 		ID:       ctx.Param("id"),

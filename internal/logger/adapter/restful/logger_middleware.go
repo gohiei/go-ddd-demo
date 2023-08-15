@@ -70,7 +70,7 @@ func NormalLogger() gin.HandlerFunc {
 		)
 
 		if eb, _ := ctx.Get("event-bus"); eb != nil {
-			if !strings.HasPrefix(ctx.Request.RequestURI, "/api") {
+			if !strings.HasPrefix(ctx.Request.URL.Path, "/api") {
 				return
 			}
 
