@@ -1,3 +1,4 @@
+// Package grpc provides the gRPC server setup for the user service.
 package grpc
 
 import (
@@ -10,12 +11,14 @@ import (
 	"google.golang.org/grpc"
 )
 
+// UserGrpcConfig holds the configuration for the gRPC user server.
 type UserGrpcConfig struct {
 	UserWriteDatabaseDSN string
 	UserReadDatabaseDSN  string
 	IDRedisDSN           string
 }
 
+// NewUserGrpc creates a new instance of the UserServer for the gRPC user service.
 func NewUserGrpc(server *grpc.Server, eventBus dddcore.EventBus, config UserGrpcConfig) *UserServer {
 	db, _ := infra.NewUserDB(
 		config.UserWriteDatabaseDSN,

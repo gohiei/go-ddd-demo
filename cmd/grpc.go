@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"context"
-	app "cypt/internal"
 	"fmt"
 	"log"
 	"net"
 	"os/signal"
 	"syscall"
-	"time"
+
+	app "cypt/internal"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -79,9 +79,6 @@ func runGrpcServer(setting grpcSetting) {
 	<-ctx.Done()
 
 	stop()
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
 
 	server.GracefulStop()
 
