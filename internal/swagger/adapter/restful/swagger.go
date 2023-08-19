@@ -1,6 +1,7 @@
 // Package restful provides functionality for integrating Swagger API documentation generation.
 package restful
 
+// nolint: gci
 import (
 	_ "cypt/docs/swagger"
 
