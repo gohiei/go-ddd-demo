@@ -6,14 +6,16 @@ import (
 	dddcore "cypt/internal/dddcore/adapter"
 	logger "cypt/internal/logger/adapter/restful"
 	swagger "cypt/internal/swagger/adapter/restful"
-	user "cypt/internal/user/adapter/restful"
+	userGrpc "cypt/internal/user/adapter/grpc"
+	userRestful "cypt/internal/user/adapter/restful"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"google.golang.org/grpc"
 )
 
-// NewAppController initializes the application controller.
-func NewAppController(router *gin.Engine, config *viper.Viper) {
+// NewAppRestfulServer initializes the application controller.
+func NewAppRestfulServer(router *gin.Engine, config *viper.Viper) {
 	eventBus := dddcore.NewWatermillEventBus()
 
 	router.Use(func(c *gin.Context) {
@@ -28,11 +30,21 @@ func NewAppController(router *gin.Engine, config *viper.Viper) {
 
 	auth.NewAuthRestful(router, &eventBus)
 
-	user.NewUserRestful(router, &eventBus, user.UserRestfulConfig{
+	userRestful.NewUserRestful(router, &eventBus, userRestful.UserRestfulConfig{
 		UserWriteDatabaseDSN: config.GetString("user_write_db_dsn"),
 		UserReadDatabaseDSN:  config.GetString("user_read_db_dsn"),
 		IDRedisDSN:           config.GetString("id_redis_dsn"),
 	})
 
 	swagger.NewSwaggerRestful(router)
+}
+
+func NewAppGrpcServer(server *grpc.Server, config *viper.Viper) {
+	eventBus := dddcore.NewWatermillEventBus()
+
+	userGrpc.NewUserGrpc(server, &eventBus, userGrpc.UserGrpcConfig{
+		UserWriteDatabaseDSN: config.GetString("user_write_db_dsn"),
+		UserReadDatabaseDSN:  config.GetString("user_read_db_dsn"),
+		IDRedisDSN:           config.GetString("id_redis_dsn"),
+	})
 }

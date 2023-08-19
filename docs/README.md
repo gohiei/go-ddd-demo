@@ -8,6 +8,9 @@
 * Swagger API Document
   * Create: `make docs`
   * View: http://localhost:300/docs/index.html
+  * (gRPC)
+    * Create protobuffer go files: `protoc --go_out=. --go-grpc_out=. internal/user/adapter/grpc/protobuffer/user.proto`
+    * [Reference](https://grpc.io/docs/languages/go/quickstart/)
 
 ## Test
 * Use mockery to generate mock files: `mockery --all --dir internal/user/ --output test/mocks/user`

@@ -16,8 +16,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-// serverCmd represents the server command
-var serverCmd = &cobra.Command{
+// restfulServerCmd represents the server command
+var restfulServerCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Run restful api server",
 	Long:  `A web server`,
@@ -32,17 +32,17 @@ var serverCmd = &cobra.Command{
 			address: address,
 			port:    port,
 			config:  config,
-			app:     app.NewAppController,
+			app:     app.NewAppRestfulServer,
 		}
 		runServer(currentServerSetting)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(serverCmd)
+	rootCmd.AddCommand(restfulServerCmd)
 
-	serverCmd.Flags().IntP("port", "p", 8080, "Listen port")
-	serverCmd.Flags().StringP("address", "a", "127.0.0.1", "Bind address")
+	restfulServerCmd.Flags().IntP("port", "p", 8080, "Listen port")
+	restfulServerCmd.Flags().StringP("address", "a", "127.0.0.1", "Bind address")
 }
 
 // serverSetting holds the server configuration
